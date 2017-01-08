@@ -14,7 +14,7 @@
 #    least be granted NTFS write access to the HOSTS file itself).  
 #
 #.Parameter FilePathOrURL
-#    Path to a file which contains the FQDNs and domain names to blackhole.
+#    Path to a file which contains the FQDNs and domain names to sinkhole.
 #    File can have blank lines, comment lines (# or ;), multiple FQDNs or
 #    domains per line (space- or comma-delimited), and can be a HOSTS file 
 #    with IP addresses too (addresses and localhost entires will be ignored).  
@@ -24,6 +24,15 @@
 #    long space-delimited string for this parameter.  The parameter will
 #    default to "http://www.malwaredomainlist.com/hostslist/hosts.txt" if
 #    left unspecified. 
+#
+#.Parameter BlockWPAD
+#    Web Proxy Automatic Discovery (WPAD) protocol resolves the "wpad" name
+#    to an HTTP server with a browser configuration file.  WPAD is vulnerable
+#    to DNS spoofing attacks.  Adding this switch will cause the hosts file
+#    to resolve "wpad" and "wpad.your.domain" to 0.0.0.0, which will block
+#    the DNS method of using WPAD (but not the DHCP method).  This will also
+#    break any browser's Internet access that requires WPAD to function, so
+#    do not use this switch unless you know exactly how WPAD works.
 #
 #.Parameter AddDuplicateWWW
 #    When adding names to the HOSTS file, if any name does not begin with
@@ -58,9 +67,9 @@
 #.Example 
 #    Update-HostsFile.ps1 -FilePathOrURL "c:\folder\file.txt \\server\ `
 #    share\remotefile.txt http://www.malwaredomainlist.com/hostslist `
-#    /hosts.txt" -BlackHoleIP "10.1.1.1"
+#    /hosts.txt" -SinkHoleIP "10.1.1.1"
 #
-#    Blackholes all the names listed in file.txt, remotefile.txt, and all the 
+#    Sinkholes all the names listed in file.txt, remotefile.txt, and all the 
 #    names from the URL shown, then makes them all resolve to "10.1.1.1".
 #    Notice that each path is separated by a space character.  
 #
@@ -73,8 +82,8 @@
 #
 #.Notes 
 #  Author: Jason Fossen (http://www.sans.org/windows-security/)  
-# Version: 1.4
-# Updated: 23.Feb.2012
+# Version: 1.5.1
+# Updated: 24.Jul.2013
 #   LEGAL: PUBLIC DOMAIN.  SCRIPT PROVIDED "AS IS" WITH NO WARRANTIES OR 
 #          GUARANTEES OF ANY KIND, INCLUDING BUT NOT LIMITED TO 
 #          MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.  ALL 
@@ -88,10 +97,11 @@
 
 
 Param ($FilePathOrURL = "http://mirror1.malwaredomains.com/files/justdomains",
-       [String] $BlackholeIP = "0.0.0.0", 
+       [String] $SinkholeIP = "0.0.0.0", 
        [Switch] $ResetToDefaultHostsFile, 
        [Switch] $AddDuplicateWWW,
-       [Switch] $EditHostsFile, 
+       [Switch] $EditHostsFile,
+       [Switch] $BlockWPAD,
        [Switch] $ShowHostNameCount,
        [Switch] $ShowHostsFilePath)
 
@@ -114,10 +124,11 @@ select-string -inputobject $_ -pattern $regularexpression -allmatches |
 function update-hostsfile 
 {
     Param ($FilePathOrURL = "http://mirror1.malwaredomains.com/files/justdomains",
-           [String] $BlackholeIP = "0.0.0.0", 
+           [String] $SinkholeIP = "0.0.0.0", 
            [Switch] $ResetToDefaultHostsFile, 
            [Switch] $AddDuplicateWWW,           
            [Switch] $EditHostsFile, 
+           [Switch] $BlockWPAD,
            [Switch] $ShowHostNameCount,
            [Switch] $ShowHostsFilePath)           
            
@@ -151,7 +162,7 @@ function update-hostsfile
         return
     }
     
-    #Show count of names in hosts file? Does not include localhost entries, but will include non-blackhole names.
+    #Show count of names in hosts file? Does not include localhost entries, but will include non-sinkhole names.
     if ($ShowHostNameCount) 
     { "`nCount of names in hosts file = " + ($(get-content $HostsFilePath) -split " " | 
       where { $_ -notmatch '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|\:|localhost|^\s*$|^\#' }).count ; "`n" ; return }
@@ -227,7 +238,7 @@ function update-hostsfile
     #resolving to 0.0.0.0 instead of 127.0.0.1, especially if you're listening on TCP/80.
     $size = $names.count - 1
     for ($i = 0 ; $i -lt $size ; $i = $i + 9)
-    { $output += "$BlackholeIP " + ($names[$i..$($i + 8)] -join " ") + [char]13 + [char]10 }
+    { $output += "$SinkholeIP " + ($names[$i..$($i + 8)] -join " ") + [char]13 + [char]10 }
     
     #Sometimes a full CRLF newline (0x0D,0x0A) is not appended 
     #unless we do these two lines separately (weird). The all-zeros
@@ -236,6 +247,8 @@ function update-hostsfile
     "::1 localhost"  | add-content $HostsFilePath -force
     "0.0.0.0 zero.zero.zero.zero" | add-content $HostsFilePath -force
     if (-not $?) { "Error writing to hosts file!`n" ; return } 
+    if ($env:userdnsdomain -eq $null) { $wpadline = "0.0.0.0 wpad" } else { $wpadline = "0.0.0.0 wpad wpad." + ($env:userdnsdomain).tolower() }
+    if ($blockwpad) { $wpadline | add-content $HostsFilePath -force }  
     $output | add-content $HostsFilePath -force
 }
 
@@ -248,8 +261,10 @@ elseif ($ShowHostNameCount) { update-hostsfile -ShowHostnameCount }
 elseif ($ShowHostsFilePath) { update-hostsfile -ShowHostsFilePath } 
 else 
 { 
-    if ($AddDuplicateWWW) { update-hostsfile -FilePathOrURL $FilePathOrURL -BlackholeIP $BlackholeIP -AddDuplicateWWW } 
-    else {update-hostsfile -FilePathOrURL $FilePathOrURL -BlackholeIP $BlackholeIP }
+    if ($BlockWPAD -and $AddDuplicateWWW) { update-hostsfile -FilePathOrURL $FilePathOrURL -SinkholeIP $SinkholeIP -BlockWPAD -AddDuplicateWWW } 
+    elseif ($AddDuplicateWWW) { update-hostsfile -FilePathOrURL $FilePathOrURL -SinkholeIP $SinkholeIP -AddDuplicateWWW } 
+    elseif ($BlockWPAD) { update-hostsfile -FilePathOrURL $FilePathOrURL -SinkholeIP $SinkholeIP -BlockWPAD } 
+    else {update-hostsfile -FilePathOrURL $FilePathOrURL -SinkholeIP $SinkholeIP }
 } 
 
 

@@ -20,6 +20,13 @@
 #    name will match the names of files in the PasswordArchivePath.  This
 #    parameter can accept a computer name with a wildcard in it.
 #
+#.Parameter UserName
+#    Name of the local user account whose password was reset and whose password
+#    was encrypted and saved to a file.  The username will match the names of
+#    files in the PasswordArchivePath.  Default is "Administrator".  If you
+#    are not certain, just enter "*" and the last reset will be used, whatever
+#    username that may be, or you might use the -ShowAll switch instead.
+#
 #.Parameter ShowAll
 #    Without this switch, only the most recent plaintext password is shown.
 #    With this switch, all archived passwords for the computer are shown.
@@ -28,13 +35,14 @@
 #
 #
 #.Example 
-#    .\Recover-PasswordArchive.ps1 -ComputerName LAPTOP47
+#    .\Recover-PasswordArchive.ps1 -ComputerName LAPTOP47 -UserName Administrator
 #
 #    Displays in plaintext the last recorded password updated on LAPTOP47.
 #    The user running this script must have loaded into their local cache
 #    the certificate AND private key corresponding to the certificate used
 #    to originally encrypt the password archive files in the present
-#    working directory.  A smart card may be used instead.
+#    working directory.  A smart card may be used instead.  The default 
+#    username is "Administrator", so this argument was not actually required.
 #
 #.Example 
 #    .\Recover-PasswordArchive.ps1 -PasswordArchivePath \\server\share -ComputerName WKS*
@@ -43,21 +51,21 @@
 #    password archive files located in \\server\share.  Another local
 #    folder can be specified instead of a UNC network path.  The wildcard
 #    in the computer name will show the most recent password updates for
-#    all matching computer names in \\server\share.
+#    all matching computer names in \\server\share for the Administrator.
 # 
 #.Example 
 #    .\Recover-PasswordArchive.ps1 -PasswordArchivePath \\server\share -ComputerName LAPTOP47 -ShowAll
 #
-#    Instead of showing only the last password update, show all archived passwords
-#    in the \\server\share folder for the computer named LAPTOP47.
+#    Instead of showing only the last password update for the Administrator account, 
+#    show all archived passwords in the \\server\share folder for LAPTOP47.
 #
 # 
 #Requires -Version 2.0 
 #
 #.Notes 
 #  Author: Jason Fossen, Enclave Consulting (http://www.sans.org/windows-security/)  
-# Version: 1.0
-# Updated: 11.Nov.2012
+# Version: 1.1
+# Updated: 5.Jun.2013
 #   LEGAL: PUBLIC DOMAIN.  SCRIPT PROVIDED "AS IS" WITH NO WARRANTIES OR GUARANTEES OF 
 #          ANY KIND, INCLUDING BUT NOT LIMITED TO MERCHANTABILITY AND/OR FITNESS FOR
 #          A PARTICULAR PURPOSE.  ALL RISKS OF DAMAGE REMAINS WITH THE USER, EVEN IF
@@ -67,19 +75,26 @@
 ####################################################################################
 
 
-Param ($PasswordArchivePath = ".\", $ComputerName = "$env:computername", [Switch] $ShowAll) 
+Param ($PasswordArchivePath = ".\", $ComputerName = "$env:computername", $UserName = "Administrator", [Switch] $ShowAll) 
 
 # Construct and test path to encrypted password files.
 $PasswordArchivePath = $(resolve-path -path $PasswordArchivePath).path
 if ($PasswordArchivePath -notlike "*\") { $PasswordArchivePath = $PasswordArchivePath + "\" } 
 if (-not $(test-path -path $PasswordArchivePath)) { "`nERROR: Cannot find path: " + $PasswordArchivePath + "`n" ; exit } 
 
+
 # Get encrypted password files and sort by name, which sorts by tick number, i.e., by creation timestamp.
 $files = @(dir ($PasswordArchivePath + "$ComputerName+*+*+*") | sort Name) 
 if ($files.count -eq 0) { "`nERROR: No password archives for " + $ComputerName + "`n" ; exit } 
 
-# Get the latest archive file only, unless -ShowAll is used.
-if (-not $ShowAll){ $files = @($files[-1]) } 
+
+# Filter by UserName and get the latest archive file only, unless -ShowAll is used.
+if (-not $ShowAll)
+{ 
+    $files = $files | where { $_.name -like "*+$($UserName.Trim())+*+*" } 
+    if ($files.count -eq 0) { "`nERROR: No password archives for " + $ComputerName + "\" + $UserName + "`n" ; exit }  
+    $files = @($files[-1]) 
+} 
 
 
 # Load the current user's certificates and private keys.
@@ -135,13 +150,13 @@ foreach ($lastfile in $files) `
 
     
     # Attempt decryption with private key. 
-    $plaintextout = $certpriv.privatekey.decrypt($ciphertext,$false)  #Must be $false for my smart card to work.
+    $plaintextout = $certpriv.privatekey.decrypt($ciphertext,$false)  #Must be $false for smart card to work.
     if (-not $?) { $output.Password = "ERROR: Decryption failed." }
     else { $output.Password = ([char[]]$plaintextout -join "") } 
 
 
     # Confirm that archive file name matches the nonce string encrypted into the file.
-    # Nonce helps to thwart attackers and can be used for troubleshooting too.
+    # Nonce might help to thwart spoofers and can be used for troubleshooting.
     if ($lastfile.name -like $output.Password.substring(0,60) + "*") 
     { 
         $output.Password = $output.Password.substring(60) #Strip out the 60-char nonce.

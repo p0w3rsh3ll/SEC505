@@ -17,6 +17,9 @@
 #    Script must be run with local Administrators or System privileges, such as
 #    with a Group Policy assigned startup script or through PowerShell remoting. 
 #    The changes made will affect all users who log on locally at the computer.
+#    Note that the script does run Java's ssvagent.exe tool, just like when
+#    using the Java Control Panel, but Oracle could change this binary or its
+#    command-line switches at any time, hence, the script is version-brittle.
 #
 #.PARAMETER OverWrite
 #    If system-wide Java configuration files already exist, this switch is necessary
@@ -68,7 +71,7 @@
 #.NOTES
 #  Author: Jason Fossen (http://www.sans.org/windows-security/)  
 # Version: 1.0
-# Updated: 4.June.2013
+# Updated: 5.June.2013
 #   LEGAL: PUBLIC DOMAIN.  SCRIPT PROVIDED "AS IS" WITH NO WARRANTIES OR GUARANTEES OF 
 #          ANY KIND, INCLUDING BUT NOT LIMITED TO MERCHANTABILITY AND/OR FITNESS FOR
 #          A PARTICULAR PURPOSE.  ALL RISKS OF DAMAGE REMAINS WITH THE USER, EVEN IF
@@ -155,8 +158,68 @@ $propertiesfile | Out-File -FilePath $env:WinDir\Sun\Java\Deployment\deployment.
 if (-not $? -or -not $(Test-Path $env:WinDir\Sun\Java\Deployment\deployment.properties))
    { "`nCould not create the deployment.properties file, exiting.`n" ; exit -1 } 
 
+
+# Show system-wide deployment.properties file contents FYI.
 "`nCurrent contents of the deployment.properties file:`n"
 get-content $env:WinDir\Sun\Java\Deployment\deployment.properties ; "`n"
+
+
+# Run latest ssvagent.exe for both x86 and x64, but not on Java Platform 6 or earlier, and 
+# hope future Javas support these switches (man, what a mess, doomed to rewrites...):
+if ($propertiesfile -like '*deployment.webjava.enabled=false*')
+{
+    # Try the x64 version, if any:
+    $ssvagent = $null
+    $ssvagent = dir "$env:ProgramFiles\Java\*.exe" -Recurse | 
+                where { $_.name -eq 'ssvagent.exe' -and $_.fullname -notmatch '\\jre[1-6]\\'} | 
+                sort LastWriteTimeUtc -desc | select -first 1 
+    if ($ssvagent -ne $null) 
+    { 
+        $expression = $ssvagent.FullName.Replace("Program Files","'Program Files'") + " -disablewebjava"
+        "Executing: $expression `n"
+        invoke-expression -command $expression
+    }
+
+    # Now for the x86 version second, because this is the Oracle-preferred:
+    $ssvagent = $null
+    $ssvagent = dir "${env:ProgramFiles(x86)}\Java\*.exe" -Recurse | 
+                where { $_.name -eq 'ssvagent.exe' -and $_.fullname -notmatch '\\jre[1-6]\\'} | 
+                sort LastWriteTimeUtc -desc | select -first 1 
+    if ($ssvagent -ne $null) 
+    { 
+        $expression = $ssvagent.FullName.Replace("Program Files (x86)","'Program Files (x86)'") + " -disablewebjava"
+        "Executing: $expression `n"
+        invoke-expression -command $expression
+    }
+
+
+}
+elseif ($propertiesfile -like '*deployment.webjava.enabled=true*')
+{
+    # Try the x64 version, if any:
+    $ssvagent = $null
+    $ssvagent = dir "$env:ProgramFiles\Java\*.exe" -Recurse | 
+                where { $_.name -eq 'ssvagent.exe' -and $_.fullname -notmatch '\\jre[1-6]\\'} | 
+                sort LastWriteTimeUtc -desc | select -first 1 
+    if ($ssvagent -ne $null) 
+    { 
+        $expression = $ssvagent.FullName.Replace("Program Files","'Program Files'") + " -forceinstall -register -new -high"  #Only -high exists?
+        "Executing: $expression `n"
+        invoke-expression -command $expression
+    }
+
+    # Now for the x86 version second, to let it possibly overwrite x64 settings, since x86 is Oracle-preferred:
+    $ssvagent = $null
+    $ssvagent = dir "${env:ProgramFiles(x86)}\Java\*.exe" -Recurse | 
+                where { $_.name -eq 'ssvagent.exe' -and $_.fullname -notmatch '\\jre[1-6]\\'} | 
+                sort LastWriteTimeUtc -desc | select -first 1 
+    if ($ssvagent -ne $null) 
+    { 
+        $expression = $ssvagent.FullName.Replace("Program Files (x86)","'Program Files (x86)'") + " -forceinstall -register -new -high"  #Only -high exists?
+        "Executing: $expression `n"
+        invoke-expression -command $expression
+    }
+}
 
 
 # Done, but feel free to add code to write to an Event Log, set further options, etc. (it's public domain).
