@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--  (c) 2006 Microsoft Corporation  -->
+<policyDefinitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" revision="1.0" schemaVersion="1.0" xmlns="http://schemas.microsoft.com/GroupPolicy/2006/07/PolicyDefinitions">
+  <policyNamespaces>
+    <target prefix="ConfigureIPv6" namespace="Microsoft.Policies.ConfigureIPv6" />
+    <using prefix="windows" namespace="Microsoft.Policies.Windows" />
+  </policyNamespaces>
+  <resources minRequiredRevision="1.0" />
+  <supportedOn>
+    <definitions>
+      <definition name="SUPPORTED_VISTA" displayName="$(string.SUPPORTED_VISTA)" />
+    </definitions>
+  </supportedOn>
+  <categories>
+    <category name="ConfigureIPv6" displayName="$(string.ConfigureIPv6)">
+      <parentCategory ref="windows:Network" />
+    </category>
+  </categories>
+  <policies>
+    <policy name="ConfigureIPv6" class="Machine" displayName="$(string.ConfigureIPv6_TitleText)" explainText="$(string.ConfigureIPv6_Explain)" presentation="$(presentation.DisabledComponents)" key="SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters" valueName="DisabledComponents">
+      <parentCategory ref="ConfigureIPv6" />
+      <supportedOn ref="SUPPORTED_VISTA" />
+      <elements>
+        <enum id="ConfigureIPv6" valueName="DisabledComponents" required="true">
+          <item displayName="$(string.EnableIPv6)">
+            <value>
+              <decimal value="0" />
+            </value>
+          </item>
+          <item displayName="$(string.DisableIPv6)">
+            <value>
+              <decimal value="4294967295" />
+            </value>
+          </item>
+          <item displayName="$(string.Disable6to4)">
+            <value>
+              <decimal value="2" />
+            </value>
+          </item>
+          <item displayName="$(string.DisableISATAP)">
+            <value>
+              <decimal value="4" />
+            </value>
+          </item>
+          <item displayName="$(string.DisableTeredo)">
+            <value>
+              <decimal value="8" />
+            </value>
+          </item>
+          <item displayName="$(string.DisableTeredo6to4)">
+            <value>
+              <decimal value="10" />
+            </value>
+          </item>
+          <item displayName="$(string.DisableTunnelIPv6)">
+            <value>
+              <decimal value="1" />
+            </value>
+          </item>
+          <item displayName="$(string.DisableNativeIPv6)">
+            <value>
+              <decimal value="16" />
+            </value>
+          </item>
+          <item displayName="$(string.DisableInterfacesIPv6)">
+            <value>
+              <decimal value="17" />
+            </value>
+          </item>
+          <item displayName="$(string.PreferIPv4)">
+            <value>
+              <decimal value="32" />
+            </value>
+          </item>
+        </enum>
+      </elements>
+    </policy>   
+  </policies>
+</policyDefinitions>    

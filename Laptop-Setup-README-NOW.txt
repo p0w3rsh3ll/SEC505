@@ -1,93 +1,80 @@
-Welcome to the SANS Institute!  Thank You for attending!
+-----------------------------------------------------
 
-The following steps describe how your virtual machine should be configured each day of the course.  
+         Welcome to the SANS Institute!
 
-It's best if these steps are completed *before* the beginning of seminar each day.
-
-You can always get the latest versions of the scripts mentioned from:
-
-	http://www.sans.org/windows-security  (go the Downloads link on the right)
+-----------------------------------------------------
 
 
+Please make the following changes on the morning of the first day before we begin:
 
 
-****************************************************************
- Day 1: OS & Applications Hardening
-****************************************************************
-Copy this entire CD-ROM to your VM's hard drive into a new folder named "C:\SANS".  (Your virus scanner might complain about some of the files, but don't worry, they're supposed to be there, and if your virus scanner deletes any of the files, that's fine too.)   
+* On this USB drive or CD, there is a file named "SEC505.ISO".  Please copy this
+  SEC505.ISO file anywhere to your computer's hard drive, such as to your Desktop.
+  Do not copy the ISO file into your VM.
 
-Have Windows Server 2012 Standard or Datacenter Edition installed in the VM and promote it to be a domain controller.  See the Appendix at the end of the 505.1 manual for step-by-step instructions about how to become a domain controller.  Remember to use a static IP address in the VM (such as 10.1.1.1) and set your primary DNS server to be your own IP address too.  You might choose a domain name of "testing.local" if you wish.  Confirm that whatever user account you are using is a member of both the Domain Admins and the Enterprise Admins groups.
 
-Create a shortcut to "powershell.exe" on your desktop, right-click that shortcut, and launch PowerShell with administrative privileges.
+* In the Windows Server virtual machine (VM) you have created for this course, 
+  mount the SEC505.ISO file on your computer's hard drive as a CD/DVD drive.  
+  It will probably appear as drive letter D:\ inside the VM (see instructions below).
 
-In PowerShell, execute the following commands (answer "Yes" when prompted):
+  
+* In your testing VM, not on your host laptop, create this folder:  
 
-    set-executionpolicy unrestricted
-    cd c:\sans
+    C:\SANS
+
+
+* Copy everything from the mounted ISO into C:\SANS inside your VM, hence,
+  you will probably copy everything from D:\ into C:\SANS inside the VM.
+  
+
+* In your VM, go to the Start screen and do a search for "PowerShell ISE". 
+  Right-click the blue PowerShell ISE shortcut and Run As Administrator.
+
+
+* In PowerShell, type the following commands:
+
+    Set-ExecutionPolicy Bypass -Force
+    
+    cd C:\SANS
+    
     .\SEC505-Setup-Script.ps1
-
-Open Server Manager, select your Local Server, click the "On" link next to "IE Enhanced Security Configuration" on the right-hand side, and set this feature to Off for both Administrators and Users.
-
-Confirm that you have the Windows Server installation DVD or ISO file with you.  If you do not, plan on downloading it from the Internet or copying it from a friend before Day 3.  
-
-
-
-
-****************************************************************
- Day 2: Restricting Admin Compromise & Dynamic Access Control
-****************************************************************
-If you ran the SEC505-Setup-Script.ps1 script mentioned above, you are ready for today.
-
 
 
     
-****************************************************************
- Day 3: PKI, BitLocker & Secure Boot
-****************************************************************
-Install IIS with *all* optional subcomponents using Server Manager (Manage menu > Add ...).  Yes, check every single IIS box, but if you are prompted for the Windows Server installation DVD or ISO file, and you have neither, install IIS without the development tools (uncheck those boxes).
+Note: You will need to run the script *twice*, as instructed by the script.
 
-Note: Do not install Certificate Services yet, we need to do this together.
+Note: The script will reset your password to "P@ssword" inside the VM.
 
+Note: When you run the setup script, if you get error messages about network
+      interfaces, please tell the instructor ASAP!  You may need to install
+      the Microsoft Loopback Adapter inside your VM to fix the problem.  
 
-
-
-****************************************************************
- Day 4: IPSec, Firewall & Wireless
-****************************************************************
-Open PowerShell as administrator and run the following scripts:
-
-	C:\SANS\Day4-IPSec\NetShell-Add-IPSec-Rule.bat
-   	C:\SANS\Day4-IPSec\Add-IPSec-Rule.ps1
-
-OPTIONAL: Install the application found here:
-
-    C:\SANS\Tools\WireShark    (choose x86 or x64 as appropriate)
+Note: If you cannot find the script, or if you do not have a folder named
+      C:\SANS\Tools, then you've not copied the contents of the SEC505.ISO to
+      the C:\SANS folder.  You may have copied the Windows Server DVD or
+      may have copied just the ISO file instead.
 
 
 
+      
+-----------------------------------------------------
 
-****************************************************************
- Day 5: Server Hardening & IIS
-****************************************************************
-You should already have the FileZilla application installed, but, if you do not, install FileZilla from the C:\SANS\Tools\FileZilla.
+  How To Mount An ISO File In A Virtual Machine
 
-If you have not done so already, install IIS with *all* optional subcomponents using Server Manager (Manage menu > Add ...).
+-----------------------------------------------------
+In your virtual machine software, go to the Properties or Settings of
+your test VM for this course.  There will be a section labeled "CD/DVD"
+or similar.  In that section, choose the option to mount an .ISO file,
+then browse to your hard drive and select SEC505.ISO.  You may have
+copied the SEC505.ISO file to your Desktop.
 
-If you have Internet access, visit http://www.iis.net/downloads, download these items into your VM and install:
+Be careful not to copy the Windows Server installation DVD/ISO into
+the C:\SANS folder of your VM.  If you see folders named "boot", "efi", 
+"sources" or "support", then this is not correct, these folders are from
+the Windows Server installation media.  Delete all these and try again.
 
-	Web Platform Installer (look in the banner at the top)
-	URL Rewrite (in the Handle Requests area)
-
-If you do not have Internet access or do not know how to copy files from the host computer into a VM, don't worry at all, everything will be demonstrated on-screen.
-
-
-
-
-****************************************************************
- Day 6: PowerShell
-****************************************************************
-In PowerShell, run "ise" to launch a graphical PowerShell script editor.
-
-
+The correct folders will be named "Day1-PowerShell", "Day2-*", etc. and 
+there will be a script named "SEC505-Setup-Script.ps1" in the root
+folder too.
 
 

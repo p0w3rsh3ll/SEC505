@@ -1,0 +1,246 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20160129070736
+Username: TESTING\TestUser47
+RunAs User: WinRM Virtual Users\WinRM VA_1454072846_TESTING_TestUser47
+Machine: MACHINE (Microsoft Windows NT 10.0.10586.0)
+Host Application: C:\WINDOWS\system32\wsmprovhost.exe -Embedding
+Process ID: 7516
+PSVersion: 5.0.10586.63
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0.10586.63
+BuildVersion: 10.0.10586.63
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+PS>CommandInvocation(Get-Command): "Get-Command"
+>> ParameterBinding(Get-Command): name="Name"; value="Out-Default, Exit-PSSession"
+>> ParameterBinding(Get-Command): name="CommandType"; value="Alias, Function, Filter, Cmdlet, Configuration"
+>> ParameterBinding(Get-Command): name="Module"; value=""
+>> ParameterBinding(Get-Command): name="ArgumentList"; value=""
+>> ParameterBinding(Get-Command): name="ListImported"; value="True"
+>> ParameterBinding(Get-Command): name="ErrorAction"; value="SilentlyContinue"
+>> ParameterBinding(Get-Command): name="ShowCommandInfo"; value="False"
+>> CommandInvocation(Measure-Object): "Measure-Object"
+>> ParameterBinding(Measure-Object): name="InputObject"; value=""
+>> CommandInvocation(Select-Object): "Select-Object"
+>> ParameterBinding(Select-Object): name="Property"; value="Count"
+>> ParameterBinding(Select-Object): name="InputObject"; value=""
+>> ParameterBinding(Measure-Object): name="InputObject"; value="Out-Default"
+>> ParameterBinding(Measure-Object): name="InputObject"; value="Exit-PSSession"
+PS>ParameterBinding(Select-Object): name="InputObject"; value="Microsoft.PowerShell.Commands.GenericMeasureInfo"
+
+Count
+-----
+    2
+
+
+PS>CommandInvocation(Get-Command): "Get-Command"
+>> ParameterBinding(Get-Command): name="Name"; value="Out-Default, Exit-PSSession"
+>> ParameterBinding(Get-Command): name="CommandType"; value="Alias, Function, Filter, Cmdlet, Configuration"
+>> ParameterBinding(Get-Command): name="Module"; value=""
+>> ParameterBinding(Get-Command): name="ArgumentList"; value=""
+>> ParameterBinding(Get-Command): name="ListImported"; value="True"
+>> ParameterBinding(Get-Command): name="ShowCommandInfo"; value="False"
+>> CommandInvocation(Select-Object): "Select-Object"
+>> ParameterBinding(Select-Object): name="Property"; value="Name, Namespace, HelpUri, CommandType, ResolvedCommandName, OutputType, Parameters"
+>> ParameterBinding(Select-Object): name="InputObject"; value=""
+>> ParameterBinding(Select-Object): name="InputObject"; value="Out-Default"
+
+
+Name                : Out-Default
+Namespace           :
+HelpUri             : http://go.microsoft.com/fwlink/?LinkID=113362
+CommandType         : Function
+ResolvedCommandName :
+OutputType          : {}
+Parameters          : {[InputObject, System.Management.Automation.ParameterMetadata], [ErrorAction, System.Management.Automation.ParameterMetadata], [WarningAction,
+                      System.Management.Automation.ParameterMetadata], [InformationAction, System.Management.Automation.ParameterMetadata]...}
+
+>> ParameterBinding(Select-Object): name="InputObject"; value="Exit-PSSession"
+Name                : Exit-PSSession
+Namespace           :
+HelpUri             : http://go.microsoft.com/fwlink/?LinkID=135210
+CommandType         : Function
+ResolvedCommandName :
+OutputType          : {}
+Parameters          : {[ErrorAction, System.Management.Automation.ParameterMetadata], [WarningAction, System.Management.Automation.ParameterMetadata], [InformationAction,
+                      System.Management.Automation.ParameterMetadata], [Verbose, System.Management.Automation.ParameterMetadata]...}
+
+
+
+PS>
+            param (
+                [string] $PSEditFunction
+            )
+
+            if ($PSVersionTable.PSVersion -lt ([version] '3.0'))
+            {
+                throw (new-object System.NotSupportedException)
+            }
+
+            Register-EngineEvent -SourceIdentifier PSISERemoteSessionOpenFile -Forward
+
+            if ((Test-Path -Path 'function:\global:PSEdit') -eq $false)
+            {
+                Set-Item -Path 'function:\global:PSEdit' -Value $PSEditFunction
+            }
+        
+PS>get-userinfo
+>> CommandInvocation(Out-Default): "Out-Default"
+>> ParameterBinding(Out-Default): name="InputObject"; value=""
+>> ParameterBinding(Out-Default): name="InputObject"; value="The term 'get-userinfo' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again."
+The term 'get-userinfo' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path
+is correct and try again.
+    + CategoryInfo          : ObjectNotFound: (get-userinfo:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+PS>whoami
+>> CommandInvocation(Out-Default): "Out-Default"
+>> ParameterBinding(Out-Default): name="InputObject"; value=""
+>> ParameterBinding(Out-Default): name="InputObject"; value="The term 'whoami.exe' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again."
+The term 'whoami.exe' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is
+correct and try again.
+    + CategoryInfo          : ObjectNotFound: (whoami.exe:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+PS>whoami.exe
+>> CommandInvocation(Out-Default): "Out-Default"
+>> ParameterBinding(Out-Default): name="InputObject"; value=""
+>> ParameterBinding(Out-Default): name="InputObject"; value="The term 'whoami.exe' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again."
+The term 'whoami.exe' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is
+correct and try again.
+    + CategoryInfo          : ObjectNotFound: (whoami.exe:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+PS>CommandInvocation(ipconfig.exe): "ipconfig.exe"
+>> CommandInvocation(Out-Default): "Out-Default"
+>> ParameterBinding(Out-Default): name="InputObject"; value=""
+>> ParameterBinding(Out-Default): name="InputObject"; value=""
+>> ParameterBinding(Out-Default): name="InputObject"; value="Windows IP Configuration"
+>> ParameterBinding(Out-Default): name="InputObject"; value=""
+>> ParameterBinding(Out-Default): name="InputObject"; value=""
+>> ParameterBinding(Out-Default): name="InputObject"; value="Ethernet adapter vEthernet (External):"
+>> ParameterBinding(Out-Default): name="InputObject"; value=""
+>> ParameterBinding(Out-Default): name="InputObject"; value="   Connection-specific DNS Suffix  . : testing.local"
+>> ParameterBinding(Out-Default): name="InputObject"; value="   IPv4 Address. . . . . . . . . . . : 192.168.1.204"
+>> ParameterBinding(Out-Default): name="InputObject"; value="   Subnet Mask . . . . . . . . . . . : 255.255.255.0"
+>> ParameterBinding(Out-Default): name="InputObject"; value="   Default Gateway . . . . . . . . . : 192.168.1.11"
+   Default Gateway . . . . . . . . . : 192.168.1.11get-smbshare
+>> CommandInvocation(Out-Default): "Out-Default"
+>> ParameterBinding(Out-Default): name="InputObject"; value=""
+>> ParameterBinding(Out-Default): name="InputObject"; value="The term 'get-smbshare' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again."
+The term 'get-smbshare' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path
+is correct and try again.
+    + CategoryInfo          : ObjectNotFound: (get-smbshare:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+   Default Gateway . . . . . . . . . : 192.168.1.11CommandInvocation(Get-PSSenderInfo): "Get-PSSenderInfo"
+>> CommandInvocation(Out-Default): "Out-Default"
+>> ParameterBinding(Out-Default): name="InputObject"; value=""
+>> ParameterBinding(Out-Default): name="InputObject"; value="System.Management.Automation.Remoting.PSSenderInfo"
+CommandInvocation(Get-PsSessionConfigurationName): "Get-PsSessionConfigurationName"
+>> CommandInvocation(Out-Default): "Out-Default"
+>> ParameterBinding(Out-Default): name="InputObject"; value=""
+>> ParameterBinding(Out-Default): name="InputObject"; value="http://schemas.microsoft.com/powershell/Microsoft.PowerShell"
+http://schemas.microsoft.com/powershell/Microsoft.PowerShellCommandInvocation(Get-AppLockerPolicy): "Get-AppLockerPolicy"
+>> TerminatingError(Get-AppLockerPolicy): "Cannot convert 'System.String' to the type 'System.Management.Automation.SwitchParameter' required by parameter 'Local'. "
+>> CommandInvocation(Out-Default): "Out-Default"
+>> ParameterBinding(Out-Default): name="InputObject"; value=""
+>> ParameterBinding(Out-Default): name="InputObject"; value="Cannot convert 'System.String' to the type 'System.Management.Automation.SwitchParameter' required by parameter 'Local'. "
+Cannot convert 'System.String' to the type 'System.Management.Automation.SwitchParameter' required by parameter 'Local'.
+    + CategoryInfo          : InvalidArgument: (:) [Get-AppLockerPolicy], ParameterBindingException
+    + FullyQualifiedErrorId : CannotConvertArgument,Microsoft.Security.ApplicationId.PolicyManagement.Cmdlets.GetAppLockerPolicyCmdlet
+
+http://schemas.microsoft.com/powershell/Microsoft.PowerShellget-applockerrule
+>> CommandInvocation(Out-Default): "Out-Default"
+>> ParameterBinding(Out-Default): name="InputObject"; value=""
+>> ParameterBinding(Out-Default): name="InputObject"; value="The term 'get-applockerrule' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again."
+The term 'get-applockerrule' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the
+path is correct and try again.
+    + CategoryInfo          : ObjectNotFound: (get-applockerrule:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+http://schemas.microsoft.com/powershell/Microsoft.PowerShelltest-netconnection
+>> CommandInvocation(Out-Default): "Out-Default"
+>> ParameterBinding(Out-Default): name="InputObject"; value=""
+>> ParameterBinding(Out-Default): name="InputObject"; value="The term 'test-netconnection' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again."
+The term 'test-netconnection' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the
+path is correct and try again.
+    + CategoryInfo          : ObjectNotFound: (test-netconnection:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+http://schemas.microsoft.com/powershell/Microsoft.PowerShellCommandInvocation(Get-Process): "Get-Process"
+>> ParameterBinding(Get-Process): name="Name"; value="svchost"
+>> CommandInvocation(Out-Default): "Out-Default"
+>> ParameterBinding(Out-Default): name="InputObject"; value=""
+>> ParameterBinding(Out-Default): name="InputObject"; value="System.Diagnostics.Process (svchost)"
+>> ParameterBinding(Out-Default): name="InputObject"; value="System.Diagnostics.Process (svchost)"
+>> ParameterBinding(Out-Default): name="InputObject"; value="System.Diagnostics.Process (svchost)"
+>> ParameterBinding(Out-Default): name="InputObject"; value="System.Diagnostics.Process (svchost)"
+>> ParameterBinding(Out-Default): name="InputObject"; value="System.Diagnostics.Process (svchost)"
+>> ParameterBinding(Out-Default): name="InputObject"; value="System.Diagnostics.Process (svchost)"
+>> ParameterBinding(Out-Default): name="InputObject"; value="System.Diagnostics.Process (svchost)"
+>> ParameterBinding(Out-Default): name="InputObject"; value="System.Diagnostics.Process (svchost)"
+>> ParameterBinding(Out-Default): name="InputObject"; value="System.Diagnostics.Process (svchost)"
+>> ParameterBinding(Out-Default): name="InputObject"; value="System.Diagnostics.Process (svchost)"
+>> ParameterBinding(Out-Default): name="InputObject"; value="System.Diagnostics.Process (svchost)"
+>> ParameterBinding(Out-Default): name="InputObject"; value="System.Diagnostics.Process (svchost)"
+>> ParameterBinding(Out-Default): name="InputObject"; value="System.Diagnostics.Process (svchost)"
+
+
+    325      24     4044      13944 ...42           14104   0 svchost                                                                                                                           CommandInvocation(Get-Process): "Get-Process"
+>> TerminatingError(Get-Process): "Cannot validate argument on parameter 'Name'. The argument "lsass" does not belong to the set "svchost,winlogon" specified by the ValidateSet attribute. Supply an argument that is in the set and then try the command again."
+>> CommandInvocation(Out-Default): "Out-Default"
+>> ParameterBinding(Out-Default): name="InputObject"; value=""
+>> ParameterBinding(Out-Default): name="InputObject"; value="Cannot validate argument on parameter 'Name'. The argument "lsass" does not belong to the set "svchost,winlogon" specified by the ValidateSet attribute. Supply an argument that is in the set and then try the command again."
+Cannot validate argument on parameter 'Name'. The argument "lsass" does not belong to the set "svchost,winlogon" specified by the ValidateSet attribute. Supply an argument that is in the set
+and then try the command again.
+    + CategoryInfo          : InvalidData: (:) [Get-Process], ParameterBindingValidationException
+    + FullyQualifiedErrorId : ParameterArgumentValidationError,Get-Process
+
+    325      24     4044      13944 ...42           14104   0 svchost                                                                                                                           CommandInvocation(Get-Service): "Get-Service"
+>> ParameterBinding(Get-Service): name="Name"; value="netlogon"
+>> ParameterBinding(Get-Service): name="ComputerName"; value=""
+>> CommandInvocation(Out-Default): "Out-Default"
+>> ParameterBinding(Out-Default): name="InputObject"; value=""
+>> ParameterBinding(Out-Default): name="InputObject"; value="Netlogon"
+
+
+Running  Netlogon           netlogon                              CommandInvocation(Get-Service): "Get-Service"
+>> ParameterBinding(Get-Service): name="Name"; value="netlogon"
+>> ParameterBinding(Get-Service): name="ComputerName"; value="machine"
+>> CommandInvocation(Out-Default): "Out-Default"
+>> ParameterBinding(Out-Default): name="InputObject"; value=""
+>> ParameterBinding(Out-Default): name="InputObject"; value="Netlogon"
+
+
+Running  Netlogon           netlogon                              CommandInvocation(Get-Service): "Get-Service"
+>> ParameterBinding(Get-Service): name="Name"; value="netlogon"
+>> TerminatingError(Get-Service): "Cannot validate argument on parameter 'ComputerName'. The argument "machines" does not belong to the set "machine,tablet,server47" specified by the ValidateSet attribute. Supply an argument that is in the set and then try the command again."
+>> CommandInvocation(Out-Default): "Out-Default"
+>> ParameterBinding(Out-Default): name="InputObject"; value=""
+>> ParameterBinding(Out-Default): name="InputObject"; value="Cannot validate argument on parameter 'ComputerName'. The argument "machines" does not belong to the set "machine,tablet,server47" specified by the ValidateSet attribute. Supply an argument that is in the set and then try the command again."
+Cannot validate argument on parameter 'ComputerName'. The argument "machines" does not belong to the set "machine,tablet,server47" specified by the ValidateSet attribute. Supply an argument
+that is in the set and then try the command again.
+    + CategoryInfo          : InvalidData: (:) [Get-Service], ParameterBindingValidationException
+    + FullyQualifiedErrorId : ParameterArgumentValidationError,Get-Service
+
+Running  Netlogon           netlogon                              import-module
+>> CommandInvocation(Out-Default): "Out-Default"
+>> ParameterBinding(Out-Default): name="InputObject"; value=""
+>> ParameterBinding(Out-Default): name="InputObject"; value="The term 'Import-Module' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again."
+The term 'Import-Module' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path
+is correct and try again.
+    + CategoryInfo          : ObjectNotFound: (Import-Module:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+Running  Netlogon           netlogon                              $executionContext.SessionState.LanguageMode
+>> CommandInvocation(Exit-PSSession): "Exit-PSSession"
+>> CommandInvocation(Out-Default): "Out-Default"
+>> ParameterBinding(Out-Default): name="InputObject"; value=""
+**********************
+Windows PowerShell transcript end
+End time: 20160129071215
+**********************

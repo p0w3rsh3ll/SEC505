@@ -1,0 +1,10 @@
+====================
+CAPICOM
+====================
+
+Please see the section "Getting Ready to Use CAPICOM" in 
+the Platform SDK for more information on how to install CAPICOM.
+
+In addition to the rights granted in Section 1 of the Agreement ("Agreement"), with respect to capicom.DLL, you have the following non-exclusive, royalty-free rights subject to the Distribution Requirements in Section 1 of the Agreement.  
+
+(1) You may distribute capicom.DLL.  

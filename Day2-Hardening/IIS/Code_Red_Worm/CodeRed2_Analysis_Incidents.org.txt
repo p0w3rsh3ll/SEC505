@@ -1,0 +1,390 @@
+Code Red II Worm Analysis Update
+From HTTP://WWW.INCIDENTS.ORG
+LAST UPDATED: 8/8/01
+=================================
+The new worm that was first noticed on Saturday has been 
+analyzed. Here is a summary of the facts based in part on 
+the excellent analyses referenced at the bottom of this 
+page. This report is udated in an ongoing fashion as more 
+information is received. 
+
+
+
+EXPLOITED VULNERABILITY AND OVERVIEW
+-------------------------------------
+This worm uses the same mechanism as the original Code Red worm to infect 
+vulnerable computers. That is, the worm looks for systems running 
+IIS that have not patched the unchecked buffer vulnerability in idq.dll 
+or removed the ISAPI script mappings. The worm exploits the vulnerability 
+to inject itself into a system. 
+
+
+Note that ANY system running Microsoft Windows 2000 (any version 
+including Professional) may have a vulnerable IIS server installed. 
+It is often possible that an IIS server is installed without the 
+user's knowledge. Please check the FAQ here for information on 
+determining if a system is vulnerable:
+
+http://www.incidents.org/react/code_red.php
+
+
+In fact, due to the targeting algorithm used by this new worm, 
+the infection is spreading wildly through ISP networks. Cable and DSL 
+subscribers are especially at risk and many have been experiencing 
+network outages due to the worm's "ARP Flooding" Denial of Service 
+side-effect. Experts believe that many of the systems currently 
+infected belong to home PC users who do not realize that they have 
+the IIS server software installed.
+
+
+Except for using the buffer overflow injection mechanism,  
+this new worm is entirely different from the original Code 
+Red CRv1 and CRv2 variants. In fact, Code Red II is more 
+dangerous because it opens backdoors on infected servers 
+that allow any follow-on remote attacker to execute arbitrary 
+commands. Reports have already been received of attackers 
+attempting to exploit these backdoors to wage distributed 
+ping flooding attacks.
+
+
+Most importantly, due to the more malicious actions of this 
+worm, patching and rebooting an infected server is no longer 
+sufficient to clean the system. If a system has been infected, 
+or if a vulnerable system has simply been left unpatched 
+while Code Red II has been circulating, the only real solution 
+is to reformat the system's hard drive and reinstall all the 
+software. For more information see the Code Red FAQ at:
+
+http://www.incidents.org/react/code_red.php
+
+
+Note: According to eEye, the worm code will be successfully 
+executed only on a Win2000 system running a vulnerable IIS 
+server. WinNT-based IIS servers will simply crash when attempting 
+to execute the worm code. Our experiments and reports received 
+from users confirm this finding.
+
+
+BACKDOOR
+--------
+The most damaging property of this new worm is that the worm 
+creates a back door on an infected server, leaving the system 
+wide open to any attacker. 
+
+
+The worm copies %windir%\CMD.EXE to the following locations:
+  c:\inetpub\scripts\root.exe
+  c:\progra~1\common~1\system\MSADC\root.exe
+  d:\inetpub\scripts\root.exe
+  d:\progra~1\common~1\system\MSADC\root.exe
+
+
+Given that the \scripts and \MSADC virtual folders have execute 
+permission (they do by default), moving a copy CMD.EXE to these 
+externally accessible locations provides a means for a remote attacker 
+to execute arbitrary commands on the compromised server. IIS will 
+pass commands to root.exe for execution when the server is presented 
+with a request such as (where ARBITRARY_COMMAND is any command):
+http://IpAddress/c/inetpub/scripts/root.exe?/c+ARBITRARY_COMMAND
+
+
+In addition, the worm creates a trojan copy of explorer.exe
+as described below. Due to the actions of the trojan 
+explorer.exe, IIS will make the C: and D: root directories 
+accessible to a remote attacker even if the root.exe 
+command shell program is removed from the \scripts and 
+\MSADC directories.
+
+
+
+TROJAN EXPLORER.EXE
+--------------------
+The worm carries its own copy of explorer.exe. The worm
+places its own copy of explorer.exe at c:\explorer.exe 
+and d:\explorer.exe. By placing the trojan file in these 
+locations, Windows will find and run the trojan rather 
+than the real explorer.exe because of the way Windows 
+seaches for executables by default. Specifically, unless 
+the system has been patched against the "Relative Shell 
+Path" vulnerability, the trojan explorer.exe will be 
+executed when the next user logs into the system. (See
+ 
+http://www.microsoft.com/technet/security/bulletin/MS00-052.asp)
+
+
+Upon execution, the trojan first runs the real explorer.exe 
+(thus the user will not notice any problems) and then goes 
+on to modify the system registry as outlined below. 
+
+
+First, the trojan program adds the value SFCDisable=0xFFFFFF9D 
+to HKLM\SOFTWARE\Microsoft\WindowsNT\CurrentVersion\Winlogin.
+This registry setting completely disables the Windows File 
+Protection (WFP) mechanism. WFP prevents the replacement of 
+certain monitored system files. See the following for more info:
+
+http://support.microsoft.com/support/kb/articles/Q222/1/93.ASP
+
+
+Next, the trojan sets the following "Virtual Roots" in the registry:
+SYSTEM\CurrentControlSet\Services\W3SVC\Parameters\Virtual Roots\scripts to ,,217
+SYSTEM\CurrentControlSet\Services\W3SVC\Parameters\Virtual Roots\msadc to ,,217
+
+
+These "217" settings ensure that the \scripts and \msadc virtual directories 
+(which contain the root.exe copy of cmd.exe) have read/write/execute 
+permission. More specifically, the "217" permission mask corresponds 
+to the OR of the following virtual folder settings:
+
+
+HSE_URL_FLAGS_SCRIPT | HSE_URL_FLAGS_DONT_CACHE | HSE_URL_FLAGS_EXECUTE
+| HSE_URL_FLAGS_WRITE | HSE_URL_FLAGS_READ
+
+
+In other words, the attackers wish to allow both scripts and executables 
+to run. In addition, they wish to make sure that the content is not cached 
+between requests, since requests may be different. Also they are allowing 
+read and write.
+
+
+Finally the trojan sets these two "Virtual Root" values as well:
+SYSTEM\CurrentControlSet\Services\W3SVC\Parameters\Virtual Roots\c to c:\,,217
+SYSTEM\CurrentControlSet\Services\W3SVC\Parameters\Virtual Roots\d to d:\,,217
+These mappings, which do not normally exist, map the root C: and D: 
+drives to a place where IIS can find them, namely /c and /d. The 
+permissions here are also set to read/write/execute/don't-cache.
+
+
+Quoting eEye's analysis, the purpose of these mappings are described:
+--------
+Basically the above code creates a virtual web path (/c and /d) which maps
+/c to c:\ and /d to d:\. The writer of this worm has put in this
+functionality to allow for a backdoor to be placed on the system so even if
+you remove the root.exe (cmd.exe prompt) from your /scripts folder an
+attacker can still use the /c and /d virtual roots to compromise your
+system. The attacks would basically look like:
+
+
+http://IpAddress/c/inetpub/scripts/root.exe?/c+dir 
+   (if root.exe was still there) or:
+http://IpAddress/c/winnt/system32/cmd.exe?/c+dir 
+   (Where dir could be any command an attacker would want to execute).
+----------
+
+
+Note that the trojan explorer.exe need only be executed once for 
+these registry changes to be made. Once the "Virtual Root" 
+registry settings are in place, and the IIS server is restarted,
+the backdoors become enabled. Further, the backdoors will 
+remain enabled, forever after, regardless of whether or not 
+explorer.exe is running.
+
+
+To emphasize, note that killing the trojan explorer.exe process will 
+not remove the back doors. Further, even killing the explorer.exe 
+process and removing the copies of root.exe and deleting the registry 
+settings will not eliminate the backdoors. If the trojan explorer.exe 
+is executed again (e.g. when the next person logs in), the registry 
+settings will be reinstated, making the C: and D: drives again 
+externally accessible following an IIS server restart. 
+(For more information on creating Virtual Roots under IIS see:
+
+http://www.avdf.com/jan98/art_ot001.html.)
+
+
+Finally, note that even deleting the registry settings, removing the 
+copies of root.exe, and removing the trojan explorer.exe is not sufficient 
+to clean the system. During the time the system was backdoored any other 
+attacker could have installed new backdoors that are not associated 
+with this worm and would not be found. 
+
+
+The trojan process sleeps most of the time, but wakes 
+to loop through these registry key modification steps every 
+10 minutes. This way, even if an administrator notices the 
+registry settings and deletes them, the trojan will reinstate 
+the settings a few minutes later.
+
+
+
+PROPAGATION
+-----------
+How aggressively the worm attempts to propagate itself
+depends on whether or not Chinese is the language installed on 
+the system. If Chinese, the worm creates 600 threads and
+attempts to spread for 48 hours. If non-Chinese, the worm 
+creates 300 threads and attempts to spread for 24 hours. 
+
+
+After the infection-spreading period, the worm forcibly reboots 
+the system. The reboot flushes the memory resident worm, 
+and leaves the backdoors and the explorer.exe trojan in 
+place. The reboot also restarts the IIS server, which ensures 
+that that new registry entries, such as the /c and /d 
+virtual roots, will be noticed and implemented by the IIS 
+webserver.
+
+
+
+TARGET SELECTION
+-----------------
+The 300 or 600 worm threads all work simultaneously to 
+propagate the infection. Each chooses a random target IP 
+and then uses one of the following masks with the given 
+probabilities.The masked parts of the IP are replaced 
+with the host computer's own IP information. Thus, the 
+worm mostly confines its targeting to IP addresses close 
+to the host computer's own.
+
+
+0.0.0.0         (probability 12.5%) => random
+255.0.0.0       (probability 50.0%) => same class A
+255.255.0.0     (probability 37.5%) => same class B
+
+
+Target IPs which are excluded are 127.x.x.x and 224.x.x.x,
+and no octet is allowed to be 0 or 255. In addition, the 
+host will not attempt to re-infect itself. 
+
+
+
+"FLOODING" SIDE EFFECT
+----------------------
+Because of the worm's preference to target its closest 
+neighbors in IP space, combined with the enormous amount of 
+scanning traffic generated by 300/600 threads running 
+in parallel, a huge number of broadcast ARP requests will 
+be generated by each infected host. If several machines on 
+a local segment are infected and attempting to propagate the 
+infection to their neighbors simultaneously, ARP broadcasts 
+can be generated at "flooding" rates. Systems on the receiving 
+end of the effective "ARP flood" may experience the effects 
+of a Denial of Service attack.
+
+
+Note that the problem is amplified on ISP networks that use 
+routers to propagate ARP requests throughout a very large customer 
+base. Reports indicate that some cable network providers, 
+for example, propagate ARP broadcasts to a very large span of 
+their IP space, resulting in an enormous number of requests 
+being received by every customer. 
+
+
+
+INFECTION PROCESS
+-----------------
+Before each attempt to connect to a new target, the worm
+checks the local time to see if the year is less than 2002 
+and if the month is less than 10. If either of these checks 
+return false, then the worm ceases the propagation cycle 
+and reboots the server. Note that this implies that all worms 
+will cease propagating by Oct. 1, 2001.
+
+
+To aid performance, the worm uses a nonblocking socket to connect
+to each target. Specifically this means that if one thread is 
+stuck waiting for a slow connection to a particular target, 
+the wait will not slow down the rest of the threads from continuing
+their scanning function. 
+
+
+After making a successful connection with a target (the three way 
+handshake has completed), the worm thread uploads all of the 
+worm code at once, looks for an acknowledgement, and then moves on 
+to attempting to infect other hosts.
+
+
+When a worm first arrives on a target and begins execution, the 
+worm checks to see if the host has already been infected, and if 
+so, disables itself. Specifically, the worm checks to see if a CodeRedII 
+atom has been placed using "GlobalFindAtomA". If the worm finds that 
+the atom exists then it goes to sleep forever. If the CodeRedII atom 
+does not exist, the worm creates the atom and continues execution.
+
+
+
+DOWNLOADS
+---------
+Corecode provides a .zip file containing a IDA Pro project file 
+and a plaintext disassembly for both the worm and the trojan 
+explorer.exe at:
+ 
+http://www.eikon.tum.de/~simons/ida_root/
+
+
+To download the eEye analysis and their disassembly files:
+
+http://www.eeye.com/html/advisories/coderedII.zip
+
+
+The worm binary can be found at the Unixwiz site:
+
+http://www.unixwiz.net/techtips/CodeRedII.html
+
+
+
+REFERENCES
+-----------
+Corecode's Analysis:
+
+http://archives.neohapsis.com/archives/incidents/2001-08/0092.html
+
+
+NAI's Analysis:
+
+http://vil.nai.com/vil/virusChar.asp?virus_k=99177
+
+
+Symantec's Analysis:
+
+http://www.sarc.com/avcenter/venc/data/codered.v3.html
+
+
+eEye's Analysis:
+
+http://www.eeye.com/html/advisories/coderedII.zip
+
+
+SecurityFocus Analysis:
+
+http://archives.neohapsis.com/archives/bugtraq/2001-08/0066.html
+
+
+
+ACKNOWLEDGEMENTS
+-----------------
+We are very grateful to Jesper Johansson for reviewing this 
+report and providing many helpful suggestions and technical details.
+
+
+Many thanks are due to corecode, who stayed up all night and provided 
+the very first analysis of the worm binary to the public. 
+
+
+We'd also like to recognize Stephen Friedl of Unixwiz for performing 
+a higher level analysis Saturday night and posting his findings to the web
+before any other concrete information was available.
+
+
+Also, we thank Matt Scarborough for testing the worm on WinNT 
+to confirm that IIS running on these systems will crash rather 
+than running the worm code successfully. Specifically, Matt notes 
+that Inetinfo.exe crashes, such that the IIS server loses all 
+web services, HTTP, FTP, etc. (The NT operating system does not crash.)
+
+
+Finally, we'd like to thank Jason Fossen for testing the workings 
+of the Code Red II registry settings and providing insightful information
+regarding these. Jason made the interesting discovery that if a virtual 
+directory which already exists (e.g. /scripts and /msadc) is modified 
+in the registry, then the next time IIS restarts the modifications are 
+overwritten with the authoritative info from the metabase. That is, direct 
+changes to the registry for previously existing virtual folders (/scripts and 
+/msadc) are not picked up by IIS and the added permissions aren't reflected in 
+the GUI. On the other hand, if a virtual directory is created in the registry 
+which did not previously exist (e.g. /c and /d) then these changes are written 
+to the metabase, hence, making the changes survive restarts of IIS.  Jason 
+speculates that this registry-to-metabase flushing may exist for backwards 
+compatibility with older versions of IIS. All tests were performed on 
+Windows2000 Advanced Server SP2. 
+

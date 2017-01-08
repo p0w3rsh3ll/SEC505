@@ -4,16 +4,16 @@
 #
 #.Description
 #    Edit the $BadCerts array in this script prior to execution.  The $BadCerts
-#    array contains the SHA1 hash thumbprints of root Certification Authority (CA)
+#    array contains the hash thumbprints of root Certification Authority (CA)
 #    certificates which should be deleted.  The script writes its report to the
 #    shell and also to the Application event log (Event ID = 9019).
 #
 #Requires -Version 2.0 
 #
 #.Notes 
-#  Author: Jason Fossen, Enclave Consulting (http://www.sans.org/windows-security/)  
-# Version: 1.0
-# Updated: 24.Nov.2012
+#  Author: Jason Fossen, Enclave Consulting LLC (http://www.sans.org/sec505)  
+# Version: 1.1
+# Updated: 5.Apr.2015
 #   LEGAL: PUBLIC DOMAIN.  SCRIPT PROVIDED "AS IS" WITH NO WARRANTIES OR GUARANTEES OF 
 #          ANY KIND, INCLUDING BUT NOT LIMITED TO MERCHANTABILITY AND/OR FITNESS FOR
 #          A PARTICULAR PURPOSE.  ALL RISKS OF DAMAGE REMAINS WITH THE USER, EVEN IF
@@ -23,9 +23,10 @@
 ####################################################################################
 
 
-# The following is the array of the SHA1 hash thumbprints 
-# of the CA certificates to delete. Edit this array before 
-# pushing out the script.  Consider signing the script.
+# The following is the array of the hash thumbprints of 
+# the CA certificates to delete. Edit this array before 
+# pushing out the script, the following hashes are just
+# examples for the sake of demonstrations.
 
 $BadCerts = @("4EF2E6670AC9B5091FE06BE0E5483EAAD6BA32D9","4EF2E6670AC9B5091FE06BE0E5483EAAD6BA32D9")  #Example: An expired Belgacom E-Trust cert repeated twice.
 
@@ -45,7 +46,7 @@ function Remove-CertificateArray ($StoreName = "My", $StoreLocation = "CurrentUs
     $store.certificates | 
         foreach `
         { 
-            if ($_.thumbprint -in $HashArrayToRemove)
+            if ($HashArrayToRemove -contains $_.thumbprint)
             {
                 $discoveredhashes += $_.thumbprint
                 $store.remove($_) 

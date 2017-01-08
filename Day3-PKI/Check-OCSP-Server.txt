@@ -1,0 +1,10 @@
+
+One way to verify that OCSP revocation checking is working:
+
+1) Confirm that a test certificate has an OCSP URL in its AIA field.
+2) Export that certificate to a file, e.g., c:\temp\cert.cer
+3) Run "certutil.exe -url c:\temp\cert.cer"
+4) In the GUI dialog box, select "OCSP (from AIA)" on the right.
+5) Click the Retrieve button.
+
+
