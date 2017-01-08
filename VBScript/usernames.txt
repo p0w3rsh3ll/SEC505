@@ -1,0 +1,13 @@
+admin
+sys
+sysadmin
+guest
+temp
+test
+testing
+service
+repl
+exchange
+webmaster
+webdude
+secretary

@@ -1,0 +1,288 @@
+ 9-28: 12:41:02:986:580 Initialization OK
+ 9-28: 12:44:40:728:248 
+ 9-28: 12:44:40:728:248 Receive: (get) SA = 0x00000000 from 10.4.3.5.500
+ 9-28: 12:44:40:728:248 ISAKMP Header: (V1.0), len = 92
+ 9-28: 12:44:40:728:248   I-COOKIE 563ba4bdebb16bf0
+ 9-28: 12:44:40:728:248   R-COOKIE 871f7331596cfdf2
+ 9-28: 12:44:40:728:248   exchange: ISAKMP Informational Exchange
+ 9-28: 12:44:40:728:248   flags: 1 ( encrypted )
+ 9-28: 12:44:40:728:248   next payload: HASH
+ 9-28: 12:44:40:728:248   message ID: 37dfed0b
+ 9-28: 12:44:41:689:248 
+ 9-28: 12:44:41:689:248 Receive: (get) SA = 0x00000000 from 10.4.3.5.500
+ 9-28: 12:44:41:689:248 ISAKMP Header: (V1.0), len = 92
+ 9-28: 12:44:41:689:248   I-COOKIE 563ba4bdebb16bf0
+ 9-28: 12:44:41:689:248   R-COOKIE 871f7331596cfdf2
+ 9-28: 12:44:41:689:248   exchange: ISAKMP Informational Exchange
+ 9-28: 12:44:41:689:248   flags: 1 ( encrypted )
+ 9-28: 12:44:41:689:248   next payload: HASH
+ 9-28: 12:44:41:689:248   message ID: 37dfed0b
+ 9-28: 12:44:43:762:248 
+ 9-28: 12:44:43:762:248 Receive: (get) SA = 0x00000000 from 10.4.3.5.500
+ 9-28: 12:44:43:762:248 ISAKMP Header: (V1.0), len = 92
+ 9-28: 12:44:43:762:248   I-COOKIE 563ba4bdebb16bf0
+ 9-28: 12:44:43:762:248   R-COOKIE 871f7331596cfdf2
+ 9-28: 12:44:43:762:248   exchange: ISAKMP Informational Exchange
+ 9-28: 12:44:43:762:248   flags: 1 ( encrypted )
+ 9-28: 12:44:43:762:248   next payload: HASH
+ 9-28: 12:44:43:762:248   message ID: 37dfed0b
+ 9-28: 12:44:47:758:248 
+ 9-28: 12:44:47:758:248 Receive: (get) SA = 0x00000000 from 10.4.3.5.500
+ 9-28: 12:44:47:758:248 ISAKMP Header: (V1.0), len = 92
+ 9-28: 12:44:47:758:248   I-COOKIE 563ba4bdebb16bf0
+ 9-28: 12:44:47:758:248   R-COOKIE 871f7331596cfdf2
+ 9-28: 12:44:47:758:248   exchange: ISAKMP Informational Exchange
+ 9-28: 12:44:47:758:248   flags: 1 ( encrypted )
+ 9-28: 12:44:47:758:248   next payload: HASH
+ 9-28: 12:44:47:758:248   message ID: 37dfed0b
+ 9-28: 12:44:55:609:248 
+ 9-28: 12:44:55:609:248 Receive: (get) SA = 0x00000000 from 10.4.3.5.500
+ 9-28: 12:44:55:609:248 ISAKMP Header: (V1.0), len = 92
+ 9-28: 12:44:55:609:248   I-COOKIE 563ba4bdebb16bf0
+ 9-28: 12:44:55:609:248   R-COOKIE 871f7331596cfdf2
+ 9-28: 12:44:55:609:248   exchange: ISAKMP Informational Exchange
+ 9-28: 12:44:55:609:248   flags: 1 ( encrypted )
+ 9-28: 12:44:55:609:248   next payload: HASH
+ 9-28: 12:44:55:609:248   message ID: 37dfed0b
+ 9-28: 12:45:20:595:248 
+ 9-28: 12:45:20:595:248 Receive: (get) SA = 0x00000000 from 10.4.3.5.500
+ 9-28: 12:45:20:595:248 ISAKMP Header: (V1.0), len = 276
+ 9-28: 12:45:20:595:248   I-COOKIE 357e05b4cdc37e0f
+ 9-28: 12:45:20:595:248   R-COOKIE 0000000000000000
+ 9-28: 12:45:20:595:248   exchange: Oakley Main Mode
+ 9-28: 12:45:20:595:248   flags: 0
+ 9-28: 12:45:20:595:248   next payload: SA
+ 9-28: 12:45:20:595:248   message ID: 00000000
+ 9-28: 12:45:20:625:248 Filter to match: Src 10.4.3.5 Dst 10.4.3.7
+ 9-28: 12:45:20:685:248 MM PolicyName: 1
+ 9-28: 12:45:20:685:248 MMPolicy dwFlags 6 SoftSAExpireTime 28800
+ 9-28: 12:45:20:685:248 MMOffer[0] LifetimeSec 28800 QMLimit 0 DHGroup 2
+ 9-28: 12:45:20:685:248 MMOffer[0] Encrypt: Triple DES CBC Hash: SHA
+ 9-28: 12:45:20:685:248 MMOffer[1] LifetimeSec 28800 QMLimit 0 DHGroup 2
+ 9-28: 12:45:20:685:248 MMOffer[1] Encrypt: Triple DES CBC Hash: MD5
+ 9-28: 12:45:20:685:248 MMOffer[2] LifetimeSec 28800 QMLimit 0 DHGroup 1
+ 9-28: 12:45:20:685:248 MMOffer[2] Encrypt: DES CBC Hash: SHA
+ 9-28: 12:45:20:685:248 MMOffer[3] LifetimeSec 28800 QMLimit 0 DHGroup 1
+ 9-28: 12:45:20:685:248 MMOffer[3] Encrypt: DES CBC Hash: MD5
+ 9-28: 12:45:20:685:248 Auth[0]:PresharedKey KeyLen 6
+ 9-28: 12:45:20:685:248 Responding with new SA f4f18
+ 9-28: 12:45:20:685:248 processing payload SA
+ 9-28: 12:45:20:685:248 Received Phase 1 Transform 1
+ 9-28: 12:45:20:685:248      Encryption Alg Triple DES CBC(5)
+ 9-28: 12:45:20:685:248      Hash Alg SHA(2)
+ 9-28: 12:45:20:685:248      Oakley Group 2
+ 9-28: 12:45:20:685:248      Auth Method Preshared Key(1)
+ 9-28: 12:45:20:685:248      Life type in Seconds
+ 9-28: 12:45:20:685:248      Life duration of 28800
+ 9-28: 12:45:20:685:248 Received Phase 1 Transform 2
+ 9-28: 12:45:20:685:248      Encryption Alg Triple DES CBC(5)
+ 9-28: 12:45:20:685:248      Hash Alg MD5(1)
+ 9-28: 12:45:20:685:248      Oakley Group 2
+ 9-28: 12:45:20:685:248      Auth Method Preshared Key(1)
+ 9-28: 12:45:20:685:248      Life type in Seconds
+ 9-28: 12:45:20:685:248      Life duration of 28800
+ 9-28: 12:45:20:685:248 Received Phase 1 Transform 3
+ 9-28: 12:45:20:685:248      Encryption Alg DES CBC(1)
+ 9-28: 12:45:20:685:248      Hash Alg SHA(2)
+ 9-28: 12:45:20:685:248      Oakley Group 1
+ 9-28: 12:45:20:685:248      Auth Method Preshared Key(1)
+ 9-28: 12:45:20:685:248      Life type in Seconds
+ 9-28: 12:45:20:685:248      Life duration of 28800
+ 9-28: 12:45:20:685:248 Received Phase 1 Transform 4
+ 9-28: 12:45:20:685:248      Encryption Alg DES CBC(1)
+ 9-28: 12:45:20:685:248      Hash Alg MD5(1)
+ 9-28: 12:45:20:685:248      Oakley Group 1
+ 9-28: 12:45:20:685:248      Auth Method Preshared Key(1)
+ 9-28: 12:45:20:685:248      Life type in Seconds
+ 9-28: 12:45:20:685:248      Life duration of 28800
+ 9-28: 12:45:20:685:248 Phase 1 SA accepted: transform=1
+ 9-28: 12:45:20:695:248 SA - Oakley proposal accepted
+ 9-28: 12:45:20:695:248 processing payload VENDOR ID
+ 9-28: 12:45:20:705:248 Received VendorId MS NT5 ISAKMPOAKLEY
+ 9-28: 12:45:20:705:248 processing payload VENDOR ID
+ 9-28: 12:45:20:705:248 Received VendorId FRAGMENTATION
+ 9-28: 12:45:20:705:248 processing payload VENDOR ID
+ 9-28: 12:45:20:705:248 Received VendorId draft-ietf-ipsec-nat-t-ike-02
+ 9-28: 12:45:20:705:248 processing payload VENDOR ID
+ 9-28: 12:45:20:705:248 Received VendorId Vid-Initial-Contact
+ 9-28: 12:45:20:705:248 ClearFragList
+ 9-28: 12:45:20:705:248 constructing ISAKMP Header
+ 9-28: 12:45:20:705:248 constructing SA (ISAKMP)
+ 9-28: 12:45:20:705:248 Constructing Vendor MS NT5 ISAKMPOAKLEY
+ 9-28: 12:45:20:705:248 Constructing Vendor FRAGMENTATION
+ 9-28: 12:45:20:705:248 Constructing Vendor draft-ietf-ipsec-nat-t-ike-02
+ 9-28: 12:45:20:725:248 
+ 9-28: 12:45:20:725:248 Sending: SA = 0x000F4F18 to 10.4.3.5:Type 2.500
+ 9-28: 12:45:20:725:248 ISAKMP Header: (V1.0), len = 148
+ 9-28: 12:45:20:725:248   I-COOKIE 357e05b4cdc37e0f
+ 9-28: 12:45:20:725:248   R-COOKIE 67d3e8172b5b057f
+ 9-28: 12:45:20:725:248   exchange: Oakley Main Mode
+ 9-28: 12:45:20:725:248   flags: 0
+ 9-28: 12:45:20:725:248   next payload: SA
+ 9-28: 12:45:20:725:248   message ID: 00000000
+ 9-28: 12:45:20:725:248 Ports S:f401 D:f401
+ 9-28: 12:45:20:765:248 
+ 9-28: 12:45:20:765:248 Receive: (get) SA = 0x000f4f18 from 10.4.3.5.500
+ 9-28: 12:45:20:765:248 ISAKMP Header: (V1.0), len = 232
+ 9-28: 12:45:20:765:248   I-COOKIE 357e05b4cdc37e0f
+ 9-28: 12:45:20:765:248   R-COOKIE 67d3e8172b5b057f
+ 9-28: 12:45:20:765:248   exchange: Oakley Main Mode
+ 9-28: 12:45:20:765:248   flags: 0
+ 9-28: 12:45:20:765:248   next payload: KE
+ 9-28: 12:45:20:765:248   message ID: 00000000
+ 9-28: 12:45:20:765:248 processing payload KE
+ 9-28: 12:45:20:815:248 processing payload NONCE
+ 9-28: 12:45:20:815:248 processing payload NATDISC
+ 9-28: 12:45:20:815:248 Processing NatHash
+ 9-28: 12:45:20:815:248 Nat hash d1c0aeb25a53f006b20b16e1e49f4435
+ 9-28: 12:45:20:815:248 c656178c
+ 9-28: 12:45:20:815:248 SA StateMask2 e
+ 9-28: 12:45:20:815:248 processing payload NATDISC
+ 9-28: 12:45:20:815:248 Processing NatHash
+ 9-28: 12:45:20:815:248 Nat hash 68885ab0fb06a1615487dff80c781017
+ 9-28: 12:45:20:815:248 8ca4bba5
+ 9-28: 12:45:20:815:248 SA StateMask2 8e
+ 9-28: 12:45:20:815:248 ClearFragList
+ 9-28: 12:45:20:815:248 constructing ISAKMP Header
+ 9-28: 12:45:20:815:248 constructing KE
+ 9-28: 12:45:20:815:248 constructing NONCE (ISAKMP)
+ 9-28: 12:45:20:815:248 Constructing NatDisc
+ 9-28: 12:45:20:815:248 
+ 9-28: 12:45:20:815:248 Sending: SA = 0x000F4F18 to 10.4.3.5:Type 2.500
+ 9-28: 12:45:20:815:248 ISAKMP Header: (V1.0), len = 232
+ 9-28: 12:45:20:815:248   I-COOKIE 357e05b4cdc37e0f
+ 9-28: 12:45:20:815:248   R-COOKIE 67d3e8172b5b057f
+ 9-28: 12:45:20:815:248   exchange: Oakley Main Mode
+ 9-28: 12:45:20:815:248   flags: 0
+ 9-28: 12:45:20:815:248   next payload: KE
+ 9-28: 12:45:20:815:248   message ID: 00000000
+ 9-28: 12:45:20:815:248 Ports S:f401 D:f401
+ 9-28: 12:45:20:835:248 
+ 9-28: 12:45:20:835:248 Receive: (get) SA = 0x000f4f18 from 10.4.3.5.500
+ 9-28: 12:45:20:835:248 ISAKMP Header: (V1.0), len = 68
+ 9-28: 12:45:20:835:248   I-COOKIE 357e05b4cdc37e0f
+ 9-28: 12:45:20:835:248   R-COOKIE 67d3e8172b5b057f
+ 9-28: 12:45:20:835:248   exchange: Oakley Main Mode
+ 9-28: 12:45:20:835:248   flags: 1 ( encrypted )
+ 9-28: 12:45:20:835:248   next payload: ID
+ 9-28: 12:45:20:835:248   message ID: 00000000
+ 9-28: 12:45:20:835:248 processing payload ID
+ 9-28: 12:45:20:835:248 processing payload HASH
+ 9-28: 12:45:20:835:248 AUTH: Phase I authentication accepted
+ 9-28: 12:45:20:835:248 ClearFragList
+ 9-28: 12:45:20:835:248 constructing ISAKMP Header
+ 9-28: 12:45:20:835:248 constructing ID
+ 9-28: 12:45:20:835:248 MM ID Type 1
+ 9-28: 12:45:20:835:248 MM ID 0a040307
+ 9-28: 12:45:20:835:248 constructing HASH
+ 9-28: 12:45:20:835:248 MM established.  SA: 000F4F18
+ 9-28: 12:45:20:835:248 
+ 9-28: 12:45:20:835:248 Sending: SA = 0x000F4F18 to 10.4.3.5:Type 2.500
+ 9-28: 12:45:20:835:248 ISAKMP Header: (V1.0), len = 68
+ 9-28: 12:45:20:835:248   I-COOKIE 357e05b4cdc37e0f
+ 9-28: 12:45:20:835:248   R-COOKIE 67d3e8172b5b057f
+ 9-28: 12:45:20:835:248   exchange: Oakley Main Mode
+ 9-28: 12:45:20:835:248   flags: 1 ( encrypted )
+ 9-28: 12:45:20:835:248   next payload: ID
+ 9-28: 12:45:20:835:248   message ID: 00000000
+ 9-28: 12:45:20:835:248 Ports S:f401 D:f401
+ 9-28: 12:45:20:845:248 
+ 9-28: 12:45:20:845:248 Receive: (get) SA = 0x000f4f18 from 10.4.3.5.500
+ 9-28: 12:45:20:845:248 ISAKMP Header: (V1.0), len = 156
+ 9-28: 12:45:20:845:248   I-COOKIE 357e05b4cdc37e0f
+ 9-28: 12:45:20:845:248   R-COOKIE 67d3e8172b5b057f
+ 9-28: 12:45:20:845:248   exchange: Oakley Quick Mode
+ 9-28: 12:45:20:845:248   flags: 1 ( encrypted )
+ 9-28: 12:45:20:845:248   next payload: HASH
+ 9-28: 12:45:20:845:248   message ID: 43a90169
+ 9-28: 12:45:20:845:248 processing HASH (QM)
+ 9-28: 12:45:20:845:248 ClearFragList
+ 9-28: 12:45:20:845:248 processing payload NONCE
+ 9-28: 12:45:20:845:248 processing payload ID
+ 9-28: 12:45:20:845:248 processing payload ID
+ 9-28: 12:45:20:845:248 processing payload SA
+ 9-28: 12:45:20:845:248 Negotiated Proxy ID: Src 10.4.3.5.0 Dst 10.4.3.7.0
+ 9-28: 12:45:20:845:248 Checking Proposal 1: Proto= ESP(3), num trans=2 Next=0
+ 9-28: 12:45:20:845:248 Checking Transform # 1: ID=Triple DES CBC(3)
+ 9-28: 12:45:20:845:248  tunnel mode is Transport Mode(2)
+ 9-28: 12:45:20:845:248  HMAC algorithm is MD5(1)
+ 9-28: 12:45:20:845:248 Checking Transform # 2: ID=Triple DES CBC(3)
+ 9-28: 12:45:20:845:248  tunnel mode is Transport Mode(2)
+ 9-28: 12:45:20:845:248  HMAC algorithm is SHA(2)
+ 9-28: 12:45:20:845:248 Finding Responder Policy for SRC=10.4.3.5.0000 DST=10.4.3.7.0000, SRCMask=255.255.255.255, DSTMask=255.255.255.255, Prot=0 InTunnelEndpt 0 OutTunnelEndpt 0
+ 9-28: 12:45:20:845:248 QM PolicyName: 1 dwFlags 10
+ 9-28: 12:45:20:845:248 QMOffer[0] LifetimeKBytes 0 LifetimeSec 0
+ 9-28: 12:45:20:845:248 QMOffer[0] dwFlags 0 dwPFSGroup 0
+ 9-28: 12:45:20:845:248  Algo[0] Operation: ESP Algo: Triple DES CBC HMAC: SHA
+ 9-28: 12:45:20:845:248 QMOffer[1] LifetimeKBytes 0 LifetimeSec 0
+ 9-28: 12:45:20:845:248 QMOffer[1] dwFlags 0 dwPFSGroup 0
+ 9-28: 12:45:20:845:248  Algo[0] Operation: ESP Algo: Triple DES CBC HMAC: MD5
+ 9-28: 12:45:20:845:248 QMOffer[2] LifetimeKBytes 0 LifetimeSec 0
+ 9-28: 12:45:20:845:248 QMOffer[2] dwFlags 0 dwPFSGroup 0
+ 9-28: 12:45:20:845:248  Algo[0] Operation: ESP Algo: DES CBC HMAC: SHA
+ 9-28: 12:45:20:845:248 QMOffer[3] LifetimeKBytes 0 LifetimeSec 0
+ 9-28: 12:45:20:845:248 QMOffer[3] dwFlags 0 dwPFSGroup 0
+ 9-28: 12:45:20:845:248  Algo[0] Operation: ESP Algo: DES CBC HMAC: MD5
+ 9-28: 12:45:20:845:248 QMOffer[4] LifetimeKBytes 0 LifetimeSec 0
+ 9-28: 12:45:20:845:248 QMOffer[4] dwFlags 0 dwPFSGroup 0
+ 9-28: 12:45:20:845:248  Algo[0] Operation: AH Algo: SHA
+ 9-28: 12:45:20:845:248 QMOffer[5] LifetimeKBytes 0 LifetimeSec 0
+ 9-28: 12:45:20:845:248 QMOffer[5] dwFlags 0 dwPFSGroup 0
+ 9-28: 12:45:20:845:248  Algo[0] Operation: AH Algo: MD5
+ 9-28: 12:45:20:845:248 QMOffer[6] LifetimeKBytes 0 LifetimeSec 0
+ 9-28: 12:45:20:845:248 QMOffer[6] dwFlags 0 dwPFSGroup 0
+ 9-28: 12:45:20:845:248  Algo[0] Operation: ESP Algo: NULL DES HMAC: MD5
+ 9-28: 12:45:20:845:248 Using default policy
+ 9-28: 12:45:20:845:248 Phase 2 SA accepted: proposal=1 transform=1
+ 9-28: 12:45:20:845:248 Adding default policy  for SRC=0503040a.0000 DST=0703040a.0000, SRCMask=ffffffff, DSTMask=ffffffff, Prot=0, TunnelFilter 0, TunnelAddr 0
+ 9-28: 12:45:20:845:248 GetSpi: src = 10.4.3.5.0000, dst = 10.4.3.7.0000, proto = 00, context = 00000000, srcMask = 255.255.255.255, destMask = 255.255.255.255, TunnelFilter 0
+ 9-28: 12:45:20:845:248 Setting SPI  3998876513
+ 9-28: 12:45:20:845:248 constructing ISAKMP Header
+ 9-28: 12:45:20:845:248 constructing HASH (null)
+ 9-28: 12:45:20:845:248 constructing SA (IPSEC)
+ 9-28: 12:45:20:845:248 constructing NONCE (IPSEC)
+ 9-28: 12:45:20:845:248 constructing ID (proxy)
+ 9-28: 12:45:20:845:248 constructing ID (proxy)
+ 9-28: 12:45:20:845:248 constructing HASH (QM)
+ 9-28: 12:45:20:845:248 
+ 9-28: 12:45:20:845:248 Sending: SA = 0x000F4F18 to 10.4.3.5:Type 2.500
+ 9-28: 12:45:20:845:248 ISAKMP Header: (V1.0), len = 140
+ 9-28: 12:45:20:845:248   I-COOKIE 357e05b4cdc37e0f
+ 9-28: 12:45:20:845:248   R-COOKIE 67d3e8172b5b057f
+ 9-28: 12:45:20:845:248   exchange: Oakley Quick Mode
+ 9-28: 12:45:20:845:248   flags: 3 ( encrypted commit )
+ 9-28: 12:45:20:845:248   next payload: HASH
+ 9-28: 12:45:20:845:248   message ID: 43a90169
+ 9-28: 12:45:20:845:248 Ports S:f401 D:f401
+ 9-28: 12:45:20:855:248 
+ 9-28: 12:45:20:855:248 Receive: (get) SA = 0x000f4f18 from 10.4.3.5.500
+ 9-28: 12:45:20:855:248 ISAKMP Header: (V1.0), len = 52
+ 9-28: 12:45:20:855:248   I-COOKIE 357e05b4cdc37e0f
+ 9-28: 12:45:20:855:248   R-COOKIE 67d3e8172b5b057f
+ 9-28: 12:45:20:855:248   exchange: Oakley Quick Mode
+ 9-28: 12:45:20:855:248   flags: 3 ( encrypted commit )
+ 9-28: 12:45:20:855:248   next payload: HASH
+ 9-28: 12:45:20:855:248   message ID: 43a90169
+ 9-28: 12:45:20:855:248 processing HASH (QM)
+ 9-28: 12:45:20:855:248 ClearFragList
+ 9-28: 12:45:20:865:248 Adding QMs: src = 10.4.3.7.0000, dst = 10.4.3.5.0000, proto = 00, context = 00000006, my tunnel = 0.0.0.0, peer tunnel = 0.0.0.0, SrcMask = 0.0.0.0, DestMask = 0.0.0.0 Lifetime = 3600 LifetimeKBytes 100000 dwFlags 0 Direction 1 EncapType 1
+ 9-28: 12:45:20:865:248  Algo[0] Operation: ESP Algo: Triple DES CBC HMAC: MD5
+ 9-28: 12:45:20:865:248  Algo[0] MySpi: 3998876513 PeerSpi: 716641756
+ 9-28: 12:45:20:865:248 Encap Ports Src 500 Dst 500
+ 9-28: 12:45:20:865:248 isadb_set_status sa:000F4F18 centry:000DE168 status 0
+ 9-28: 12:45:20:865:248 Constructing Commit Notify
+ 9-28: 12:45:20:865:248 constructing ISAKMP Header
+ 9-28: 12:45:20:865:248 constructing HASH (null)
+ 9-28: 12:45:20:865:248 constructing NOTIFY 16384
+ 9-28: 12:45:20:865:248 constructing HASH (QM)
+ 9-28: 12:45:20:865:248 
+ 9-28: 12:45:20:865:248 Sending: SA = 0x000F4F18 to 10.4.3.5:Type 4.500
+ 9-28: 12:45:20:865:248 ISAKMP Header: (V1.0), len = 84
+ 9-28: 12:45:20:865:248   I-COOKIE 357e05b4cdc37e0f
+ 9-28: 12:45:20:865:248   R-COOKIE 67d3e8172b5b057f
+ 9-28: 12:45:20:865:248   exchange: Oakley Quick Mode
+ 9-28: 12:45:20:865:248   flags: 3 ( encrypted commit )
+ 9-28: 12:45:20:865:248   next payload: HASH
+ 9-28: 12:45:20:865:248   message ID: 43a90169
+ 9-28: 12:45:20:865:248 Ports S:f401 D:f401
+ 9-28: 12:46:31:495:248 CE Dead. sa:000F4F18 ce:000DE168 status:35f0

@@ -1,0 +1,50 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Template Name: Set_SourcePath_Value.ADM 
+;        Author: Jason Fossen
+;         Notes: This should only be used with Windows 2000/XP and later.
+;                To always show the policy icon, right-click on the right-
+;                hand side of the GPO window and make sure that neither
+;                "Show Policies Only" nor "Show Configured Policies Only"
+;                is checked.  
+;                Copy the completed template to the %SystemRoot%\Inf\ folder.
+;       Version: 1.0
+;         Legal: Public domain.  No rights reserved.  Use at your own risk!
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; FYI: I know this has nothing to do with Active Directory. This category is
+;      is used to illustrate how multiple policies from multiple templates
+;      can be merged into a single category folder.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+CLASS MACHINE
+
+CATEGORY "SANS Active Directory"
+	POLICY "Set SourcePath Value"
+        KEYNAME "SOFTWARE\Microsoft\Windows\CurrentVersion\Setup"
+        EXPLAIN !!strExplanationVariable2
+
+	    PART "Enter the local or UNC path for OS files:" 
+	        EDITTEXT REQUIRED DEFAULT "" MAXLEN "254" 
+            VALUENAME "SourcePath"
+        END PART
+
+	END POLICY                                        
+END CATEGORY 
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Configure variables for this template. 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[Strings]
+strExplanationVariable2="The SourcePath registry value determines where the OS looks first when it needs to copy fresh OS files.\n\nThe path entered can be a local drive path or a network UNC pathname.\n\nThe advantage is that users are not prompted for the CD-ROM and you can keep the files at the UNC path always updated."
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;  END OF TEMPLATE  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

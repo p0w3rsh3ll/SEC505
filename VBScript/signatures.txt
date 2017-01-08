@@ -1,0 +1,74 @@
+\\winnt|/winnt|\\windows|/windows	attempts to access \Winnt or \Windows (command execution).
+
+/certsrv				attempts to access Certificate Server web pages (reconnaissance).
+
+msadcs\.dll				attempts to access msadcs.dll (RDS exploit).
+
+/MSADC/					attempts to access the /MSADC folder (reconnaissance).
+
+\.asp\.					attempts to use the .asp. exploit (show source code)
+
+sam\._ 					attempts to download the SAM backup file (bad).
+
+/iissamples				attempts to access an IIS sample page (vulnerable scripts).
+
+\.asp\.htr				attempts to append .HTR to an ASP page (show source code).
+
+iisadmpwd				attempts to access the IIS 4.0 change password scripts (reconnaissance).
+
+GET /default\.ida			attempts by the Code Red Worm (buffer overflow).
+
+global\.asa				attempts to access the GLOBAL.ASA file (reconnaissance).
+
+cmd\.exe				attempts to access CMD.EXE (command execution).
+
+/printers				attempts to access the /printers folder (reconnaissance).
+
+\\|\%5c					attempts to use a backslash in a request (folder traversal).
+
+\.\./\.\./|\%2e\%2e\%2f			attempts To use ../../ for directory traversal (command execution).
+
+/\./					attempts to use /./ to obscure the URL pattern (evade IDS).
+
+\%00					attempts to use the hex code for a null value (suspicious, evade IDS).
+
+/iisadmin				attempts to access the IIS Administration web site (reconnaissance).
+
+tftp|wget				attempts to execute TFTP or WGET on the web server (file transfer).
+
+GET /exchange				attempts to access Exchange Outlook Web Access site (reconnaissance).
+
+showcode\.asp				attempts to access the SHOWCODE.ASP page (vulnerable sample page).
+
+::\$DATA				attempts to use the ::$DATA exploit (show source code).
+
+\*					attempts to use an asterisk in a request (possible wildcard to OS command).
+
+/\~.+|\%2f\%7e				attempts to use a /~ in a request (possible username search).
+
+\<script\>				attempts to use <script> in requests (cross-site scripting).
+
+root\.exe				attempts to find a sadmin, Code Red or Nimda backdoor (command execution).
+
+\%u\d\d\d\d				attempts to use %u Unicode encoding (IDS evasion).
+
+[a-zA-Z]{20}				attempts to send many repeating characters (probable buffer overflow).
+
+select|insert|update|from|where		attempts to use SQL-related words (twitching thumbs).
+
+whisker					attempts to use RFP's Whisker scanner against you (you have been targeted!).
+
+Rejected\-By\-UrlScan			attempts that were rejected by URLSCAN (URLSCAN).
+
+space\.asp				warez d00dz looking for public writeable FTP servers (reconnaissance).
+
+GET /scripts/|GET /cgi-bin/|GET /cgibin/		attempts to access /scripts or /cgi-bin (reconnaissance).
+
+/etc.+[2345][01][0-9]|/sbin.+[2345][01][0-9]		attempts to access Unix-related directories (reconnaissance).
+
+/.+\'.+[2345][01][0-9]|/.+\`.+[2345][01][0-9]|/.+\%60.+[2345][01][0-9]		attempts to use a tick mark in a request (possible SQL injection).
+
+
+
+
+

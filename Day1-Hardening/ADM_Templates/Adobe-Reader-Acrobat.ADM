@@ -1,0 +1,233 @@
+; Administrative Template for Adobe Acrobat 9.0 and Adobe Reader 9.0
+; Credit: Rick Patterson
+; http://turboninjas.com/A9adm/AdobeAcrobat&Reader9.adm
+; Version 1.0
+; 1/27/2009
+
+CLASS MACHINE
+
+CATEGORY !!Reader
+
+        POLICY !!Checkforupdatesatstart
+	KEYNAME "Software\Adobe\Acrobat Reader\9.0\AVGeneral"
+            EXPLAIN !!Checkforupdatesatstart_Help
+                VALUENAME "bCheckForUpdatesAtStartup"
+                    VALUEON NUMERIC 1
+                    VALUEOFF NUMERIC 0
+        END POLICY
+
+        POLICY !!DonotdisplayEULA
+            KEYNAME "Software\Adobe\Acrobat Reader\9.0\AdobeViewer"
+            EXPLAIN !!DonotdisplayEULA_Help
+                VALUENAME "EULA"
+                    VALUEON NUMERIC 1
+                    VALUEOFF NUMERIC 0
+        END POLICY
+
+        POLICY !!EnableAdobeUpdater
+            KEYNAME "SOFTWARE\Policies\Adobe\Acrobat Reader\9.0\FeatureLockdown"
+            EXPLAIN !!EnableAdobeUpdater_Help
+                VALUENAME "bUpdater"
+                    VALUEON NUMERIC 1
+                    VALUEOFF NUMERIC 0
+        END POLICY
+
+        POLICY !!EnablePurchaseAdobeAcrobat
+            KEYNAME "SOFTWARE\Policies\Adobe\Acrobat Reader\9.0\FeatureLockdown"
+            EXPLAIN !!EnablePurchaseAdobeAcrobat_Help
+                VALUENAME "bPurchaseAcro"
+                    VALUEON NUMERIC 1
+                    VALUEOFF NUMERIC 0
+        END POLICY
+
+        POLICY !!EnableDigitalEditions
+           KEYNAME "SOFTWARE\Policies\Adobe\Acrobat Reader\9.0\FeatureLockdown"
+            EXPLAIN !!EnableDigitalEditions_Help
+                VALUENAME "bShowEbookMenu"
+                    VALUEON NUMERIC 1
+                    VALUEOFF NUMERIC 0
+        END POLICY
+
+        POLICY !!EnableProductImprovementProgram
+            KEYNAME "SOFTWARE\Policies\Adobe\Acrobat Reader\9.0\FeatureLockdown"
+            EXPLAIN !!EnableProductImprovementProgram_Help
+                VALUENAME "bUsageMeasurement"
+                    VALUEON NUMERIC 1
+                    VALUEOFF NUMERIC 0
+        END POLICY
+
+        POLICY !!EnableCreateBuzzwordDocument
+            KEYNAME "SOFTWARE\Policies\Adobe\Acrobat Reader\9.0\FeatureLockdown"
+            EXPLAIN !!EnableCreateBuzzwordDocument_Help
+                VALUENAME "bCreateBuzzwordDoc"
+                    VALUEON NUMERIC 1
+                    VALUEOFF NUMERIC 0
+        END POLICY
+
+        POLICY !!EnableCreateAdobePDFUsingAcrobatcom
+            KEYNAME "SOFTWARE\Policies\Adobe\Acrobat Reader\9.0\FeatureLockdown"
+            EXPLAIN !!EnableCreateAdobePDFUsingAcrobatcom_Help
+                VALUENAME "bCreatePDFOnline"
+                    VALUEON NUMERIC 1
+                    VALUEOFF NUMERIC 0
+        END POLICY
+
+        POLICY !!EnforceDisplayPDFinBrowser
+            KEYNAME "SOFTWARE\Policies\Adobe\Acrobat Reader\9.0\FeatureLockdown"
+            EXPLAIN !!EnforceDisplayPDFinBrowser_Help
+                VALUENAME "bBrowserIntegration"
+                    VALUEON NUMERIC 1
+                    VALUEOFF NUMERIC 0
+        END POLICY
+
+        POLICY !!EnableDocumentMessageBar
+            KEYNAME "SOFTWARE\Policies\Adobe\Acrobat Reader\9.0\FeatureLockdown\cDocumentStatus"
+            EXPLAIN !!EnableDocumentMessageBar_Help
+                VALUENAME "bSuppressMessageBar"
+                    VALUEON NUMERIC 1
+                    VALUEOFF NUMERIC 0
+        END POLICY
+
+END CATEGORY
+
+
+
+
+CATEGORY !!Acrobat
+
+        POLICY !!EnableAdobeUpdater
+            KEYNAME "SOFTWARE\Policies\Adobe\Adobe Acrobat\9.0\FeatureLockdown"
+            EXPLAIN !!EnableAdobeUpdater_Help
+                VALUENAME "bUpdater"
+                    VALUEON NUMERIC 1
+                    VALUEOFF NUMERIC 0
+        END POLICY
+
+        POLICY !!EnablePurchaseAdobeAcrobat
+            KEYNAME "SOFTWARE\Policies\Adobe\Adobe Acrobat\9.0\FeatureLockdown"
+            EXPLAIN !!EnablePurchaseAdobeAcrobat_Help
+                VALUENAME "bPurchaseAcro"
+                    VALUEON NUMERIC 1
+                    VALUEOFF NUMERIC 0
+        END POLICY
+
+        POLICY !!EnableDigitalEditions
+           KEYNAME "SOFTWARE\Policies\Adobe\Adobe Acrobat\9.0\FeatureLockdown"
+            EXPLAIN !!EnableDigitalEditions_Help
+                VALUENAME "bShowEbookMenu"
+                    VALUEON NUMERIC 1
+                    VALUEOFF NUMERIC 0
+        END POLICY
+
+        POLICY !!EnableProductImprovementProgram
+            KEYNAME "SOFTWARE\Policies\Adobe\Adobe Acrobat\9.0\FeatureLockdown"
+            EXPLAIN !!EnableProductImprovementProgram_Help
+                VALUENAME "bUsageMeasurement"
+                    VALUEON NUMERIC 1
+                    VALUEOFF NUMERIC 0
+        END POLICY
+
+        POLICY !!EnableCreateBuzzwordDocument
+            KEYNAME "SOFTWARE\Policies\Adobe\Adobe Acrobat\9.0\FeatureLockdown"
+            EXPLAIN !!EnableCreateBuzzwordDocument_Help
+                VALUENAME "bCreateBuzzwordDoc"
+                    VALUEON NUMERIC 1
+                    VALUEOFF NUMERIC 0
+        END POLICY
+
+        POLICY !!EnableCreateAdobePDFUsingAcrobatcom
+            KEYNAME "SOFTWARE\Policies\Adobe\Adobe Acrobat\9.0\FeatureLockdown"
+            EXPLAIN !!EnableCreateAdobePDFUsingAcrobatcom_Help
+                VALUENAME "bCreatePDFOnline"
+                    VALUEON NUMERIC 1
+                    VALUEOFF NUMERIC 0
+        END POLICY
+
+        POLICY !!EnforceDisplayPDFinBrowser
+            KEYNAME "SOFTWARE\Policies\Adobe\Adobe Acrobat\9.0\FeatureLockdown"
+            EXPLAIN !!EnforceDisplayPDFinBrowser_Help
+                VALUENAME "bBrowserIntegration"
+                    VALUEON NUMERIC 1
+                    VALUEOFF NUMERIC 0
+        END POLICY
+
+        POLICY !!EnableDocumentMessageBar
+            KEYNAME "SOFTWARE\Policies\Adobe\Adobe Acrobat\9.0\FeatureLockdown\cDocumentStatus"
+            EXPLAIN !!EnableDocumentMessageBar_Help
+                VALUENAME "bSuppressMessageBar"
+                    VALUEON NUMERIC 1
+                    VALUEOFF NUMERIC 0
+        END POLICY
+
+END CATEGORY
+
+CLASS USER
+
+CATEGORY !!Reader
+
+        POLICY !!EnableDisplayPDFinBrowser
+            KEYNAME "SOFTWARE\Adobe\Acrobat Reader\9.0\Originals"
+            EXPLAIN !!EnableDisplayPDFinBrowser_Help
+                VALUENAME "bBrowserIntegration"
+                    VALUEON NUMERIC 1
+                    VALUEOFF NUMERIC 0
+        END POLICY
+
+        POLICY !!EnableAcrobatJavaScript
+            KEYNAME "SOFTWARE\Adobe\Acrobat Reader\9.0\JSPrefs"
+            EXPLAIN !!EnableAcrobatJavaScript_Help
+                VALUENAME "bEnableJS"
+                    VALUEON NUMERIC 1
+                    VALUEOFF NUMERIC 0
+        END POLICY
+
+END CATEGORY
+
+CATEGORY !!Acrobat
+
+        POLICY !!EnableDisplayPDFinBrowser
+            KEYNAME "SOFTWARE\Adobe\Adobe Acrobat\9.0\Originals"
+            EXPLAIN !!EnableDisplayPDFinBrowser_Help
+                VALUENAME "bBrowserIntegration"
+                    VALUEON NUMERIC 1
+                    VALUEOFF NUMERIC 0
+        END POLICY
+
+        POLICY !!EnableAcrobatJavaScript
+            KEYNAME "SOFTWARE\Adobe\Adobe Acrobat\9.0\JSPrefs"
+            EXPLAIN !!EnableAcrobatJavaScript_Help
+                VALUENAME "bEnableJS"
+                    VALUEON NUMERIC 1
+                    VALUEOFF NUMERIC 0
+        END POLICY
+
+
+END CATEGORY
+
+[strings]
+Reader="Adobe Reader 9.0"
+Acrobat="Adobe Acrobat 9.0"
+Checkforupdatesatstart="Check for updates at start (non-policy)"
+Checkforupdatesatstart_Help=""When set to Enabled Acrobat Reader will check for updates at startup.  When set to Disabled Acrobat Reader will not check for updates at startup."
+DonotdisplayEULA="Do not display EULA (non-policy)"
+DonotdisplayEULA_Help="When set to Enabled the EULA will be not displayed for the user to accept at first run.  When set to Disabled the EULA will be displayed for the user to accept at first run."
+EnableAdobeUpdater="Enable Adobe Updater 6"
+EnableAdobeUpdater_Help="When set to Enabled, Adobe Updater can run and the 'Check for updates' option appears on the Help menu.  When set to Disabled, Adobe Updater cannot run and the 'Check for updates' option does not appear on the Help menu."
+EnablePurchaseAdobeAcrobat="Enable Purchase Adobe Acrobat"
+EnablePurchaseAdobeAcrobat_Help="When set to Enabled, Purchase Adobe Acrobat option appears on the Help menu.  When set to Disabled, Purchase Adobe Acrobat option does not appear on the Help menu."
+EnableDigitalEditions="Enable Digital Editions"
+EnableDigitalEditions_Help="When set to Enabled, Digital Editions option appears on the File menu.  When set to Disabled, Digital Editions option does not appear on the File menu."
+EnableProductImprovementProgram="Enable Product Improvement Program"
+EnableProductImprovementProgram_Help="When set to Enabled, it allows the display of the Product Improvment Display dialog.  When set to Disabled, it prevents the display of the Product Improvment Display dialog"
+EnableCreateBuzzwordDocument="Enable Create Buzzword Document"
+EnableCreateBuzzwordDocument_Help="When set to Enabled, Create Buzzword Document appears on the File - Collaborate menu.  When set to Disabled, Create Buzzword Document does not appear on the File - Collaborate menu."
+EnableCreateAdobePDFUsingAcrobatcom="Enable Create Adobe PDF Using Acrobat.com"
+EnableCreateAdobePDFUsingAcrobatcom_Help="When set to Enabled, Create Adobe PDF Using Acrobat.com appears on the File menu.  When set to Disabled, Create Adobe PDF Using Acrobat.com does not appear on the File menu."
+EnforceDisplayPDFinBrowser="Enforce Display PDF in Browser"
+EnforceDisplayPDFinBrowser_Help="When set to Enabled OR Disabled, the Display PDF in Browser setting is grayed out so that the user cannot change the setting.  When set to not configured, the user can again change Display PDF in Browser setting.  See the Enable Display PDF in Browser (non-policy) setting to enable or disable In-Place Activation."
+EnableDisplayPDFinBrowser="Enable Display PDF in Browser (non-policy)"
+EnableDisplayPDFinBrowser_Help="When set to Enabled, Display PDF in Browser on the Internet tab is checked.  Clicking any link to any PDF files on any web site causes the PDF file to open in IE.  When set to Disabled, Display PDF in Browser on the Internet tab is unchecked.  Clicking any link to any PDF files on any web site causes the PDF file to open in Adobe Reader or Acrobat.  The user can change the Display PDF in Browser setting."
+EnableAcrobatJavaScript="Enable Acrobat JavaScript (non-policy)"
+EnableAcrobatJavaScript_Help="When set to Enabled, Enable Acrobat JavaScript on the JavaScript tab is checked.  Opening any PDF files that contain Javascript will allow that JavaScript to run automatically.  When set to Disabled, Enable Acrobat JavaScript on the JavaScript tab is unchecked.  Opening any PDF files that contain Javascript will cause the user to be prompted that JavaScript has been disabled.  The user can change the Enable Acrobat JavaScript setting on the JavaScript tab."
+EnableDocumentMessageBar="Enable the Document Message Bar"
+EnableDocumentMessageBar_Help="When set to Enabled, allows the Document Message Bar to display at the top of the Reader window. When set to Disabled, prevents the Document Message Bar from displaying at the top of the Reader window."

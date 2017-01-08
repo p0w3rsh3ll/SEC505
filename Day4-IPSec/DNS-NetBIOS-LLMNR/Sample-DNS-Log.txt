@@ -1,0 +1,73 @@
+DNS Server log file creation at 5/26/2013 11:23:41 PM
+
+Message logging key (for packets - other items use a subset of these fields):
+	Field #  Information         Values
+	-------  -----------         ------
+	   1     Date
+	   2     Time
+	   3     Thread ID
+	   4     Context
+	   5     Internal packet identifier
+	   6     UDP/TCP indicator
+	   7     Send/Receive indicator
+	   8     Remote IP
+	   9     Xid (hex)
+	  10     Query/Response      R = Response
+	                             blank = Query
+	  11     Opcode              Q = Standard Query
+	                             N = Notify
+	                             U = Update
+	                             ? = Unknown
+	  12     [ Flags (hex)
+	  13     Flags (char codes)  A = Authoritative Answer
+	                             T = Truncated Response
+	                             D = Recursion Desired
+	                             R = Recursion Available
+	  14     ResponseCode ]
+	  15     Question Type
+	  16     Question Name
+
+5/26/2013 8:50:16 AM 0528 PACKET  00000000039B2360 UDP Rcv 10.4.8.2        9866   Q [0001   D   NOERROR] A      (3)www(5)yahoo(3)com(0)
+
+5/26/2013 8:50:17 AM 0528 PACKET  0000000002C2B4B0 UDP Rcv 10.4.8.2        6878   Q [0001   D   NOERROR] A      (1)l(4)yimg(3)com(0)
+
+5/26/2013 8:50:18 AM 0528 PACKET  0000000002B728F0 UDP Rcv 10.4.8.2        6878   Q [0001   D   NOERROR] A      (1)l(4)yimg(3)com(0)
+
+5/26/2013 8:50:19 AM 0528 PACKET  000000000184F2D0 UDP Rcv 10.4.8.2        6878   Q [0001   D   NOERROR] A      (1)l(4)yimg(3)com(0)
+
+5/26/2013 8:50:21 AM 0528 PACKET  00000000033F9D30 UDP Rcv 10.4.8.2        6878   Q [0001   D   NOERROR] A      (1)l(4)yimg(3)com(0)
+
+5/26/2013 8:50:21 AM 0528 PACKET  0000000002B728F0 UDP Rcv 10.4.8.2        d859   Q [0001   D   NOERROR] A      (1)d(4)yimg(3)com(0)
+
+5/26/2013 8:50:22 AM 0528 PACKET  00000000037F0650 UDP Rcv 10.4.8.2        e0fb   Q [0001   D   NOERROR] A      (2)ad(4)wsod(3)com(0)
+
+5/26/2013 8:50:22 AM 0528 PACKET  00000000032468A0 UDP Rcv 10.4.8.2        4eb6   Q [0001   D   NOERROR] A      (2)ad(11)doubleclick(3)net(0)
+
+5/26/2013 8:50:22 AM 0528 PACKET  0000000001FF8020 UDP Rcv 10.4.8.2        ab48   Q [0001   D   NOERROR] A      (2)us(2)bc(5)yahoo(3)com(0)
+
+5/26/2013 8:50:23 AM 0528 PACKET  0000000002C2B4B0 UDP Rcv 10.4.8.2        2e0f   Q [0001   D   NOERROR] A      (7)admedia(4)wsod(3)com(0)
+
+5/26/2013 8:50:23 AM 0528 PACKET  00000000018104C0 UDP Rcv 10.4.8.2        5b67   Q [0001   D   NOERROR] A      (1)m(11)doubleclick(3)net(0)
+
+5/26/2013 8:50:24 AM 0528 PACKET  0000000002E3BA40 UDP Rcv 10.4.8.2        6434   Q [0001   D   NOERROR] A      (2)ad(12)yieldmanager(3)com(0)
+
+5/26/2013 8:50:24 AM 0528 PACKET  0000000001B96310 UDP Rcv 10.4.8.2        d522   Q [0001   D   NOERROR] A      (3)pix(10)suitesmart(3)com(0)
+
+5/26/2013 8:50:24 AM 0528 PACKET  000000000276B4B0 UDP Rcv 10.4.8.2        9be2   Q [0001   D   NOERROR] A      (6)static(4)2mdn(3)net(0)
+
+5/26/2013 11:13:00 AM 0524 EVENT   The DNS server wrote version 2 of zone home.local to file home.local.dns.
+
+5/26/2013 11:33:18 AM 0524 EVENT   The DNS server wrote version 2 of zone home.local to file home.local.dns.
+
+5/26/2013 11:41:19 AM 0528 PACKET  0000000001531F00 UDP Rcv 192.168.1.104   0003   Q [0001   D   NOERROR] A      (3)www(5)yahoo(3)com(2)tx(2)rr(3)com(0)
+
+5/26/2013 11:41:20 AM 0528 PACKET  0000000001533B40 UDP Rcv 192.168.1.104   0004   Q [0001   D   NOERROR] AAAA   (3)www(5)yahoo(3)com(2)tx(2)rr(3)com(0)
+
+5/26/2013 11:41:20 AM 0528 PACKET  0000000003179D30 UDP Rcv 192.168.1.104   0005   Q [0001   D   NOERROR] A      (3)www(5)yahoo(3)com(2)rr(3)com(0)
+
+5/26/2013 11:41:20 AM 0528 PACKET  0000000002BB0BE0 UDP Rcv 192.168.1.104   0006   Q [0001   D   NOERROR] AAAA   (3)www(5)yahoo(3)com(2)rr(3)com(0)
+
+5/26/2013 11:41:20 AM 0528 PACKET  0000000001533B40 UDP Rcv 192.168.1.104   0007   Q [0001   D   NOERROR] A      (3)www(5)yahoo(3)com(0)
+
+5/26/2013 11:41:20 AM 0528 PACKET  00000000020FF460 UDP Rcv 192.168.1.104   0008   Q [0001   D   NOERROR] AAAA   (3)www(5)yahoo(3)com(0)
+

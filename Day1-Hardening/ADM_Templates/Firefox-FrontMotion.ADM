@@ -1,0 +1,259 @@
+; Firfox.adm V1.2
+; Copyright 2005-2007 FrontMotion
+; For more information, please visit http://www.frontmotion.com
+; Licensed under GPL
+; Original code by Mark Sammons (public domain)
+
+
+CLASS MACHINE
+
+CATEGORY "Firefox"
+
+	KEYNAME "Software\Policies\Mozilla\Firefox"
+
+; note that these appear for CLASS USER also, except security related, search 'CLASS MACHINE only' 
+	POLICY "General Settings"
+		PART "Homepage" EDITTEXT REQUIRED
+			VALUENAME Homepage
+		END PART
+	END POLICY
+
+	POLICY "Enable Automatic Image Resizing"
+		VALUENAME ImageResize
+		VALUEON NUMERIC 1
+		VALUEOFF NUMERIC 0
+	END POLICY
+
+	POLICY "Disable Firefox Default Browser Check"
+		VALUENAME CheckDefault
+		VALUEON NUMERIC 0
+		VALUEOFF NUMERIC 1
+	END POLICY
+
+	POLICY "Cache"
+		PART "Firefox Cache Size" NUMERIC REQUIRED
+		MAX 100000
+		SPIN 1000
+		DEFAULT 50000
+		VALUENAME CacheSize
+		END PART
+	END POLICY
+	
+	POLICY "Set Default Download Location"
+		PART "Download To:" DROPDOWNLIST REQUIRED
+		VALUENAME DownloadType
+		ITEMLIST
+			NAME "My Documents" VALUE "My Documents"
+			NAME "Desktop" VALUE "Desktop"
+			NAME "Set Manually" VALUE "Set"
+			NAME "Home Drive" VALUE "Home Drive"
+		END ITEMLIST
+		END PART
+		PART "Manually Set Download Folder (Use if Set Manually selected above)" EDITTEXT
+		VALUENAME DownloadLocation
+		END PART
+	END POLICY
+
+	POLICY "Proxy Settings"
+		EXPLAIN "When using Automatic Proxy Configuration URL, URL field required.  When using Manual Proxy, ALL manual proxy fields must be filled"
+		PART "Proxy Setting" DROPDOWNLIST REQUIRED
+			VALUENAME ProxyType
+			ITEMLIST
+				NAME "Connect Directly To The Internet" VALUE NUMERIC 0 DEFAULT
+				NAME "Manual Proxy Configuration" VALUE NUMERIC 1
+				NAME "Automatic Proxy Configuration URL" VALUE NUMERIC 2
+				NAME "Autodetect Proxy Settings For This Network" VALUE NUMERIC 4								
+			END ITEMLIST
+		END PART
+
+		PART "Automatic Proxy Configuration URL" EDITTEXT
+		VALUENAME AutoProxyURL
+		END PART
+
+		PART "Manual Setting - HTTP Proxy" EDITTEXT
+		VALUENAME ManualHTTP
+		END PART
+		PART "HTTP Proxy Port" NUMERIC DEFAULT 1
+		VALUENAME ManualHTTPPort
+                MAX 65535
+		END PART
+
+		PART "Manual Setting - SSL Proxy" EDITTEXT
+		VALUENAME ManualSSL
+		END PART
+		PART "SSL Proxy Port" NUMERIC DEFAULT 1
+		VALUENAME ManualSSLPort
+                MAX 65535
+		END PART
+
+		PART "Manual Setting - FTP Proxy" EDITTEXT
+		VALUENAME ManualFTP
+		END PART
+		PART "FTP Proxy Port" NUMERIC DEFAULT 1
+		VALUENAME ManualFTPPort
+                MAX 65535
+                END PART
+
+		PART "Manual Setting - Gopher Proxy" EDITTEXT
+		VALUENAME ManualGopher
+		END PART
+		PART "Gopher Proxy Port" NUMERIC DEFAULT 1
+		VALUENAME ManualGopherPort
+                MAX 65535
+                END PART
+
+		PART "Manual Setting - SOCKS Host" EDITTEXT
+		VALUENAME ManualSOCKS
+		END PART
+		PART "SOCKS Host Port" NUMERIC DEFAULT 1
+		VALUENAME ManualSOCKSPort
+                MAX 65535
+                END PART
+		PART "SOCKS Version (4 or 5)" NUMERIC DEFAULT 4
+		VALUENAME ManualSOCKSVersion
+		MIN 4
+		MAX 5
+		END PART
+
+		PART "Manual Setting - Proxy Exceptions" EDITTEXT
+			VALUENAME ProxyExceptions
+			DEFAULT "localhost, 127.0.0.1"
+		END PART
+	END POLICY
+
+        POLICY "Disable XPI Installs"
+		EXPLAIN "Enabling disables installation of XPI extensions and themes"
+		VALUENAME XPIInstall
+		VALUEON NUMERIC 0
+		VALUEOFF NUMERIC 1
+	END POLICY
+
+END CATEGORY
+
+
+
+CLASS USER
+
+CATEGORY "Firefox"
+
+	KEYNAME "Software\Policies\Mozilla\Firefox"
+
+	POLICY "General Settings"
+		PART "Homepage" EDITTEXT REQUIRED
+			VALUENAME Homepage
+		END PART
+	END POLICY
+
+	POLICY "Enable Automatic Image Resizing"
+		VALUENAME ImageResize
+		VALUEON NUMERIC 1
+		VALUEOFF NUMERIC 0
+	END POLICY
+
+	POLICY "Disable Firefox Default Browser Check"
+		VALUENAME CheckDefault
+		VALUEON NUMERIC 0
+		VALUEOFF NUMERIC 1
+	END POLICY
+
+	POLICY "Cache"
+		PART "Firefox Cache Size" NUMERIC REQUIRED
+		MAX 100000
+		SPIN 1000
+		DEFAULT 50000
+		VALUENAME CacheSize
+		END PART
+	END POLICY
+	
+	POLICY "Set Default Download Location"
+		PART "Download To:" DROPDOWNLIST REQUIRED
+		VALUENAME DownloadType
+		ITEMLIST
+			NAME "My Documents" VALUE "My Documents"
+			NAME "Desktop" VALUE "Desktop"
+			NAME "Set Manually" VALUE "Set"
+			NAME "Home Drive" VALUE "Home Drive"
+		END ITEMLIST
+		END PART
+		PART "Manually Set Download Folder (Use if Set Manually selected above)" EDITTEXT
+		VALUENAME DownloadLocation
+		END PART
+	END POLICY
+
+        POLICY "Proxy Settings"
+                EXPLAIN "When using Automatic Proxy Configuration URL, URL field required.  When using Manual Proxy, ALL manual proxy fields must be filled"
+                PART "Proxy Setting" DROPDOWNLIST REQUIRED
+                        VALUENAME ProxyType
+                        ITEMLIST
+                                NAME "Connect Directly To The Internet" VALUE NUMERIC 0 DEFAULT
+                                NAME "Autodetect Proxy Settings For This Network" VALUE NUMERIC 4
+                                NAME "Manual Proxy Configuration" VALUE NUMERIC 1
+                                NAME "Automatic Proxy Configuration URL" VALUE NUMERIC 2
+                        END ITEMLIST
+                END PART
+
+                PART "Automatic Proxy Configuration URL" EDITTEXT
+                VALUENAME AutoProxyURL
+                END PART
+
+                PART "Manual Setting - HTTP Proxy" EDITTEXT
+                VALUENAME ManualHTTP
+                END PART
+                PART "HTTP Proxy Port" NUMERIC DEFAULT 1
+                VALUENAME ManualHTTPPort
+                MAX 65535
+                END PART
+
+                PART "Manual Setting - SSL Proxy" EDITTEXT
+                VALUENAME ManualSSL
+                END PART
+                PART "SSL Proxy Port" NUMERIC DEFAULT 1
+                VALUENAME ManualSSLPort
+                MAX 65535
+                END PART
+
+                PART "Manual Setting - FTP Proxy" EDITTEXT
+                VALUENAME ManualFTP
+                END PART
+                PART "FTP Proxy Port" NUMERIC DEFAULT 1
+                VALUENAME ManualFTPPort
+                MAX 65535
+                END PART
+
+                PART "Manual Setting - Gopher Proxy" EDITTEXT
+                VALUENAME ManualGopher
+                END PART
+                PART "Gopher Proxy Port" NUMERIC DEFAULT 1
+                VALUENAME ManualGopherPort
+                MAX 65535
+                END PART
+
+                PART "Manual Setting - SOCKS Host" EDITTEXT
+                VALUENAME ManualSOCKS
+                END PART
+                PART "SOCKS Host Port" NUMERIC DEFAULT 1
+                VALUENAME ManualSOCKSPort
+                MAX 65535
+                END PART
+                PART "SOCKS Version (4 or 5)" NUMERIC DEFAULT 4
+                VALUENAME ManualSOCKSVersion
+                MIN 4
+                MAX 5
+                END PART
+
+                PART "Manual Setting - Proxy Exceptions" EDITTEXT
+                        VALUENAME ProxyExceptions
+                        DEFAULT "localhost, 127.0.0.1"
+                END PART
+        END POLICY
+
+        POLICY "Disable XPI Installs"
+                EXPLAIN "Enabling disables installation of XPI extensions and themes"
+                VALUENAME XPIInstall
+                VALUEON NUMERIC 0
+                VALUEOFF NUMERIC 1
+        END POLICY
+
+END CATEGORY
+
+[strings]

@@ -1,0 +1,67 @@
+;
+; This file should not be edited.
+; Changes to the client configuration should only be made using ISA Management.
+;
+[Common]
+WWW-Proxy=10.4.3.1
+Set Browsers to use Proxy=1
+Set Browsers to use Auto Config=1
+Set Browsers to use Auto Detect=1
+WebProxyPort=8080
+Configuration Url=http://10.4.3.1:8080/array.dll?Get.Routing.Script
+Port=1745
+ServerVersion=11
+Configuration Refresh Time (Hours)=6
+Re-check Inaccessible Server Time (Minutes)=10
+Refresh Give Up Time (Minutes)=15
+Inaccessible Servers Give Up Time (Minutes)=2
+LocalDomains=.sans.org
+[Servers Ip Addresses]
+Addr1=10.4.3.1
+[Master Config]
+Path1=\\ISA\mspclnt\
+[mapisp32]
+Disable=0
+[winlogon]
+Disable=1
+[inetinfo]
+Disable=1
+[net2fone]
+ServerBindTcpPorts=0
+[icq]
+RemoteBindUdpPorts=0
+ServerBindTcpPorts=0,1025-5000
+NameResolutionForLocalHost=P
+[Internal]
+scp=9,10,11
+[services]
+Disable=1
+[wspsrv]
+Disable=1
+[exchng32]
+Disable=1
+[rvplayer]
+RemoteBindUdpPorts=6970-7170
+LocalBindTcpPorts=7070
+[realplay]
+RemoteBindUdpPorts=6970-7170
+LocalBindTcpPorts=7070
+[svchost]
+Disable=1
+DisableEx=0
+[kernel32]
+Disable=1
+[rpcss]
+Disable=1
+[lsass]
+Disable=1
+[w3proxy]
+Disable=1
+[outlook]
+Disable=1
+[spoolss]
+Disable=1
+[raplayer]
+RemoteBindUdpPorts=6970-7170
+LocalBindTcpPorts=7070
+ 

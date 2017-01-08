@@ -1,0 +1,12 @@
+<job id="job1">
+	<script language="VBScript">
+	'To include an external file into a master
+	'WSF file, use the following syntax:
+	
+	<script language="VBScript" src="externalscript1.vbs"/>
+	<script language="JScript"  src="externalscript2.js"/>
+	<script language="VBScript" src="externalscript3.vbs"/>
+	<script language="JScript"  src="externalscript4.js"/>
+		
+	</script>
+</job>

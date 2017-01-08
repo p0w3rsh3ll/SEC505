@@ -1,0 +1,58 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Template Name: Fixed_AD_Replication_Port_Number.ADM 
+;        Author: Jason Fossen
+;       Purpose: Configure a few Active Directory related items.
+;         Notes: This should only be used with Windows 2000/XP and later.
+;                To always show the policy icon, right-click on the right-
+;                hand side of the GPO window and make sure that neither
+;                "Show Policies Only" nor "Show Configured Policies Only"
+;                is checked.  
+;                Copy the completed template to the %SystemRoot%\Inf\ folder.
+;       Version: 1.0
+;         Legal: Public domain.  No rights reserved.  Use at your own risk.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+CLASS MACHINE
+
+CATEGORY "SANS Active Directory"
+	POLICY "Fixed Active Directory RPC Replication Port Number"
+        KEYNAME "SYSTEM\CurrentControlSet\Services\NTDS\Parameters"
+        EXPLAIN !!strExplanationVariable1
+	    PART "TCP port number (1024-65535):"  
+	        NUMERIC REQUIRED MIN "1024" MAX "65535" DEFAULT "44474"
+            VALUENAME "TCP/IP Port"
+        END PART
+
+	END POLICY   
+
+
+
+	POLICY "Fixed FRS/SYSVOL Replication Port Number"
+        KEYNAME "SYSTEM\CurrentControlSet\Services\NTFRS\Parameters"
+        EXPLAIN !!strExplanationVariable2
+	    PART "TCP port number (1024-65535):"  
+	        NUMERIC REQUIRED MIN "1024" MAX "65535" DEFAULT "44475"
+            VALUENAME "RPC TCP/IP Port Assignment"
+        END PART
+
+	END POLICY                   
+END CATEGORY 
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Configure variables for this template. 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[strings]
+strExplanationVariable1="This option will set a fixed RPC high-numbered port for AD replication traffic.  It does not change TCP port 135.\n\nThis is useful for firewalling and/or IPSec-encrypting just replication traffic.  Choose a number that is not in widespread use, such as TCP 44474.\n\nThis does not include the RPC port used for SYSVOL replication.  Make sure the port you choose is not the same as the static port chosen for any other RPC services, e.g., the FRS replication port.\n\nSee Q224196, Q319553, Q179442 and Q154596 for more information."
+
+strExplanationVariable2="This option will set a fixed RPC high-numbered port for File Replication Service (FRS) replication traffic, including the replication of the SYSVOL share.  It does not change TCP port 135. \n\nThis is useful for firewalling and/or IPSec-encrypting just FRS replication traffic.  Choose a number that is not in widespread use, such as TCP 44475.  If set to zero (0), the port is dynamically assigned. Make sure the port you choose is not the same as the static port chosen for any other RPC services, e.g., the Active Directory replication port.\n\nThis option does not include the RPC port used for Active Directory replication. \n\nSee Q224196, Q319553, Q179442 and Q154596 for more information."
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;  END OF TEMPLATE  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

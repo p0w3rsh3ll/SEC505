@@ -1,0 +1,57 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Template Name: Windows_Explorer_Annoyances.ADM 
+;        Author: Jason Fossen
+;         Notes: This should only be used with Windows 2000/XP and later.
+;                To always show the policy icon, right-click on the right-
+;                hand side of the GPO window and make sure that neither
+;                "Show Policies Only" nor "Show Configured Policies Only"
+;                is checked.  Copy the completed template to the 
+;                %SystemRoot%\Inf\ folder. 
+;       Version: 1.0
+;         Legal: Public domain.  No rights reserved.  Use at your own risk.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+CLASS USER
+
+CATEGORY "SANS Windows Explorer Annoyances"
+    POLICY "Show Filename Extensions"
+        KEYNAME "Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
+        EXPLAIN "If enabled, all filenames will show their last extension."
+        VALUENAME "HideFileExt"    
+        VALUEON NUMERIC "0"
+        VALUEOFF NUMERIC "1"
+    END POLICY
+    
+    POLICY "Show Hidden Files"
+        KEYNAME "Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
+        EXPLAIN "If enabled, hidden files will be shown in Windows Explorer."
+        VALUENAME "Hidden"
+        VALUEON NUMERIC "1"
+        VALUEOFF NUMERIC "2" 
+    END POLICY                           
+
+    POLICY "Show Protected Hidden Files (SuperHidden)"
+        KEYNAME "Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
+        EXPLAIN "If enabled, even protected operating system hidden files will not be hidden."
+        VALUENAME "ShowSuperHidden"
+        VALUEON NUMERIC "1"
+        VALUEOFF NUMERIC "0"
+    END POLICY
+
+    POLICY "Enable One-Click Expand Folders"
+        KEYNAME "Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
+        EXPLAIN "If enabled, a single click on a folder will expand it and close any other open folders.  This is called 'simple folder view' in Explorer options."
+        VALUENAME "FriendlyTree"    
+        VALUEON NUMERIC "1"
+        VALUEOFF NUMERIC "0"
+    END POLICY
+END CATEGORY 
+
+
+[strings]
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;  END OF TEMPLATE  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

@@ -1,0 +1,4 @@
+RewriteCond %{REMOTE_ADDR} ^66\.35\.45\.201$	[OR]
+RewriteCond %{REMOTE_ADDR} ^66\.35\.45\.202$
+RewriteRule ^private/ - [F]
+

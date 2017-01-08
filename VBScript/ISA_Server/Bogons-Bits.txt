@@ -1,0 +1,25 @@
+# All these ip blocks are commonly used for local ethernet or local machine
+# and hence if you filter them you may accidently shut down your own network
+# Please manually add to your configuration those of the above blocks that
+# you know for certain are not used on your local network
+#
+# For more information on this project see http://www.completewhois.com/bogons/
+0.0.0.0/7
+2.0.0.0/8
+5.0.0.0/8
+7.0.0.0/8
+23.0.0.0/8
+24.35.128.0/17
+24.38.16.0/20
+24.38.32.0/19
+24.38.64.0/18
+24.38.128.0/17
+24.40.80.0/20
+24.40.128.0/17
+24.41.96.0/19
+24.41.128.0/17
+24.56.112.0/20
+24.72.176.0/20
+24.72.240.0/20
+24.89.32.0/19
+

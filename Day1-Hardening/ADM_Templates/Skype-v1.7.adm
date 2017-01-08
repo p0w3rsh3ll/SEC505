@@ -1,0 +1,382 @@
+; Skype Group Policies Administrative Template
+; Change log:
+; 1.0 - initial version
+; 1.1 - added policies to CLASS USER
+; 1.2 - added DisableUDP policy
+; 1.3 - added DisableUDP policy to CLASS USER
+; 1.4 - changed 1/0 settings to NUMERIC; fixed ProxyPassword value name
+; 1.5 - changed the max value for listen port policies to 65535
+; 1.6 - added DisableMicropayments
+; 1.7 - ProxySetting valueoption 'Disable' changed to 'Disabled'
+
+CLASS MACHINE
+CATEGORY !!SkypeCat
+
+	CATEGORY !!PhoneCat
+
+		KEYNAME "Software\Policies\Skype\Phone"
+
+		CATEGORY !!FunctianalityCat
+
+			POLICY !!DisableFileTransferPolicy
+				EXPLAIN !!DisableFileTransferPolicyExplain
+				VALUENAME "DisableFileTransfer"
+				VALUEON NUMERIC 1
+				VALUEOFF DELETE
+			END POLICY
+
+			POLICY !!DisableContactImportPolicy
+				EXPLAIN !!DisableContactImportPolicyExplain
+				VALUENAME "DisableContactImport"
+				VALUEON NUMERIC 1
+				VALUEOFF DELETE
+			END POLICY
+
+			POLICY !!DisablePersonalisePolicy
+				EXPLAIN !!DisablePersonalisePolicyExplain
+				VALUENAME "DisablePersonalise"
+				VALUEON NUMERIC 1
+				VALUEOFF DELETE
+			END POLICY
+
+			POLICY !!DisableLanguageEditPolicy
+				EXPLAIN !!DisableLanguageEditPolicyExplain
+				VALUENAME "DisableLanguageEdit"
+				VALUEON NUMERIC 1
+				VALUEOFF DELETE
+			END POLICY
+
+			POLICY !!WebStatusPolicy
+				EXPLAIN !!WebStatusPolicyExplain
+				VALUENAME "WebStatus"
+				VALUEON NUMERIC 1
+				VALUEOFF NUMERIC 0
+			END POLICY
+
+			POLICY !!DisablePremiumServicesPolicy
+				EXPLAIN !!DisablePremiumServicesExplain
+				VALUENAME "DisableMicropayments"
+				VALUEON NUMERIC 1
+				VALUEOFF NUMERIC 0
+			END POLICY
+
+		END CATEGORY ; FunctianalityCat
+
+		CATEGORY !!OtherCat
+
+			POLICY !!DisableApiPolicy
+				EXPLAIN !!DisableApiPolicyExplain
+				VALUENAME "DisableApi"
+				VALUEON NUMERIC 1
+				VALUEOFF DELETE
+			END POLICY
+
+			POLICY !!DisableVersionCheckPolicy
+				EXPLAIN !!DisableVersionCheckPolicyExplain
+				VALUENAME "DisableVersionCheck"
+				VALUEON NUMERIC 1
+				VALUEOFF DELETE
+			END POLICY
+
+			POLICY !!MemoryOnlyPolicy
+				EXPLAIN !!MemoryOnlyPolicyExplain
+				VALUENAME "MemoryOnly"
+				VALUEON NUMERIC 1
+			END POLICY
+			
+		END CATEGORY ; OtherCat
+
+
+		CATEGORY !!NetworkCat
+			POLICY !!ListenPortPolicy
+				EXPLAIN !!ListenPortPolicyExplain
+				
+				PART !!ListenPort NUMERIC
+					VALUENAME "ListenPort"
+					MIN 1
+					MAX 65535
+				END PART
+				
+			END POLICY
+
+			POLICY !!ListenHTTPPortsPolicy
+				EXPLAIN !!ListenHTTPPortsPolicyExplain
+				VALUENAME "ListenHTTPPorts"
+				VALUEON NUMERIC 1
+				VALUEOFF NUMERIC 0
+			END POLICY
+
+			POLICY !!DisableTCPListenPolicy
+				EXPLAIN !!DisableTCPListenPolicyExplain
+				VALUENAME "DisableTCPListen"
+				VALUEON NUMERIC 1
+				VALUEOFF DELETE
+			END POLICY
+			
+			POLICY !!DisableUDPPolicy
+				EXPLAIN !!DisableUDPExplain
+				VALUENAME "DisableUDP"
+				VALUEON NUMERIC 1
+				VALUEOFF DELETE
+			END POLICY
+			
+			POLICY !!DisableSupernodePolicy
+				EXPLAIN !!DisableSupernodePolicyExplain
+				VALUENAME "DisableSupernode"
+				VALUEON NUMERIC 1
+				VALUEOFF DELETE
+			END POLICY
+
+			POLICY !!ProxyPolicy
+				EXPLAIN !!ProxyPolicyExplain
+
+				PART !!ProxyType DROPDOWNLIST
+					VALUENAME "ProxySetting"
+					ITEMLIST
+						NAME !!ProxyAutomatic
+						VALUE "Automatic"
+						
+						NAME !!ProxyDisable
+						VALUE "Disabled"
+						
+						NAME !!ProxyHTTPS
+						VALUE "HTTPS"
+						
+						NAME !!ProxySOCKS5
+						VALUE "SOCKS5"
+					END ITEMLIST
+					REQUIRED
+				END PART
+
+				PART !!ProxyAddress EDITTEXT
+					VALUENAME "ProxyAddress"
+				END PART
+
+				PART !!ProxyUsername EDITTEXT
+					VALUENAME "ProxyUsername"
+				END PART
+
+				PART !!ProxyPassword EDITTEXT
+					VALUENAME "ProxyPassword"
+				END PART
+
+			END POLICY
+
+		END CATEGORY ; NetworkCat
+
+	END CATEGORY ; PhoneCat
+
+END CATEGORY ; SkypeCat
+
+CLASS USER
+CATEGORY !!SkypeCat
+
+	CATEGORY !!PhoneCat
+
+		KEYNAME "Software\Policies\Skype\Phone"
+
+		CATEGORY !!FunctianalityCat
+
+			POLICY !!DisableFileTransferPolicy
+				EXPLAIN !!DisableFileTransferPolicyExplain
+				VALUENAME "DisableFileTransfer"
+				VALUEON NUMERIC 1
+				VALUEOFF DELETE
+			END POLICY
+
+			POLICY !!DisableContactImportPolicy
+				EXPLAIN !!DisableContactImportPolicyExplain
+				VALUENAME "DisableContactImport"
+				VALUEON NUMERIC 1
+				VALUEOFF DELETE
+			END POLICY
+
+			POLICY !!DisablePersonalisePolicy
+				EXPLAIN !!DisablePersonalisePolicyExplain
+				VALUENAME "DisablePersonalise"
+				VALUEON NUMERIC 1
+				VALUEOFF DELETE
+			END POLICY
+
+			POLICY !!DisableLanguageEditPolicy
+				EXPLAIN !!DisableLanguageEditPolicyExplain
+				VALUENAME "DisableLanguageEdit"
+				VALUEON NUMERIC 1
+				VALUEOFF DELETE
+			END POLICY
+
+			POLICY !!WebStatusPolicy
+				EXPLAIN !!WebStatusPolicyExplain
+				VALUENAME "WebStatus"
+				VALUEON NUMERIC 1
+				VALUEOFF NUMERIC 0
+			END POLICY
+
+			POLICY !!DisablePremiumServicesPolicy
+				EXPLAIN !!DisablePremiumServicesExplain
+				VALUENAME "DisableMicropayments"
+				VALUEON NUMERIC 1
+				VALUEOFF NUMERIC 0
+			END POLICY
+
+		END CATEGORY ; FunctianalityCat
+
+		CATEGORY !!OtherCat
+
+			POLICY !!DisableApiPolicy
+				EXPLAIN !!DisableApiPolicyExplain
+				VALUENAME "DisableApi"
+				VALUEON NUMERIC 1
+				VALUEOFF DELETE
+			END POLICY
+
+			POLICY !!DisableVersionCheckPolicy
+				EXPLAIN !!DisableVersionCheckPolicyExplain
+				VALUENAME "DisableVersionCheck"
+				VALUEON NUMERIC 1
+				VALUEOFF DELETE
+			END POLICY
+
+			POLICY !!MemoryOnlyPolicy
+				EXPLAIN !!MemoryOnlyPolicyExplain
+				VALUENAME "MemoryOnly"
+				VALUEON NUMERIC 1
+			END POLICY
+			
+		END CATEGORY ; OtherCat
+
+
+		CATEGORY !!NetworkCat
+			POLICY !!ListenPortPolicy
+				EXPLAIN !!ListenPortPolicyExplain
+				
+				PART !!ListenPort NUMERIC
+					VALUENAME "ListenPort"
+					MIN 1
+					MAX 65535
+				END PART
+				
+			END POLICY
+
+			POLICY !!ListenHTTPPortsPolicy
+				EXPLAIN !!ListenHTTPPortsPolicyExplain
+				VALUENAME "ListenHTTPPorts"
+				VALUEON NUMERIC 1
+				VALUEOFF NUMERIC 0
+			END POLICY
+
+			POLICY !!DisableTCPListenPolicy
+				EXPLAIN !!DisableTCPListenPolicyExplain
+				VALUENAME "DisableTCPListen"
+				VALUEON NUMERIC 1
+				VALUEOFF DELETE
+			END POLICY
+			
+			POLICY !!DisableUDPPolicy
+				EXPLAIN !!DisableUDPExplain
+				VALUENAME "DisableUDP"
+				VALUEON NUMERIC 1
+				VALUEOFF DELETE
+			END POLICY
+			
+			POLICY !!DisableSupernodePolicy
+				EXPLAIN !!DisableSupernodePolicyExplain
+				VALUENAME "DisableSupernode"
+				VALUEON NUMERIC 1
+				VALUEOFF DELETE
+			END POLICY
+
+			POLICY !!ProxyPolicy
+				EXPLAIN !!ProxyPolicyExplain
+
+				PART !!ProxyType DROPDOWNLIST
+					VALUENAME "ProxySetting"
+					ITEMLIST
+						NAME !!ProxyAutomatic
+						VALUE "Automatic"
+						
+						NAME !!ProxyDisable
+						VALUE "Disabled"
+						
+						NAME !!ProxyHTTPS
+						VALUE "HTTPS"
+						
+						NAME !!ProxySOCKS5
+						VALUE "SOCKS5"
+					END ITEMLIST
+					REQUIRED
+				END PART
+
+				PART !!ProxyAddress EDITTEXT
+					VALUENAME "ProxyAddress"
+				END PART
+
+				PART !!ProxyUsername EDITTEXT
+					VALUENAME "ProxyUsername"
+				END PART
+
+				PART !!ProxyPassword EDITTEXT
+					VALUENAME "ProxyPassword"
+				END PART
+
+			END POLICY
+
+		END CATEGORY ; NetworkCat
+
+	END CATEGORY ; PhoneCat
+
+END CATEGORY ; SkypeCat
+
+[strings]
+
+SkypeCat = "Skype"
+PhoneCat = "Phone"
+
+FunctianalityCat = "Functionality"
+DisableFileTransferPolicy = "Disable file transfer"
+DisableFileTransferPolicyExplain = "When enabled, prevents the user from sending and receiving files using Skype"
+DisableContactImportPolicy = "Disable import contacts"
+DisableContactImportPolicyExplain = "Disable import contacts"
+DisablePersonalisePolicy = "Disable personalise"
+DisablePersonalisePolicyExplain = "Prevent the user changing sounds"
+DisableLanguageEditPolicy = "Disable language edit"
+DisableLanguageEditPolicyExplain = "Prevent the user editing language strings"
+DisablePremiumServicesPolicy = "Disable premium services"
+DisablePremiumServicesExplain = "Disable ability to use premium services as both service provider and service consumer"
+
+WebStatusPolicy = "Web status policy"
+WebStatusPolicyExplain = "When enabled, always publishes the user's status on the web as Skype buttons, when disabled, prevents the user from publishing status on the web"
+
+OtherCat = "Other"
+DisableApiPolicy = "Disable Skype Public API"
+DisableApiPolicyExplain = "When enabled, prevents third party applications from accessing Skype functionality"
+DisableVersionCheckPolicy = "Disable new version checking"
+DisableVersionCheckPolicyExplain = "Prevent Skype from detecting new versions and updates"
+MemoryOnlyPolicy = "Run in memory-only mode"
+MemoryOnlyPolicyExplain = "If enabled, Skype does not store any data on the local disk"
+
+NetworkCat = "Network"
+ListenPortPolicy = "Listening port"
+ListenPortPolicyExplain = "Set the port where Skype listens for incoming connections"
+ListenPort = "Listening port number"
+ListenHTTPPortsPolicy = "Listen on HTTP and HTTPS ports"
+ListenHTTPPortsPolicyExplain = "When enabled, listen on HTTP (port 80) and HTTPS (port 443) ports; when disabled, don't listen on HTTP/HTTPS ports; when not configured, let the user decide"
+DisableTCPListenPolicy = "Disable listening for TCP connections"
+DisableTCPListenPolicyExplain = "If enabled, prevents the Skype client from receiving incoming TCP connections"
+DisableUDPPolicy = "Disable UDP communications"
+DisableUDPExplain = "If enabled, prevents the Skype client from using UDP to communicate with the network"
+DisableSupernodePolicy = "Prevent Skype client to become a supernode"
+DisableSupernodePolicyExplain = "If enabled, prevents the Skype client from becoming a supernode"
+ProxyPolicy = "Proxy policy"
+ProxyPolicyExplain = "Establish proxy policy"
+ProxyType = "Proxy type"
+ProxyUnset = "Unset"
+ProxyAutomatic = "Automatic"
+ProxyDisabled = "Disabled"
+ProxyUnset = "Unset"
+ProxyDisable = "Disable"
+ProxyHTTPS = "HTTPS"
+ProxySOCKS5 = "SOCKS5"
+ProxyAddress = "Proxy address (host:port)"
+ProxyUsername = "Username"
+ProxyPassword = "Password"

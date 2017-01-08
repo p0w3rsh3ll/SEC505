@@ -1,0 +1,39 @@
+<HTML><HEAD>
+<HTA:Application
+ ApplicationName = "MyApplication"
+ Border = Thick
+ BorderStyle = Complex
+ Caption = Yes
+ ShowInTaskBar = Yes
+ MaximizeButton = Yes
+ MinimizeButton = Yes
+ SingleInstance = No
+ SysMenu = Yes
+ WindowState = Normal
+> 
+<SCRIPT LANGUAGE="VBScript">
+
+Sub window_onLoad
+    Set oDocument = self.Document
+    oDocument.open
+
+    oDocument.Writeln "<html><head><title>Running Services List</title></head>"
+    oDocument.Writeln "<body bgcolor='white'>"
+    oDocument.Writeln "<b>Service : State</b><HR>"
+
+    Set oWMI = GetObject("winmgmts:{impersonationLevel=impersonate}!\\.\root\cimv2")
+    Set cServices = oWMI.ExecQuery("SELECT * FROM Win32_Service")
+ 
+    For Each oService in cServices
+        If oService.State = "Running" Then
+            oDocument.Writeln oService.DisplayName & " : <Font color=Green>" & oService.State & "</font><BR>"
+        Else 
+            oDocument.Writeln oService.DisplayName & " : <Font color=Red>" & oService.State & "</font><BR>"
+        End If
+    Next
+End Sub
+
+
+</SCRIPT></HEAD><BODY></BODY></HTML>
+
+

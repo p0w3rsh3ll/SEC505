@@ -1,0 +1,57 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Template Name: REG_SZ.ADM 
+;        Author: Jason Fossen
+;       Purpose: Demonstrate how to make a custom ADM template for
+;                setting a REG_SZ value.
+;         Notes: This should only be used with Windows 2000/XP and later.
+;                To always show the policy icon, right-click on the right-
+;                hand side of the GPO window and make sure that neither
+;                "Show Policies Only" nor "Show Configured Policies Only"
+;                is checked.  
+;                Copy the completed template to the %SystemRoot%\Inf\ folder.
+;       Version: 1.0
+;         Legal: Public domain.  No rights reserved.  Use at your own risk.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; CLASS USER  = Modifying keys under HKEY_CURRENT_USER only.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+CLASS USER
+CATEGORY "TheYellowFolderName"
+	POLICY "NameOfPolicyIconOnRightSide1"
+	    KEYNAME "Software\Whatever\Registry\Path\Under\HKCU"
+        EXPLAIN !!ExplanationVariable
+	    PART "Set REG_SZ value:"  EDITTEXT
+            VALUENAME "RegistryValueName1"                   
+        END PART
+	END POLICY                                        
+END CATEGORY 
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; CLASS MACHINE  = Modifying keys under HKEY_LOCAL_MACINE only.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+CLASS MACHINE
+CATEGORY TheYellowFolderName
+	POLICY "NameOfPolicyIconOnRightSide1"
+        KEYNAME "Software\Whatever\Registry\Path\Under\HKLM"
+        EXPLAIN !!ExplanationVariable
+	    PART "Set REG_SZ value:"  EDITTEXT
+            VALUENAME "RegistryValueName1"                   
+        END PART
+	END POLICY                                        
+END CATEGORY 
+
+
+
+[strings]
+ExplanationVariable="Enter the text you want here to explain what this setting does.\n\nUse a backslash-n to indicate a carriage return."
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;  END OF TEMPLATE  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

@@ -1,0 +1,178 @@
+;---------------------------------------------------------
+;This file determines what tasks (checkboxes) appear in 
+;the Delegation of Control Wizard.  This file can be modified
+;to add custom tasks.  See Q308404 for more information.
+;File stored in %SystemRoot%\Inf\ folder.
+;---Editor: JF
+;--Version: 1.0
+;-----Date: 8/1/02
+;---------------------------------------------------------
+;
+; "SCOPE" = Whatever you right-clicked on to get the Wizard, e.g., domain, site, or OU.
+;
+; Permission Codes:
+;	RP - Read permissions
+;	WP - Write Permissions
+;	CC - Create Child
+;	DC - Delete Child
+;	GA - Generic All (Full Control) 
+;
+; Permission Targets:
+;	"@=" 		  - Assign permission code(s) to all properties of the object.
+;	"<objectType>="   - Assign permission code(s) to just this LDAP object type.
+;	"<propertyName>=" - Assign permission code(s) to just this LDAP property type.
+;	"CONTROLRIGHT="   - Enable the quoted permission name for the selected user/group.
+;
+;---------------------------------------------------------
+
+
+
+
+
+[Version]
+signature="$CHICAGO$"
+
+
+[DelegationTemplates]
+;---If you add a template, make sure to add its name to this list here.
+Templates = template1, template2, template3, template4, template5, template6, template7, template8
+
+
+;---------------------------------------------------------
+[template1]
+AppliesToClasses=domainDns,organizationalUnit,container
+
+Description = "Create, delete, and manage user accounts"
+
+ObjectTypes = SCOPE, user
+
+[template1.SCOPE]
+user=CC,DC
+
+[template1.user]
+@=GA
+
+
+
+
+
+
+;---------------------------------------------------------
+[template2]
+AppliesToClasses=domainDns,organizationalUnit,container
+
+Description = "Reset user passwords and force password change at next logon"
+
+ObjectTypes = user
+
+[template2.user]
+CONTROLRIGHT= "Reset Password"
+pwdLastSet=RP,WP
+
+
+
+
+
+
+
+;----------------------------------------------------------
+[template3]
+AppliesToClasses=domainDns,organizationalUnit,container
+
+Description = "Read all user information"
+
+ObjectTypes = user
+
+[template3.user]
+@=RP
+
+
+
+
+;----------------------------------------------------------
+[template4]
+AppliesToClasses = organizationalUnit,container
+
+Description = "Create, delete and manage groups"
+
+ObjectTypes = SCOPE, group
+
+[template4.SCOPE]
+group=CC,DC
+
+[template4.group]
+@=GA
+
+
+
+
+
+
+
+;----------------------------------------------------------
+[template5]
+AppliesToClasses=domainDns,organizationalUnit,container
+
+Description = "Modify the membership of a group"
+
+ObjectTypes = group
+
+[template5.group]
+member=RP,WP
+
+
+
+
+
+
+;----------------------------------------------------------
+[template6]
+AppliesToClasses = domainDNS
+
+Description = "Join a computer to the domain"
+
+ObjectTypes = SCOPE
+
+[template6.SCOPE]
+computer=CC
+
+
+
+
+
+
+
+;----------------------------------------------------------
+[template7]
+AppliesToClasses = domainDNS,organizationalUnit,site
+
+Description = "Manage Group Policy links"
+
+ObjectTypes = SCOPE
+
+[template7.SCOPE]
+gPLink=RP,WP
+gPOptions=RP,WP
+
+
+
+
+
+
+;----------------------------------------------------------
+[template8]
+AppliesToClasses = organizationalUnit
+
+Description = "Full Control over the entire OU (for an OU Admins group)."
+
+ObjectTypes = SCOPE
+
+[template8.SCOPE]
+@=GA
+
+
+
+
+
+
+

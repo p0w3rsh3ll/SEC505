@@ -1,0 +1,36 @@
+<html>
+<head><title>Not Safe for Scripting</title></head>
+<body>
+<h2>Demo: ActiveX Control Not Safe for Scripting</h2>
+<pre>
+When you first accessed this page with Internet Explorer, you 
+should have seen an error message.  This is good, the web page 
+is trying to launch REGEDIT.EXE on your computer, but it could 
+have tried to execute any command whatsoever.
+
+Make the following change to allow REGEDIT.EXE to run:
+
+1) Right-click this page > Properties > note the zone, e.g., Local Intranet  
+2) Tools menu
+3) Internet Options
+4) Security tab
+5) Select the correct zone, e.g., Local Intranet
+6) Custom Level button
+7) Set to Enabled the following option and save changes:
+
+    "Initialize and script ActiveX controls not marked as safe for scripting"
+
+8) Now refresh the page to launch REGEDIT.EXE
+9) Right-click the web page > View Source
+
+
+[Don't forget to reset the option to Disabled afterwards.]
+</pre>
+</body>
+
+<script>
+   new ActiveXObject("WScript.Shell").Run("regedit.exe");
+</script>
+
+</html>
+

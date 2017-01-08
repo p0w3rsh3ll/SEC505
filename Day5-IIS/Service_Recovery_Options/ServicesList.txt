@@ -1,0 +1,40 @@
+# Enter the internal service names of the services whose recovery options 
+# should be modified by the "Set-ServiceRecoveryOptions.ps1" script.  
+# Run "get-service" to see the internal and display service names.
+# Blank lines and comment lines (like this one) will be ignored.
+
+ALG
+aspnet_state
+BITS
+CertSvc
+CryptSvc
+Dfs
+DNS
+Dnscache
+HTTPFilter
+IAS
+IISADMIN
+IsmServ
+kdc
+lanmanserver
+lanmanworkstation
+MSFTPSVC
+MSDTC
+Netlogon
+NtFrs
+NtLmSsp
+PolicyAgent
+ProtectedStorage
+RemoteAccess
+RemoteRegistry
+RpcSs
+SamSs
+Schedule
+SMTPSVC
+Spooler
+TermService
+UPS
+W3SVC
+winmgmt
+
+
