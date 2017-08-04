@@ -1,87 +1,165 @@
-#**********************************************************************
-#     Name: SNAPSHOT.PS1 
-#  Version: 4.0.1
-#     Date: 24.Feb.2017
-#   Author: Jason Fossen, Enclave Consulting LLC (http://www.sans.org/sec505)
-#  Purpose: Dumps a vast amount of configuration data for the sake
-#           of auditing and forensics analysis.  Compare snapshot
-#           files created at different times to extract differences.
-#    Usage: Place the script into a directory where it is safe to
-#           create a subdirectory.  A subdirectory will be created
-#           by the script named after the computer, and in that
-#           subdirectory a variety of files will be created which
-#           contain system configuration data.  Run the script
-#           with administrative privileges.
-#Requires -Version 3.0  
-#    Notes: Script can run on Windows 7, Server 2008, or later, 
-#           and certain tools (listed below) must be available too.
-#           But, importanly, it does require PowerShell 3.0 or later.
-#           If you must make the script run faster, disable the file 
-#           hashing at the end of the script (90% reduction in run time) 
-#           but note that this is one of the most useful parts.
-#           This is a starter script, please add more commands as you 
-#           wish; for example, there are forensics tools which can dump
-#           more detailed information in a variety of formats, such 
-#           as MAC times for the filesystem.  
-#    Legal: Public domain.  No rights reserved.  Script provided
-#           "AS IS" with no warranties or guarantees of any kind.
-#**********************************************************************
-#
-#  Tools required for this script to run must be in the PATH:
-#
-#      AUDITPOL.EXE        Built-in or free download from Microsoft.com.
-#      REG.EXE             Built-in or free download from Microsoft.com.
-#
-#      AUTORUNSC.EXE       http://www.microsoft.com/sysinternals/
-#      SHA256DEEP.EXE      http://md5deep.sourceforge.net
-# 
-#**********************************************************************
+<##############################################################################
+.SYNOPSIS
+    Creates a folder with files which capture the current OS state.
 
-Param ([Switch] $TextFileOutput) 
+.DESCRIPTION
+    Creates a folder filled with CSV, XML and TXT files which capture
+    the current operational state of the computer, such as running
+    processes, services, user accounts, audit policies, shared folders,
+    networking settings, and more.  These files can be used for threat
+    hunting, auditing, compliance, and troubleshooting purposes.  
+
+    The output folder will be named after the local host and the current
+    date and time, e.g., .\COMPUTERNAME-Year-Month-Day-Hour-Minute.
+
+    The commands creating the files are simple and can be edited by
+    those without advanced scripting skills.  The files produced also
+    can be compressed, copied, analyzed and compared without expensive
+    forensics or analysis tools, such as Notepad++ or WinMerge.
+
+    Script requires PowerShell 3.0, Windows 7, Server 2008, or later,
+    and must be run with administrative privileges.  
+
+    Most commands are built into PowerShell 3.0 and later, but some
+    tools will need to be installed first in order to use them, such
+    as AUTORUNSC.EXE (http://www.microsoft.com/sysinternals/) and
+    SHA256DEEP.EXE (http://md5deep.sourceforge.net), which are not
+    required, but very useful for snapshots.  Be aware, though, that
+    producing thousands of file hashes may require a long time.  
+
+.PARAMETER OutputParentFolder
+    Optional path to the parent folder under which a new subfolder will
+    be created to hold the snapshot files.  This is not the path to
+    the output folder itself, which will be automatically created, but
+    to its parent folder.  Defaults to $PWD, the present directory.
+    Write access permission is required to the output folder.
+
+.PARAMETER TextFileOutput
+    Forces all output files to be flat TXT files instead of XML.
+
+.PARAMETER Verbose
+    Show progress information as the script is running.
+
+.NOTES
+    Version: 4.2
+    Updated: 8.Jun.2017
+     Author: Enclave Consulting LLC (http://www.sans.org/sec505)
+      Legal: Public domain, provided "AS IS" without any warranties.
+
+Requires -Version 3.0  
+##############################################################################>
+
+[CmdletBinding()]
+Param ([String] $OutputParentFolder = ($Pwd.Path), [Switch] $TextFileOutput) 
 
 
-# Helper function to write output as XML (default) or as TXT (with -TextFileOutput).
-# Almost every command below pipes into this function.
-function WriteOut ($FileName) 
-{
-    if ($TextFileOutput){ $Input | Format-List * | Out-File -FilePath ($FileName + ".txt") } 
-    else { $Input | Export-Clixml -Path ($FileName + ".xml") } 
+# Verbose start time:
+if ($VerbosePreference)
+{ 
+    $StartTime = Get-Date 
+    Write-Verbose -Message ("Started: " + (Get-Date -Format 'F')) 
 }
 
 
-# Set FOLDER variable to contain output files. The format will look
-# like "SERVERNAME-2016-06-05-11-03" (-year-month-day-hour-minute).
-$Now = Get-Date
-$Folder = $env:COMPUTERNAME + "-" + $Now.Year + "-" + $Now.Month + "-" + $Now.Day + "-" + $Now.Hour + "-" + $Now.Minute
+#.DESCRIPTION
+#   Helper function to write output as XML (default) or as TXT (with -TextFileOutput).
+#   Almost every command below pipes into this function.
+function WriteOut ($FileName) 
+{
+    if ($TextFileOutput)
+    { 
+        if ($VerbosePreference){ Write-Verbose -Message ("Writing to " + ($FileName + ".txt")) } 
+        $Input | Format-List * | Out-File -Encoding UTF8 -FilePath ($FileName + ".txt") 
+    } 
+    else 
+    { 
+        if ($VerbosePreference){ Write-Verbose -Message ("Writing to " + ($FileName + ".xml")) } 
+        $Input | Export-Clixml -Encoding UTF8 -Path ($FileName + ".xml")
+    } 
+}
+
+
+
+# Confirm that the destination PARENT folder exists:
+if (-not (Test-Path -Path $OutputParentFolder -PathType Container))
+{
+    Write-Error -Message "$OutputParentFolder does not exist or is not accessible, exiting."
+    Exit
+}
+
 
 
 # If this script is run with File Explorer, the present working
-# directory becomes C:\Windows\System32, which is not good.  So
-# test for this, create C:\Temp, and switch there instead.
-if ( $Pwd.Path -like '*ystem32')
+# directory becomes C:\Windows\System32, which is not good, so
+# disallow $env:SystemRoot or anything underneath it:
+if ( $OutputParentFolder -like ($env:SystemRoot + '*') )
 {
-    mkdir C:\Temp -ErrorAction SilentlyContinue | out-null 
-    cd C:\Temp
+    Write-Error -Message "Output folder cannot be under $Env:SystemRoot, and script must be run from within a command shell, exiting."
+    Exit
 }
 
 
-# Create the $Folder in the present working directory and switch into it.
-mkdir $Folder | out-null
-cd $Folder
+
+# Record present directory in order to switch back to it later,
+# and attempt to switch into $OutputParentFolder now:
+$PresentDirectory = $Pwd
+cd $OutputParentFolder
+if (-not $?){ Write-Error -Message "Could not switch into $OutputParentFolder, exiting." ; Exit } 
 
 
-# Create README.TXT file in the present directory.
+
+# Set FOLDER variable to contain output files. The format will look
+# like "COMPUTERNAME-2018-06-05-11-03" (-year-month-day-hour-minute).
+$OutputFolder = $env:COMPUTERNAME + "-" + (Get-Date -Format 'yyyy-MM-dd-hh-mm') 
+if ($VerbosePreference){ Write-Verbose -Message "Creating $(Join-Path -Path $OutputParentFolder -ChildPath $OutputFolder)" } 
+
+
+# Create the $Folder in the present working directory and switch into it:
+mkdir $OutputFolder | out-null
+if (-not $?){ Write-Error -Message "Could not create $OutputFolder, exiting." ; Exit } 
+
+cd $OutputFolder
+
+if ($pwd.Path -ne (Join-Path -Path $OutputParentFolder -ChildPath $OutputFolder))
+{ Write-Error -Message "Could not switch into $OutputFolder, exiting." ; Exit } 
+
+
+
+###############################################################################
+#
+# Create README.TXT file to identify this computer and snapshot.
+# More text will be appended to the end of this file later in this script.
+#
+###############################################################################
+
 $ReadmeText = @"
-SYSTEM FORENSICS SNAPSHOT
-Computer: $Env:COMPUTERNAME
-Date: $Now
-UserName: $env:USERNAME 
-UserDomain: $env:USERDOMAIN
+*SYSTEM CONFIGURATION SNAPSHOT
+*Computer: $env:COMPUTERNAME
+*HostName: $(hostname.exe)
+*Box-Date: $(Get-Date -Format 'F')
+*UTC-Date: $(Get-Date -Format 'U') 
+*ZuluDate: $(Get-Date -Format 'u')
+*PVersion: $($PSVersionTable.PSVersion.ToString())
+*UserName: $env:USERNAME 
+*User-Dom: $env:USERDOMAIN
 "@
 
-$ReadmeText | Out-File -FilePath .\README.TXT -Force
+$ReadmeText | Out-File -Encoding UTF8 -FilePath .\README.TXT -Force
+
+if (-not $?)
+{ Write-Error -Message "Could not write to README.TXT, exiting." ; Exit } 
+else
+{ if ($VerbosePreference){ Write-Verbose -Message "Created README.TXT" } } 
 
 
+
+###############################################################################
+# 
+# Now run whatever commands you wish to capture operational state data.
+# Please add more commands and use additional tools too, always piping
+# the output of any command into the WriteOut function (defined above).
+#
+###############################################################################
 
 # Computer System 
 Get-WmiObject -Class Win32_ComputerSystem | WriteOut -FileName ComputerSystem
@@ -154,13 +232,15 @@ Get-WmiObject -Class Win32_SystemDriver | WriteOut -FileName Drivers
 Get-Service | WriteOut -FileName Services
 
 
-# Generate an MSINFO32.EXE report, which includes lots of misc info.
-msinfo32.exe /report MSINFO32-Report.txt
-
-
-# Registry Exports (Add more as you wish)
+# Registry Exports (add more as you wish)
+if ($VerbosePreference){ Write-Verbose -Message "Writing to registry files: *.reg" } 
 reg.exe export hklm\system\CurrentControlSet Registry-CurrentControlSet.reg /y | out-null 
 reg.exe export hklm\software\microsoft\windows\currentversion Registry-WindowsCurrentVersion.reg /y | out-null 
+
+
+# Generate an MSINFO32.EXE report, which includes lots of misc info.
+if ($VerbosePreference){ Write-Verbose -Message "Writing to MSINFO32-Report.txt" } 
+msinfo32.exe /report MSINFO32-Report.txt
 
 
 # Hidden Files and Folders 
@@ -178,19 +258,18 @@ icacls.exe c:\windows\system32 /t /c /q 2>$null | Out-File -FilePath FileSystem-
 
 
 
-##########################################################################################
+###############################################################################
 #
-#  The following commands require that various tools be installed and in the PATH, since
-#  they are not installed by default.  Uncomment the lines after installing the tools.
+#  The following commands require that various tools be installed and in the 
+#  PATH, since they are not installed by default.  Uncomment the lines after 
+#  installing the tools.
 #
-##########################################################################################
-
+###############################################################################
 
 # Sysinternals AutoRuns; not in the PATH by default even when
 # installed; get from microsoft.com/sysinternals
 
 #########   autorunsc.exe -accepteula -a -c | Out-File -FilePath AutoRuns.csv
-
 
 
 # SHA256 File Hashes
@@ -205,36 +284,61 @@ icacls.exe c:\windows\system32 /t /c /q 2>$null | Out-File -FilePath FileSystem-
 
 
 
-# Save hashes of the snapshot files to README.TXT.
-"`n`n"   | Out-File -Append -FilePath README.TXT
-"-" * 50 | Out-File -Append -FilePath README.TXT
-dir      | Out-File -Append -FilePath README.TXT
-"`n`n"   | Out-File -Append -FilePath README.TXT
-"-" * 50 | Out-File -Append -FilePath README.TXT
+###############################################################################
+#
+# Record snapshot metadata to README.TXT and Snapshot-File-Hashes.csv:
+#
+###############################################################################
 
-#########   sha256deep.exe -s * | Out-File -Append -FilePath README.TXT
+# Save info about the snapshot output files to README.TXT:
+'*Finished: ' + $(Get-Date -Format 'u') | Out-File -Encoding UTF8 -Append -FilePath README.TXT
 
-# But exclude the hash of README.TXT itself, which will be wrong of course.
-# Ideally, the README file would be digitally signed now too.
-(Get-Content -Path README.TXT) | Select-String -Pattern 'README' -NotMatch | Set-Content -Path README.TXT
+"-" * 50 | Out-File -Encoding UTF8 -Append -FilePath README.TXT
 
-
+dir | select Name,Length,LastWriteTime | Out-File -Encoding UTF8 -Append -FilePath README.TXT 
 
 
 
-##########################################################################################
+# Save hashes and full paths to the snapshot files to a CSV:
+if (Get-Command -Name Get-FileHash -ErrorAction SilentlyContinue)
+{
+    $hashes = dir -File | Get-FileHash -Algorithm SHA256 -ErrorAction SilentlyContinue 
+    $hashes | Export-Csv -Path Snapshot-File-Hashes.csv -Force  #cannot directly pipe
+}
+
+
+
+###############################################################################
 #
 #  Perform final tasks, such as writing to an event log, cleaning up temp files, 
-#  compressing the folder into an archive, moving the archive into a shared folder, etc.
+#  compressing the folder into an archive, moving the archive into a shared folder,
+#  etc. This can also be done in an external wrapper script run as a scheduled task.
 #
-##########################################################################################
+###############################################################################
 
-
-# Delete any leftover temp files?  (del *.tmp) 
+# Delete any leftover temp files?  What about the hashes list?  (del *.tmp) 
 
 # Set read-only bit on files created?  (attrib.exe +R *.txt)
 
-# Go back up to parent directory.
-cd ..
+# Write to the event log about the snapshot process?  (write-eventlog)  
+
+
+
+###############################################################################
+#
+# THIS COMMAND MUST BE LAST: Go back to the original working directory:
+#
+###############################################################################
+
+if ($VerbosePreference)
+{ 
+    Write-Verbose -Message "Saved files to $(Join-Path -Path $OutputParentFolder -ChildPath $OutputFolder)" 
+    Write-Verbose -Message ("Finished: " + (Get-Date -Format 'F')) 
+    $seconds = New-TimeSpan -Start $StartTime -End (Get-Date) | Select -ExpandProperty TotalSeconds
+    Write-Verbose -Message "Total run time = $seconds seconds"
+} 
+
+
+cd $PresentDirectory
 
 
