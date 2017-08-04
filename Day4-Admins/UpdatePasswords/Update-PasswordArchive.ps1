@@ -71,8 +71,8 @@
 #
 #.Notes 
 #  Author: Jason Fossen, Enclave Consulting LLC (http://www.sans.org/sec505)  
-# Version: 5.4
-# Updated: 15.May.2016
+# Version: 5.5
+# Updated: 17.Jul.2017
 #   LEGAL: PUBLIC DOMAIN.  SCRIPT PROVIDED "AS IS" WITH NO WARRANTIES OR GUARANTEES OF 
 #          ANY KIND, INCLUDING BUT NOT LIMITED TO MERCHANTABILITY AND/OR FITNESS FOR
 #          A PARTICULAR PURPOSE.  ALL RISKS OF DAMAGE REMAINS WITH THE USER, EVEN IF
@@ -96,7 +96,7 @@ Param ($CertificateFilePath = ".\PublicKeyCert.cer", $LocalUserName = "Guest", $
 #                complexity requirements won't be satisfiable.  Integers are 
 #                generated, converted to Unicode code points (chars), and then
 #                encoded as a UTF16LE string so that the function can be easily 
-#                modified by users who are not using US-EN keyboards.  For the
+#                modified by users who are not using en-US keyboards.  For the
 #                sake of script compatibility, various characters are excluded
 #                even though this reduces randomness.  
 ####################################################################################
@@ -239,6 +239,7 @@ ArchiveFileName = $filename
 }
 
 
+
 # Sanity check the two password lengths:
 if ($MinimumPasswordLength -le 3) { $MinimumPasswordLength = 4 } 
 if ($MaximumPasswordLength -gt 127) { $MaximumPasswordLength = 127 } 
@@ -296,10 +297,21 @@ if (-not (Confirm-KeyEnciphermentKeyUsage -Cert $cert))
 {  write-statuslog -m "ERROR: This public key certificate cannot be used because it does not have 'Key Encipherment' listed under 'Key Usage' in its properties.  Check the certificate template used by the Certification Authority (CA) to create your certificate and confirm that 'Encryption' is listed as one of the allowed purposes on the 'Request Handling' tab in the properties of the template." -Exit }
 
 
-# Construct name of the archive file, whose name will also be used as a nonce.
-# Ticks string will be 18 characters, certificate SHA* hash will be at least 40 characters, plus some user/computer name bytes.
-$filename = $env:computername + "+" + $LocalUserName + "+" + $(get-date).ticks + "+" + $cert.thumbprint
-if ($filename.length -le 60) { write-statuslog -m "ERROR: The archive file name is invalid (too short): $filename " -exit } 
+
+# Construct name of the archive file. Ticks string will be 18 characters, certificate 
+# SHA* hash will be at least 40 characters, plus at least one username byte and one
+# computername byte >= 60 bytes.  The PRNG is partly based on the system clock, and the
+# ticks number in the filename does not have to be exactly accurate, so fuzz the ticks
+# a tiny bit here before the password and Rijnael key get generated.
+[Int64] $fuzz = Get-Random -Minimum 3 -Maximum 579317
+[String] $ticks = $(get-date).Ticks - $fuzz
+$filename = $env:computername + "+" + $LocalUserName + "+" + $ticks + "+" + $cert.thumbprint
+if ($filename.length -lt 60) { write-statuslog -m "ERROR: The archive file name is invalid (too short): $filename " -exit } 
+
+
+
+# On Windows 8, Server 2012 and later, this is where we could use the Test-Certificate cmdlet
+# to confirm the trust chain and revocation status.
 
 
 # Generate and test new random password with min and max lengths.
@@ -320,8 +332,9 @@ if ($newpassword -eq "ConfirmThatNewPasswordIsRandom")
 
 
 # Construct the array of bytes to be hashed and then encrypted.
-# Prepend first 60 characters of the $filename as a nonce to the new password.
-# This is done for the sake of integrity checking later in the Recover-PasswordArchive.ps1 script.
+# Prepend first 60 characters of the $filename to the new password.
+# This is done for the sake of integrity checking later in the recovery 
+# script even though it creates a known plaintext crib in the file.
 [byte[]] $bytes = @() 
 $bytes += [System.Text.Encoding]::Unicode.GetBytes( $filename.substring(0,60) ) 
 $bytes += [System.Text.Encoding]::Unicode.GetBytes( $newpassword ) 
@@ -338,9 +351,17 @@ $SHA256Hasher = $null  #.Dispose() is not supported in PowerShell 2.0
 #     32 bytes : SHA256 hash of the rest of the bytes.
 #    120 bytes : Computer+User+Ticks+Thumbprint (60 two-byte chars = 120 bytes).
 #     ?? bytes : All remaining bytes are for the UTF16 password, which is variable in length.
+#
+# Yes, the Computer+User+Ticks+Thumbprint will create a known plaintext crib in
+# the encrypted file, but 1) cracking the public key will likely be easier than cracking
+# the Rijndael key directly, 2) meddling with the output file is also a risk, so the
+# hashing to bond the Computer+User+Ticks+Thumbprint to the password is useful, and 3)
+# the UTF16LE encoding of a typical password is itself an easy-to-recognize pattern
+# which would be nearly as good as literal string crib, so it doesn't matter much -- or
+# at least that's how I rationalize it while worrying about it...
 
 
-# Encrypt $bytes with 256-bit Rijnael key (can't use AES directly, it requires .NET 3.5 or later).
+# Encrypt $bytes with 256-bit Rijnael key (can't use AES, it requires .NET 3.5 or later).
 $Rijndael = New-Object -TypeName System.Security.Cryptography.RijndaelManaged
 $Rijndael.GenerateKey()
 $Rijndael.GenerateIV()
@@ -350,6 +371,8 @@ $MemoryStream = New-Object -TypeName System.IO.MemoryStream
 $StreamMode = [System.Security.Cryptography.CryptoStreamMode]::Write  
 $CryptoStream = New-Object -TypeName System.Security.Cryptography.CryptoStream -ArgumentList $MemoryStream,$Encryptor,$StreamMode
 $CryptoStream.Write($bytes, 0, $bytes.Length) #Fill MemoryStream with encrypted bytes.
+$bytes = $null
+Remove-Variable -Name bytes 
 $CryptoStream.Dispose() #Must come after the Write() or else "padding error" when decrypting.
 [byte[]] $EncryptedBytes = $MemoryStream.ToArray() 
 $MemoryStream.Dispose()
@@ -370,20 +393,25 @@ if (-not $? -or $cipherbytes.count -lt 280) { write-statuslog -m "ERROR: Encrypt
 #     ?? bytes : All remaining bytes are for the UTF16 password, which is variable in length.
 
 
-# Must save encrypted password file before resetting the password, confirm before proceeding.
+# Must save encrypted password file before resetting the password.
+# Confirm that the path can be resolved:
 if (Resolve-Path -Path $PasswordArchivePath)
 { $PasswordArchivePath = $(Resolve-Path -Path $PasswordArchivePath).Path }
 else
 { write-statuslog -m "ERROR: Cannot resolve path to archive folder: $PasswordArchivePath" -exit }
 
+# Confirm that the path can be accessed:
 if (-not $(test-path -pathtype container -path $PasswordArchivePath)) 
 { write-statuslog -m "ERROR: Archive path not accessible: $PasswordArchivePath" -exit } 
 
+# Make sure the path ends with a "\":
 if ($PasswordArchivePath -notlike "*\") { $PasswordArchivePath = $PasswordArchivePath + "\" } 
 
+# Try to save the encrypted output file:
 $cipherbytes | set-content -encoding byte -path ($PasswordArchivePath + $filename) 
 if (-not $?) { write-statuslog -m "ERROR: Failed to save archive file, password not reset." -exit } 
 
+# Confirm that the new output file can be seen: 
 if (-not $(test-path -pathtype leaf -path $($PasswordArchivePath + $filename))){ write-statuslog -m "ERROR: Failed to find archive file, password not reset." -exit } 
 
 
@@ -391,12 +419,14 @@ if (-not $(test-path -pathtype leaf -path $($PasswordArchivePath + $filename))){
 # Attempt to reset the password.
 if ( Reset-LocalUserPassword -UserName $LocalUserName -NewPassword $newpassword )
 {
-    remove-variable -name newpassword  #Just tidying up, not really necessary at this point...
+    $newpassword = $null #Just tidying up, not necessary at this point...
+    Remove-Variable -name newpassword  
     write-statuslog -m "SUCCESS: $LocalUserName password reset and archive file saved."  
 }
 else
 {
-    # Write the RESET-FAILURE file to the archive path; these failure files are used by the other scripts too.
+    # Write the RESET-FAILURE file to the archive path. These failure files are used by the other scripts.
+    # The ticks number here is guaranteed to be later than the above fuzzied ticks number for the output file.
     $filename = $env:computername + "+" + $LocalUserName + "+" + $(get-date).ticks + "+PASSWORD-RESET-FAILURE"
     "ERROR: Failed to reset password after creating a success file:`n`n" + $error[0] | set-content -path ($PasswordArchivePath + $filename) 
     write-statuslog -m "ERROR: Failed to reset password after creating a success file:`n`n $error[0]" -exit 
