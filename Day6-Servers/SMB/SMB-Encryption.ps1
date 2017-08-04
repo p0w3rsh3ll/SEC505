@@ -1,11 +1,12 @@
 #################################################################
-#  Server 2012, Windows 8 and later support SMB encryption.
+# Example PowerShell commands for managing SMB encryption.
+# Server 2012, Windows 8 and later support SMB encryption.
 #################################################################
 
 
 # To disable SMBv1 or SMBv2:
-Set-SmbServerConfiguration –EnableSMB1Protocol $False
-Set-SmbServerConfiguration -EnableSMB2Protocol $False
+Set-SmbServerConfiguration -EnableSMB1Protocol $False -Force
+Set-SmbServerConfiguration -EnableSMB2Protocol $False -Force 
 
 
 # To require SMB encryption for the entire server (all shares):
@@ -17,7 +18,7 @@ Set-SmbServerConfiguration -RejectUnencryptedAccess $False
 
 
 # To require SMB encryption for one shared folder only:
-Set-SmbShare –Name <ShareName> -EncryptData $True
+Set-SmbShare -Name <ShareName> -EncryptData $True
 
 
 # To list which shared folders do or do not require SMB encryption:
