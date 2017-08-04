@@ -1,0 +1,74 @@
+####################################################
+
+  RRAS IKEv2 IPsec Negotiation Settings [MS-RRASM]
+  
+  See also Set-VpnConnectionIPsecConfiguration on
+  Windows 10 and later VPN client devices, which
+  use the same terminology, but different keys.
+
+####################################################
+
+
+Following Values Under This Key:
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\RemoteAccess\Parameters\IKEV2\IKEv2CustomPolicy
+
+All registry values are REG_DWORD.
+
+Purpose: Hashing algorithm to be negotiated during MM SA negotiation [RFC4306].
+Value: IntegrityMethod
+0x0 : MD5
+0x1 : SHA-1
+0x2 : SHA-256
+0x3 : SHA-384
+
+Purpose: Cipher to be negotiated during MM SA negotiation [RFC4306]. 
+Value: EncryptionMethod
+0x0 : DES encryption.
+0x1 : 3DES encryption.
+0x2 : AES-128 encryption.
+0x3 : AES-192 encryption.
+0x4 : AES-256 encryption.
+
+Purpose: Cipher to be negotiated during QM SA negotiation [RFC4306]. 
+Value: CipherTransformConstant
+0x1 : DES-CBC
+0x2 : 3DES-CBC
+0x3 : AES-128-CBC
+0x4 : AES-192-CBC
+0x5 : AES-256-CBC
+0x6 : AES-128-GCM
+0x7 : AES-192-GCM
+0x8 : AES-256-GCM
+
+Purpose: Hashing algorithm to be negotiated during QM SA negotiation [RFC4306]. 
+Value: AuthTransformConstant
+0x0 : HMAC_MD5_96
+0x1 : HMAC_SHA_1_96
+0x2 : HMAC_SHA_256_128
+0x3 : GCM_AES_128
+0x4 : GCM_AES_192
+0x5 : GCM_AES_256
+
+
+Purpose: DH algorithm to be used for QM Perfect Forward Secrecy [RFC4306]. 
+Value: PfsGroup
+0x0 : No Quick Mode PFS
+0x1 : DH group 1
+0x2 : DH group 2
+0x3 : DH group 14 (PFS2048) 
+0x4 : DH ECP P-256
+0x5 : DH ECP P-384
+0x6 : Use the same DH as the main mode (MM) that contains this quick mode (QM).
+0x7 : DH group 24
+
+Purpose: DH group used for IKE key generation during MM SA negotiation [RFC4306].
+Value: DhGroup
+0x0 : No key exchange algorithms defined.
+0x1 : DH group 1
+0x2 : DH group 2
+0x3 : DH group 14
+0x4 : Elliptic curve DH 256
+0x5 : Elliptic curve DH 384
+0x6 : DH group 24
+

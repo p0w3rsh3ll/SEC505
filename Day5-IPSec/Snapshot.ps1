@@ -41,8 +41,8 @@
     Show progress information as the script is running.
 
 .NOTES
-    Version: 4.2
-    Updated: 8.Jun.2017
+    Version: 4.3
+    Updated: 21.Jun.2017
      Author: Enclave Consulting LLC (http://www.sans.org/sec505)
       Legal: Public domain, provided "AS IS" without any warranties.
 
@@ -224,6 +224,10 @@ Get-Process -IncludeUserName | WriteOut -FileName Processes
 
 # Drivers
 Get-WmiObject -Class Win32_SystemDriver | WriteOut -FileName Drivers
+
+
+# DirectX Diagnostics
+dxdiag.exe /whql:off /64bit /t dxdiag.txt 
 
 
 # Services

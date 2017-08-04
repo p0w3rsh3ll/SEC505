@@ -34,7 +34,7 @@ del -force
 
 
 # Create a new snapshot folder in current dir:
-.\Snapshot.ps1
+.\Snapshot.ps1 -Verbose
 
 
 # Get all snapshot folders in current directory:
@@ -49,7 +49,7 @@ $snapfolders | foreach { Compress-Archive -Path $_.FullName -DestinationPath $_.
 $snapfolders | del -Recurse -Force 
 
 
-# Optionally, move all zips into a centralized share:
+# Move all zips into a centralized share:
 # dir *.zip | Move-Item -Force -Destination \\server\share 
 
 
