@@ -8,9 +8,9 @@
 Please make the following changes on the morning of the first day before we begin:
 
 
-* On this USB drive or CD, there is a file named "SEC505.ISO".  Please copy this
-  SEC505.ISO file anywhere to your computer's hard drive, such as to your Desktop.
-  Do not copy the ISO file into your VM.
+* On this drive there is a file named "SEC505.ISO".  Please copy this SEC505.ISO 
+  file anywhere to your computer's hard drive, such as to your Desktop. Do not 
+  copy the ISO file into your VM.
 
 
 * In the Windows Server virtual machine (VM) you have created for this course, 
@@ -33,7 +33,7 @@ Please make the following changes on the morning of the first day before we begi
 
 * In PowerShell, type the following commands:
 
-    Set-ExecutionPolicy Bypass -Force
+    Set-ExecutionPolicy -ExecutionPolicy Bypass -Force
     
     cd C:\SANS
     

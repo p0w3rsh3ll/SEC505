@@ -44,7 +44,7 @@ Param ([Switch] $SkipNetworkInterfaceCheck, [Switch] $SkipActiveDirectoryCheck)
 #    Use -SkipNetworkInterfaceCheck if there are problems setting an IP.
 #    Use -SkipActiveDirectoryCheck if there are problems installing AD.
 #
-#    Last Updated: 3.Oct.2016
+#    Last Updated: 31.Oct.2016
 #
 ###############################################################################
 
@@ -162,6 +162,24 @@ if ($wd)
     Set-MpPreference -ScanScheduleDay Never -Force
     Set-MpPreference -RemediationScheduleDay Never -Force
 } 
+
+
+
+
+
+###############################################################################
+#
+" Always show file name extensions in File Explorer..."
+#
+###############################################################################
+
+$curpref = $ErrorActionPreference
+if (-not $Verbose) { $ErrorActionPreference = "SilentlyContinue" } 
+$key = Get-Item 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer'
+$subkey = $key.OpenSubKey("Advanced",$true)
+$subkey.SetValue("HideFileExt",0)
+$subkey = $key = $null
+$ErrorActionPreference = $curpref
 
 
 
@@ -339,7 +357,7 @@ $profiletext | out-file -filepath $profile.CurrentUserAllHosts
 . $profile.CurrentUserAllHosts
 
 # Clear screen to change entire background to new color:
-if (-not $Verbose) { cls } 
+# if (-not $Verbose) { cls } 
 }
 
 
@@ -595,7 +613,7 @@ Get-ADComputer -Identity $env:ComputerName | Set-ADObject -Replace @{department=
 Set-ADUser -Identity $env:UserName -emailaddress ($env:username + "@" + $env:userdnsdomain)  #Needed for PKI autoenrollment.
 
 $pw = ConvertTo-SecureString "P@ssword" -AsPlainText -Force
-# Amy is used for DAC and JEA examples.
+# Amy is used for DAC and JEA examples; Hal for the group monitoring script.
 New-ADUser -SamAccountName "Amy" -Name "Amy Elise" -Description "CEO" -Department "Engineering" -Country "US" -Path "OU=Boston,OU=East_Coast,$($thisdomain.DistinguishedName)" -Enabled $True -AccountPassword $pw 
 New-ADUser -SamAccountName "Justin" -Name "Justin McCarthy" -Description "Geneticist" -Department "IT" -Country "US" -Path "OU=Boston,OU=East_Coast,$($thisdomain.DistinguishedName)" -Enabled $True -AccountPassword $pw 
 New-ADUser -SamAccountName "Jennifer" -Name "Jennifer Kolde" -Description "Attorney" -Department "IT" -Country "US" -Path "OU=Boston,OU=East_Coast,$($thisdomain.DistinguishedName)" -Enabled $True -AccountPassword $pw 
@@ -604,15 +622,19 @@ New-ADUser -SamAccountName "Rosie" -Name "Rosie Perez" -Description "CTO" -Depar
 New-ADUser -SamAccountName "Denzel" -Name "Denzel Washington" -Description "CIO" -Department "IT" -Country "US" -Path "OU=HVT,$($thisdomain.DistinguishedName)" -Enabled $True -AccountPassword $pw 
 New-ADUser -SamAccountName "Billy" -Name "Billy Corgan" -Description "CISO" -Department "IT" -Country "US" -Path "OU=HVT,$($thisdomain.DistinguishedName)" -Enabled $True -AccountPassword $pw 
 
-# ServiceAdmins, Boston_Admins and Contractors groups are used for JEA examples.
+# GROUPS 
 New-ADGroup -Name "Admin_Workstations" -GroupScope Global -Path "OU=HVT,$($thisdomain.DistinguishedName)"
 New-ADGroup -Name "Human_Resources" -GroupScope Global -Path "OU=Boston,OU=East_Coast,$($thisdomain.DistinguishedName)"
-New-ADGroup -Name "Boston_Admins" -GroupScope Global -Path "OU=Boston,OU=East_Coast,$($thisdomain.DistinguishedName)"
 New-ADGroup -Name "Boston_Help_Desk" -GroupScope Global -Path "OU=Boston,OU=East_Coast,$($thisdomain.DistinguishedName)"
 New-ADGroup -Name "Boston_Wireless_Users" -GroupScope Global -Path "OU=Boston,OU=East_Coast,$($thisdomain.DistinguishedName)"
 New-ADGroup -Name "Receptionists" -GroupScope Global -Path "OU=Boston,OU=East_Coast,$($thisdomain.DistinguishedName)"
 New-ADGroup -Name "Sales" -GroupScope Global -Path "OU=Boston,OU=East_Coast,$($thisdomain.DistinguishedName)"
 New-ADGroup -Name "Temporaries" -GroupScope Global -Path "OU=Boston,OU=East_Coast,$($thisdomain.DistinguishedName)"
+
+# Groups used for JEA examples; Boston_Admins used for other purposes too. 
+New-ADGroup -Name "Boston_Admins" -GroupScope Global -Path "OU=Boston,OU=East_Coast,$($thisdomain.DistinguishedName)"
+New-ADGroup -Name "HelpDesk" -GroupScope Global -Path "OU=Boston,OU=East_Coast,$($thisdomain.DistinguishedName)"
+New-ADGroup -Name "Managers" -GroupScope Global -Path "OU=Boston,OU=East_Coast,$($thisdomain.DistinguishedName)"
 New-ADGroup -Name "Contractors" -GroupScope Global -Path "OU=Boston,OU=East_Coast,$($thisdomain.DistinguishedName)"
 New-ADGroup -Name "ServiceAdmins" -GroupScope Global -Path "OU=Boston,OU=East_Coast,$($thisdomain.DistinguishedName)"
 
@@ -673,6 +695,29 @@ if (-not $(Test-Path -Path "C:\SANS\Day1-PowerShell\UpdateHelp\XDROP.txt") )
         #This is for the default unpatched Server 2016, but PSVersion.Minor is not checked:
         Update-Help -SourcePath C:\SANS\Day1-PowerShell\UpdateHelp\5.1 -ErrorAction SilentlyContinue | Out-Null
         "Why are you looking at this 5.1 file?" | Out-File -FilePath "C:\SANS\Day1-PowerShell\UpdateHelp\XDROP.txt"
+    }
+}
+
+
+
+
+
+###############################################################################
+#
+" Fixing about_* files for PowerShell..."
+#
+# Note that en-US is the hard-coded culture.
+#
+###############################################################################
+
+$helpfiles = @( dir $env:WINDIR\System32\WindowsPowerShell -Recurse -Filter "about_*" -Exclude "*.help.txt" )
+
+if ($helpfiles.Count -gt 0)
+{
+    ForEach ($file in $helpfiles)
+    {
+        if ($file.name -notlike "*.help.txt")
+        { Rename-Item -ErrorAction SilentlyContinue -Path $file.fullname -NewName ($file.name -replace "\.txt$",".help.txt") } 
     }
 }
 
@@ -745,6 +790,19 @@ copy-item C:\SANS\Tools\chml\chml.exe C:\Temp -Force
 
 ###############################################################################
 #
+" Setting Power Scheme to High Performance..."
+#
+###############################################################################
+
+powercfg.exe /SETACTIVE 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
+# Set display timeout to zero:
+powercfg.exe /SETACVALUEINDEX 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c 7516b95f-f776-4464-8c53-06167f40cc99 3c0bc021-c8a8-4e07-a973-6b14cbcb2b7e 0 
+
+
+
+
+###############################################################################
+#
 " Installing Process Hacker..."
 #
 ###############################################################################
@@ -769,22 +827,24 @@ invoke-expression -command ($setup.FullName + " /VERYSILENT")
 
 ###############################################################################
 #
-" Installing Wireshark..."
+#" Installing Wireshark..."
 #
 ###############################################################################
-$setup = dir C:\SANS\Tools\WireShark\*wireshark*.exe
-invoke-expression -command ($setup.FullName + " /S /desktopicon=yes /quicklaunch=no")
+# $setup = dir C:\SANS\Tools\WireShark\*wireshark*.exe
+# invoke-expression -command ($setup.FullName + " /S /desktopicon=yes /quicklaunch=no")
 
 
 
 
 ###############################################################################
 #
-" Confirm audit policy to log successful logons..."
+" Confirm audit policy to log successful and failed logons..."
 #
+# Also captures IPSec logons, claims, NPS logons, account lockouts, etc.
+# 
 ###############################################################################
 
-auditpol.exe /set /category:"Logon/Logoff" /success:enable
+auditpol.exe /set /category:"Logon/Logoff" /success:enable /failure:enable | out-null
 
 
 
@@ -813,9 +873,9 @@ $ErrorActionPreference = $curpref
 #
 ###############################################################################
 
-if (-not $Verbose) { cls } 
+#if (-not $Verbose) { cls } 
 
-"`n`n`n"
+"`n`n`n`n`n`n`n`n`n"
 ("*" * 47)
 "`n Finished!`n"
 " There is nothing else you have to do now.`n"

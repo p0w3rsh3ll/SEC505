@@ -18,7 +18,7 @@ Configuration TestConfig
 {
     Param ([String[]] $ComputerName = "LocalHost")
 
-    # Import-DscResource –ModuleName PSDesiredStateConfiguration
+    Import-DscResource -ModuleName PSDesiredStateConfiguration
 
     Node $ComputerName
     {
@@ -52,7 +52,7 @@ TestConfig -ComputerName "LocalHost" -ConfigurationData $ConfigData
 
 
 # Best practice: store configuration data in a separate .psd1 file:
-TestConfig -ComputerName "LocalHost" -ConfigurationData .\LocalUserExample.psd1
+TestConfig -ComputerName "LocalHost" -ConfigurationData .\ResourceExample-LocalUserData.psd1
 
 
 # Enact MOF for localhost only:

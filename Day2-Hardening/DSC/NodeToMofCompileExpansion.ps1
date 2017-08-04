@@ -1,7 +1,7 @@
 ﻿
 Configuration TestConfig
 {
-    # Import-DscResource –ModuleName PSDesiredStateConfiguration
+    Import-DscResource -ModuleName PSDesiredStateConfiguration
 
     Node @("LocalHost","Server47","Laptop48")
     {

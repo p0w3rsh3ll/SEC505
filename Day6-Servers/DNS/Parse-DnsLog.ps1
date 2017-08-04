@@ -6,8 +6,8 @@
 #.Description 
 #    Parse Windows DNS text log to count which FQDNs were resolved most often
 #    or which client source IP addresses were most often logged.  This is just
-#    a starter script to get going with DNS log parsing, it's not optimized and
-#    needs more switches for other commonly-needed output formats.
+#    a starter script to get going with DNS log parsing, it needs more switches 
+#    for other commonly-needed output formats and runs very slowly with large logs.
 #
 #.Parameter Path  
 #    Path to a textual Windows DNS log.

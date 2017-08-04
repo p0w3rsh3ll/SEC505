@@ -2,6 +2,7 @@
 # The following command will add the DNSSEC root zone trust anchor information
 # on Server 2012 and later.  Confirm that this information is still current at:
 #      https://data.iana.org/root-anchors/root-anchors.xml
+# WARNING: THIS WILL REQUIRE DNSSEC FOR EVERYTHING!  MOST QUERIES WILL FAIL!
 ################################################################################
 
 # Manually import a couple modules related to DNS, not only for this

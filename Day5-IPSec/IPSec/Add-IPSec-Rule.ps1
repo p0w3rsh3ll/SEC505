@@ -5,12 +5,12 @@
 
 
 #Create an authentication proposal using a pre-shared key:
-$AuthProposal = New-NetIPsecAuthProposal -Machine –PreSharedKey "ThePreSharedKey" 
+$AuthProposal = New-NetIPsecAuthProposal -Machine -PreSharedKey "ThePreSharedKey" 
 
 
 
 #Add the above authentication proposal to a named set:
-$AuthProposalSet = New-NetIPsecPhase1AuthSet –DisplayName "Auth-Proposal-Set" -Proposal $AuthProposal 
+$AuthProposalSet = New-NetIPsecPhase1AuthSet -DisplayName "Auth-Proposal-Set" -Proposal $AuthProposal 
 
 
 
@@ -22,7 +22,7 @@ New-NetIPsecRule -DisplayName "Testing-IPSec-PowerShell" `
 -Protocol TCP `
 -LocalAddress Any `
 -LocalPort Any `
--RemoteAddress 10.146.208.0/24 `
+-RemoteAddress 10.0.0.0/8 `
 -RemotePort 3389,135,139,445,21,20,23 `
 -Profile Any `
 -InterfaceType Any `

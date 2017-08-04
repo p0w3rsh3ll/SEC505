@@ -7,16 +7,40 @@ function Get-LogonFailures ($computer = ".")  # A period indicates the local mac
 } 
 
 
+
+
 # Run the function to query the local computer:
 
-Get-LogonFailures
+$events = Get-LogonFailures
 
+$events.Count  #Total number of events returned.
+
+$events | Select-Object TimeGenerated,CategoryString,Type,EventCode
+
+
+
+# The InsertionStrings property is itself an array of strings:
+
+$example = $events[0]                    #Get one event as an example.
+$example.InsertionStrings                #Extract the whole array.
+$first  = $example.InsertionStrings[0]   #Extract just the first string from the array.
+$second = $example.InsertionStrings[1]   #Extract just the second string from the array.
 
 
 
 # WMI encodes date and time information in a special way (DMTF format):
 
-function Convert-DMTFtoDateTime ($dmtf) { [Management.ManagementDateTimeConverter]::ToDateTime($dmtf) }
+function Convert-DMTFtoDateTime ($DMTF) { [Management.ManagementDateTimeConverter]::ToDateTime($DMTF) }
 
-function Convert-DateTimeToDMTF ($date) { [Management.ManagementDateTimeConverter]::ToDmtfDateTime($date) }
+function Convert-DateTimeToDMTF ($Date) { [Management.ManagementDateTimeConverter]::ToDmtfDateTime($Date) }
  
+
+
+
+
+
+# Note: Logging logon successes and failures requires the Logon audit policy:
+# Query the current audit policy:
+auditpol.exe /get /subcategory:'Logon'
+# Enable success and failure logging for Logon events: 
+auditpol.exe /set /subcategory:'Logon' /success:enable /failure:enable

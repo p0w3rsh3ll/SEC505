@@ -3,11 +3,43 @@
 
 
 
+.\parse-nmap.ps1 -path samplescan.xml -runstats
+
+
+
+dir *.xml | .\parse-nmap.ps1
+
+
+
+.\parse-nmap.ps1 -path samplescan.xml |
+select-object FQDN,IPv4,MAC,OS |
+ConvertTo-Html -title "$(get-date)" | 
+out-file \\localhost\c$\temp\report.html 
+
+
+
+
+
 .\parse-nmap.ps1 -path samplescan.xml |
 where {$_.OS -like "*Windows XP*"} |
-format-table IPv4,HostName,OS
+export-csv .\weblisteners.csv
+
+$data = import-csv .\weblisteners.csv
+
+$data | where {($_.IPv4 -like "10.57.*") `
+      -and ($_.Ports -match "open:tcp:22:")} 
 
 
+
+
+
+
+      
+      
+
+##############################################################
+# Extra Examples
+##############################################################
 
 .\parse-nmap.ps1 -path samplescan.xml |
 where {$_.Ports -like "*open:tcp:23*"} 
@@ -27,23 +59,11 @@ $data | where {($_.IPv4 -like "10.57.*") -and
            ($_.Ports -match "open:tcp:22")} 
 
 
-		   
+           
+
 .\parse-nmap.ps1 -path samplescan.xml |
-select-object IPv4,HostName |
-ConvertTo-Html -title "Scan Results" | 
-out-file \\localhost\c$\temp\report.html 
-
-
-
-
-
-
-
-
-
-
-
-
+where {$_.OS -like "*Windows XP*"} |
+select-object IPv4,HostName,OS 
 
 
 

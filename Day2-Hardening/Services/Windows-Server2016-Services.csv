@@ -1,0 +1,188 @@
+DisplayName,Name,Installation,StartType,Recommendation
+ActiveX Installer (AxInstSV),AxInstSV,Only-On-Desktop-Experience,Manual,OK-To-Disable
+AllJoyn Router Service,AJRouter,Only-On-Desktop-Experience,Manual,Default
+App Readiness,AppReadiness,Only-On-Desktop-Experience,Manual,Do-Not-Disable
+Application Identity,AppIDSvc,Always-Installed,Manual,Default
+Application Information,Appinfo,Only-On-Desktop-Experience,Manual,Default
+Application Layer Gateway Service,ALG,Only-On-Desktop-Experience,Manual,Default
+Application Management,AppMgmt,Always-Installed,Manual,Default
+AppX Deployment Service (AppXSVC),AppXSvc,Always-Installed,Manual,Default
+Auto Time Zone Updater,tzautoupdate,Only-On-Desktop-Experience,Disabled,OK-To-Disable
+Background Intelligent Transfer Service,BITS,Always-Installed,Manual,Default
+Background Tasks Infrastructure Service,BrokerInfrastructure,Only-On-Desktop-Experience,Automatic,Default
+Base Filtering Engine,BFE,Always-Installed,Automatic,Default
+Bluetooth Support Service,bthserv,Only-On-Desktop-Experience,Manual,OK-To-Disable
+CDPUserSvc,CDPUserSvc,Only-On-Desktop-Experience,Automatic,OK-To-Disable
+Certificate Propagation,CertPropSvc,Always-Installed,Manual,Default
+Client License Service (ClipSVC),ClipSVC,Always-Installed,Manual,Default
+CNG Key Isolation,KeyIso,Always-Installed,Manual,Default
+COM+ Event System,EventSystem,Always-Installed,Automatic,Default
+COM+ System Application,COMSysApp,Always-Installed,Manual,Default
+Computer Browser,Browser,Always-Installed,Disabled,OK-To-Disable
+Connected Devices Platform Service,CDPSvc,Only-On-Desktop-Experience,Automatic,Default
+Connected User Experiences and Telemetry,DiagTrack,Always-Installed,Automatic,Default
+Contact Data,PimIndexMaintenanceSvc,Only-On-Desktop-Experience,Manual,OK-To-Disable
+CoreMessaging,CoreMessagingRegistrar,Always-Installed,Automatic,Default
+Credential Manager,VaultSvc,Always-Installed,Manual,Default
+Cryptographic Services,CryptSvc,Always-Installed,Automatic,Default
+Data Sharing Service,DsSvc,Only-On-Desktop-Experience,Manual,Default
+DataCollectionPublishingService,DcpSvc,Only-On-Desktop-Experience,Manual,Default
+DCOM Server Process Launcher,DcomLaunch,Always-Installed,Automatic,Default
+Device Association Service,DeviceAssociationService,Only-On-Desktop-Experience,Manual,Default
+Device Install Service,DeviceInstall,Always-Installed,Manual,Default
+Device Management Enrollment Service,DmEnrollmentSvc,Only-On-Desktop-Experience,Manual,Default
+Device Setup Manager,DsmSvc,Only-On-Desktop-Experience,Manual,Default
+DevQuery Background Discovery Broker,DevQueryBroker,Only-On-Desktop-Experience,Manual,Default
+DHCP Client,Dhcp,Always-Installed,Automatic,Default
+Diagnostic Policy Service,DPS,Always-Installed,Automatic,Default
+Diagnostic Service Host,WdiServiceHost,Always-Installed,Manual,Default
+Diagnostic System Host,WdiSystemHost,Always-Installed,Manual,Default
+Distributed Link Tracking Client,TrkWks,Only-On-Desktop-Experience,Automatic,Default
+Distributed Transaction Coordinator,MSDTC,Always-Installed,Automatic,Default
+dmwappushsvc,dmwappushservice,Only-On-Desktop-Experience,Manual,OK-To-Disable
+DNS Client,Dnscache,Always-Installed,Automatic,Default
+Downloaded Maps Manager,MapsBroker,Only-On-Desktop-Experience,Automatic,OK-To-Disable
+Embedded Mode,embeddedmode,Only-On-Desktop-Experience,Manual,Default
+Encrypting File System (EFS),EFS,Always-Installed,Manual,Default
+Enterprise App Management Service,EntAppSvc,Only-On-Desktop-Experience,Manual,Default
+Extensible Authentication Protocol,EapHost,Always-Installed,Manual,Default
+Function Discovery Provider Host,fdPHost,Always-Installed,Manual,Default
+Function Discovery Resource Publication,FDResPub,Only-On-Desktop-Experience,Manual,Default
+Geolocation Service,lfsvc,Only-On-Desktop-Experience,Manual,OK-To-Disable
+Group Policy Client,gpsvc,Always-Installed,Automatic,Default
+Human Interface Device Service,hidserv,Always-Installed,Manual,Default
+HV Host Service,HvHost,Always-Installed,Manual,Do-Not-Disable
+Hyper-V Data Exchange Service,vmickvpexchange,Always-Installed,Manual,Do-Not-Disable
+Hyper-V Guest Service Interface,vmicguestinterface,Always-Installed,Manual,Do-Not-Disable
+Hyper-V Guest Shutdown Service,vmicshutdown,Always-Installed,Manual,Do-Not-Disable
+Hyper-V Heartbeat Service,vmicheartbeat,Always-Installed,Manual,Do-Not-Disable
+Hyper-V PowerShell Direct Service,vmicvmsession,Always-Installed,Manual,Do-Not-Disable
+Hyper-V Remote Desktop Virtualization Service,vmicrdv,Always-Installed,Manual,Do-Not-Disable
+Hyper-V Time Synchronization Service,vmictimesync,Always-Installed,Manual,Do-Not-Disable
+Hyper-V Volume Shadow Copy Requestor,vmicvss,Always-Installed,Manual,Do-Not-Disable
+IKE and AuthIP IPsec Keying Modules,IKEEXT,Always-Installed,Manual,Default
+Interactive Services Detection,UI0Detect,Only-On-Desktop-Experience,Manual,Default
+Internet Connection Sharing (ICS),SharedAccess,Always-Installed,Manual,OK-To-Disable
+IP Helper,iphlpsvc,Always-Installed,Automatic,Default
+IPsec Policy Agent,PolicyAgent,Always-Installed,Manual,Default
+KDC Proxy Server service (KPS),KPSSVC,Always-Installed,Manual,Default
+KtmRm for Distributed Transaction Coordinator,KtmRm,Always-Installed,Manual,Default
+Link-Layer Topology Discovery Mapper,lltdsvc,Always-Installed,Manual,OK-To-Disable
+Local Session Manager,LSM,Always-Installed,Automatic,Default
+Microsoft (R) Diagnostics Hub Standard Collector Service,diagnosticshub.standardcollector.service,Always-Installed,Manual,Default
+Microsoft Account Sign-in Assistant,wlidsvc,Only-On-Desktop-Experience,Manual,OK-To-Disable
+Microsoft App-V Client,AppVClient,Only-On-Desktop-Experience,Disabled,OK-To-Disable
+Microsoft iSCSI Initiator Service,MSiSCSI,Always-Installed,Manual,Do-Not-Disable
+Microsoft Passport,NgcSvc,Only-On-Desktop-Experience,Manual,OK-To-Disable
+Microsoft Passport Container,NgcCtnrSvc,Only-On-Desktop-Experience,Manual,OK-To-Disable
+Microsoft Software Shadow Copy Provider,swprv,Always-Installed,Manual,Default
+Microsoft Storage Spaces SMP,smphost,Always-Installed,Manual,Do-Not-Disable
+Net.Tcp Port Sharing Service,NetTcpPortSharing,Always-Installed,Disabled,OK-To-Disable
+Netlogon,Netlogon,Always-Installed,Manual,Default
+Network Connection Broker,NcbService,Only-On-Desktop-Experience,Manual,OK-To-Disable
+Network Connections,Netman,Only-On-Desktop-Experience,Manual,Default
+Network Connectivity Assistant,NcaSvc,Always-Installed,Manual,Default
+Network List Service,netprofm,Always-Installed,Manual,Default
+Network Location Awareness,NlaSvc,Always-Installed,Automatic,Default
+Network Setup Service,NetSetupSvc,Always-Installed,Manual,Default
+Network Store Interface Service,nsi,Always-Installed,Automatic,Default
+Offline Files,CscService,Only-On-Desktop-Experience,Disabled,OK-To-Disable
+Optimize drives,defragsvc,Always-Installed,Manual,Default
+Performance Counter DLL Host,PerfHost,Always-Installed,Manual,Default
+Performance Logs & Alerts,pla,Always-Installed,Manual,Default
+Phone Service,PhoneSvc,Only-On-Desktop-Experience,Manual,OK-To-Disable
+Plug and Play,PlugPlay,Always-Installed,Manual,Default
+Portable Device Enumerator Service,WPDBusEnum,Only-On-Desktop-Experience,Manual,Default
+Power,Power,Always-Installed,Automatic,Default
+Print Spooler,Spooler,Always-Installed,Automatic,Default
+Printer Extensions and Notifications,PrintNotify,Always-Installed,Manual,OK-To-Disable
+Problem Reports and Solutions Control Panel Support,wercplsupport,Only-On-Desktop-Experience,Manual,Default
+Program Compatibility Assistant Service,PcaSvc,Only-On-Desktop-Experience,Automatic,OK-To-Disable
+Quality Windows Audio Video Experience,QWAVE,Only-On-Desktop-Experience,Manual,OK-To-Disable
+Radio Management Service,RmSvc,Only-On-Desktop-Experience,Manual,OK-To-Disable
+Remote Access Auto Connection Manager,RasAuto,Only-On-Desktop-Experience,Manual,Default
+Remote Access Connection Manager,RasMan,Always-Installed,Manual,Default
+Remote Desktop Configuration,SessionEnv,Always-Installed,Manual,Do-Not-Disable
+Remote Desktop Services,TermService,Always-Installed,Manual,Do-Not-Disable
+Remote Desktop Services UserMode Port Redirector,UmRdpService,Always-Installed,Manual,Do-Not-Disable
+Remote Procedure Call (RPC),RpcSs,Always-Installed,Automatic,Default
+Remote Procedure Call (RPC) Locator,RpcLocator,Only-On-Desktop-Experience,Manual,Default
+Remote Registry,RemoteRegistry,Always-Installed,Automatic,Do-Not-Disable
+Resultant Set of Policy Provider,RSoPProv,Always-Installed,Manual,Default
+Routing and Remote Access,RemoteAccess,Always-Installed,Disabled,OK-To-Disable
+RPC Endpoint Mapper,RpcEptMapper,Always-Installed,Automatic,Default
+Secondary Logon,seclogon,Always-Installed,Manual,Default
+Secure Socket Tunneling Protocol Service,SstpSvc,Always-Installed,Manual,Do-Not-Disable
+Security Accounts Manager,SamSs,Always-Installed,Automatic,Default
+Sensor Data Service,SensorDataService,Only-On-Desktop-Experience,Manual,OK-To-Disable
+Sensor Monitoring Service,SensrSvc,Only-On-Desktop-Experience,Manual,OK-To-Disable
+Sensor Service,SensorService,Only-On-Desktop-Experience,Manual,OK-To-Disable
+Server,LanmanServer,Always-Installed,Automatic,Do-Not-Disable
+Shell Hardware Detection,ShellHWDetection,Only-On-Desktop-Experience,Automatic,OK-To-Disable
+Smart Card,SCardSvr,Always-Installed,Disabled,OK-To-Disable
+Smart Card Device Enumeration Service,ScDeviceEnum,Always-Installed,Manual,OK-To-Disable
+Smart Card Removal Policy,SCPolicySvc,Always-Installed,Manual,Default
+SNMP Trap,SNMPTRAP,Always-Installed,Manual,Default
+Software Protection,sppsvc,Always-Installed,Automatic,Default
+Special Administration Console Helper,sacsvr,Always-Installed,Manual,Default
+Spot Verifier,svsvc,Always-Installed,Manual,Default
+SSDP Discovery,SSDPSRV,Only-On-Desktop-Experience,Manual,OK-To-Disable
+State Repository Service,StateRepository,Always-Installed,Manual,Default
+Still Image Acquisition Events,WiaRpc,Only-On-Desktop-Experience,Manual,OK-To-Disable
+Storage Service,StorSvc,Only-On-Desktop-Experience,Manual,Default
+Storage Tiers Management,TieringEngineService,Always-Installed,Manual,Default
+Superfetch,SysMain,Always-Installed,Manual,Default
+Sync Host,OneSyncSvc,Only-On-Desktop-Experience,Automatic,OK-To-Disable
+System Event Notification Service,SENS,Always-Installed,Automatic,Default
+System Events Broker,SystemEventsBroker,Always-Installed,Automatic,Do-Not-Disable
+Task Scheduler,Schedule,Always-Installed,Automatic,Default
+TCP/IP NetBIOS Helper,lmhosts,Always-Installed,Manual,Default
+Telephony,TapiSrv,Only-On-Desktop-Experience,Manual,Do-Not-Disable
+Themes,Themes,Only-On-Desktop-Experience,Automatic,Do-Not-Disable
+Tile Data model server,tiledatamodelsvc,Only-On-Desktop-Experience,Automatic,Do-Not-Disable
+Time Broker,TimeBrokerSvc,Always-Installed,Manual,Do-Not-Disable
+Touch Keyboard and Handwriting Panel Service,TabletInputService,Only-On-Desktop-Experience,Manual,OK-To-Disable
+Update Orchestrator Service for Windows Update,UsoSvc,Always-Installed,Manual,Do-Not-Disable
+UPnP Device Host,upnphost,Only-On-Desktop-Experience,Manual,OK-To-Disable
+User Access Logging Service,UALSVC,Always-Installed,Automatic,Default
+User Data Access,UserDataSvc,Only-On-Desktop-Experience,Manual,OK-To-Disable
+User Data Storage,UnistoreSvc,Only-On-Desktop-Experience,Manual,OK-To-Disable
+User Experience Virtualization Service,UevAgentService,Only-On-Desktop-Experience,Disabled,OK-To-Disable
+User Manager,UserManager,Always-Installed,Automatic,Default
+User Profile Service,ProfSvc,Always-Installed,Automatic,Default
+Virtual Disk,vds,Always-Installed,Manual,Default
+Volume Shadow Copy,VSS,Always-Installed,Manual,Default
+WalletService,WalletService,Only-On-Desktop-Experience,Manual,OK-To-Disable
+Windows Audio,Audiosrv,Only-On-Desktop-Experience,Manual,OK-To-Disable
+Windows Audio Endpoint Builder,AudioEndpointBuilder,Only-On-Desktop-Experience,Manual,OK-To-Disable
+Windows Biometric Service,WbioSrvc,Only-On-Desktop-Experience,Manual,Default
+Windows Camera Frame Server,FrameServer,Only-On-Desktop-Experience,Manual,OK-To-Disable
+Windows Connection Manager,Wcmsvc,Only-On-Desktop-Experience,Automatic,Default
+Windows Defender Network Inspection Service,WdNisSvc,Always-Installed,Manual,Default
+Windows Defender Service,WinDefend,Always-Installed,Automatic,Default
+Windows Driver Foundation - User-mode Driver Framework,wudfsvc,Always-Installed,Manual,Default
+Windows Encryption Provider Host Service,WEPHOSTSVC,Only-On-Desktop-Experience,Manual,Default
+Windows Error Reporting Service,WerSvc,Always-Installed,Manual,Do-Not-Disable
+Windows Event Collector,Wecsvc,Always-Installed,Manual,Do-Not-Disable
+Windows Event Log,EventLog,Always-Installed,Automatic,Default
+Windows Firewall,MpsSvc,Always-Installed,Automatic,Default
+Windows Font Cache Service,FontCache,Always-Installed,Automatic,Default
+Windows Image Acquisition (WIA),stisvc,Only-On-Desktop-Experience,Manual,OK-To-Disable
+Windows Insider Service,wisvc,Always-Installed,Manual,OK-To-Disable
+Windows Installer,msiserver,Always-Installed,Manual,Default
+Windows License Manager Service,LicenseManager,Only-On-Desktop-Experience,Manual,Default
+Windows Management Instrumentation,Winmgmt,Always-Installed,Automatic,Default
+Windows Mobile Hotspot Service,icssvc,Only-On-Desktop-Experience,Manual,OK-To-Disable
+Windows Modules Installer,TrustedInstaller,Always-Installed,Manual,Default
+Windows Push Notifications System Service,WpnService,Only-On-Desktop-Experience,Automatic,OK-To-Disable
+Windows Push Notifications User Service,WpnUserService,Only-On-Desktop-Experience,Manual,OK-To-Disable
+Windows Remote Management (WS-Management),WinRM,Always-Installed,Automatic,Do-Not-Disable
+Windows Search,WSearch,Only-On-Desktop-Experience,Disabled,OK-To-Disable
+Windows Time,W32Time,Always-Installed,Automatic,Default
+Windows Update,wuauserv,Always-Installed,Manual,Default
+WinHTTP Web Proxy Auto-Discovery Service,WinHttpAutoProxySvc,Always-Installed,Manual,Do-Not-Disable
+Wired AutoConfig,dot3svc,Only-On-Desktop-Experience,Manual,Default
+WMI Performance Adapter,wmiApSrv,Always-Installed,Manual,Default
+Workstation,LanmanWorkstation,Always-Installed,Automatic,Default
+Xbox Live Auth Manager,XblAuthManager,Only-On-Desktop-Experience,Manual,OK-To-Disable
+Xbox Live Game Save,XblGameSave,Only-On-Desktop-Experience,Manual,OK-To-Disable

@@ -1,6 +1,6 @@
 -------------------------------------------------
-  USB/CD Version: 93.2 (B01 and Later)
-Compilation Date: 22.Aug.2016
+  USB/CD Version: 100.0 
+Compilation Date: 29.May.2017
 -------------------------------------------------
 
 Some of the tools on this USB/CD can cause damage to computers and/or networks. Use at your own risk. Files on this USB/CD may be infected with viruses or malware despite efforts to detect and eradicate them. 

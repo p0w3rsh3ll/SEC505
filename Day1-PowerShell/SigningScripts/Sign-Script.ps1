@@ -5,12 +5,13 @@
 #.Description 
 #    If you have a code-signing certificate, this script can sign one or
 #    multiple other scripts for the sake of satisfying PowerShell's
-#    execution policy restrictions.  The script will not create or enroll
-#    for a code-signing certificate, this must be obtained separately first.
+#    execution policy restrictions. Note that the script will not create 
+#    or enroll for a code-signing certificate, this must be obtained 
+#    separately first.
 #
 #.Parameter Path  
 #    Either 1) a string with or without wildcards to one or more PowerShell 
-#    scripts, or 2) one or more FileInfo objects representing scripts.
+#    scripts, or 2) one or more FileInfo objects for these scripts.
 #
 #.Parameter Recurse
 #    Switch to recurse through subdirectories of the given path.
@@ -26,7 +27,7 @@
 #
 #.Parameter ListCodeSigningCertificates
 #    Switch to simply show the user's code signing certificates, if
-#    any, and then exit.
+#    any, and then exit.  No files will be signed.  
 #
 #.Example 
 #    .\sign-script.ps1 -path onescript.ps1
@@ -44,8 +45,8 @@
 #
 #.Notes 
 #  Author: Jason Fossen, Enclave Consulting LLC (http://www.sans.org/sec505)  
-# Version: 1.1
-# Updated: 25.Nov.2012
+# Version: 1.2
+# Updated: 18.Mar.2017
 #   LEGAL: PUBLIC DOMAIN.  SCRIPT PROVIDED "AS IS" WITH NO WARRANTIES OR 
 #          GUARANTEES OF ANY KIND, INCLUDING BUT NOT LIMITED TO MERCHANTABILITY 
 #          AND/OR FITNESS FOR A PARTICULAR PURPOSE.  ALL RISKS OF DAMAGE REMAINS 
@@ -63,8 +64,8 @@ param ( $Path, [Switch] $Recurse, $Thumbprint = "blank" , [Switch] $DoNotAskWhic
 if ($ListCodeSigningCertificates){ dir cert:\currentuser\my -codesigningcert ; exit }
 
 # Expand path of script(s) to sign.
-if (-not $Path) { "`nError, you must enter the path to one or more scripts to sign, wildcards are permitted, exiting.`n" ; exit } 
-if ($Recurse) { $Path = (dir $Path -include *.ps1 -force -recurse) } else { $Path = (dir $Path -include *.ps1 -force) } 
+if (-not $Path) { "`nError, you must enter the path to one or more files to sign; wildcards are permitted, exiting.`n" ; exit } 
+if ($Recurse) { $Path = dir $Path -recurse } else { $Path = dir $Path } 
 if ($Path -eq $null) { "`nError, invalid argument to -Path parameter, exiting.`n" ; exit } 
 
 # Get the current user's code-signing cert(s), if any.
@@ -86,5 +87,5 @@ if ($certs -notcontains $signingcert)
 } 
 
 # Sign each script.
-foreach ($file in $Path) { set-authenticodesignature -filepath $file -certificate $signingcert } 
+foreach ($file in $Path) { Set-AuthenticodeSignature -FilePath $file.fullname -Certificate $signingcert } 
 

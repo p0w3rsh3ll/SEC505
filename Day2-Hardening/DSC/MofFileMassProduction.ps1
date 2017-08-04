@@ -5,7 +5,7 @@ Configuration TestConfig
 {
     Param ( [String[]] $ComputerName = "LocalHost" )
 
-    # Import-DscResource –ModuleName PSDesiredStateConfiguration
+    Import-DscResource -ModuleName PSDesiredStateConfiguration
 
     Node $ComputerName
     {

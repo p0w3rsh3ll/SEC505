@@ -1,7 +1,7 @@
 #**********************************************************************
 #     Name: SNAPSHOT.PS1 
-#  Version: 4.0
-#     Date: 26.Jan.2015
+#  Version: 4.0.1
+#     Date: 24.Feb.2017
 #   Author: Jason Fossen, Enclave Consulting LLC (http://www.sans.org/sec505)
 #  Purpose: Dumps a vast amount of configuration data for the sake
 #           of auditing and forensics analysis.  Compare snapshot
@@ -131,6 +131,7 @@ Get-NetUDPEndpoint | Sort LocalPort | WriteOut -FileName Network-UDP-Listening-P
 Get-NetRoute | WriteOut -FileName Network-Route-Table
 nbtstat.exe -n  | Out-File -FilePath Network-NbtStat.txt
 netsh.exe winsock show catalog | Out-File -FilePath Network-WinSock.txt
+Get-DnsClientNrptPolicy -Effective | WriteOut -FileName Name-Resolution-Policy-Table
 
 
 # Windows Firewall and IPSec 
