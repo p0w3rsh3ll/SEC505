@@ -54,11 +54,9 @@ Param ([String] $OutputParentFolder = ($Pwd.Path), [Switch] $TextFileOutput)
 
 
 # Verbose start time:
-if ($VerbosePreference)
-{ 
-    $StartTime = Get-Date 
-    Write-Verbose -Message ("Started: " + (Get-Date -Format 'F')) 
-}
+$StartTime = Get-Date 
+Write-Verbose -Message ("Started: " + (Get-Date -Format 'F')) 
+
 
 
 #.DESCRIPTION
@@ -68,12 +66,12 @@ function WriteOut ($FileName)
 {
     if ($TextFileOutput)
     { 
-        if ($VerbosePreference){ Write-Verbose -Message ("Writing to " + ($FileName + ".txt")) } 
+        Write-Verbose -Message ("Writing to " + ($FileName + ".txt")) 
         $Input | Format-List * | Out-File -Encoding UTF8 -FilePath ($FileName + ".txt") 
     } 
     else 
     { 
-        if ($VerbosePreference){ Write-Verbose -Message ("Writing to " + ($FileName + ".xml")) } 
+        Write-Verbose -Message ("Writing to " + ($FileName + ".xml")) 
         $Input | Export-Clixml -Encoding UTF8 -Path ($FileName + ".xml")
     } 
 }
@@ -111,7 +109,7 @@ if (-not $?){ Write-Error -Message "Could not switch into $OutputParentFolder, e
 # Set FOLDER variable to contain output files. The format will look
 # like "COMPUTERNAME-2018-06-05-11-03" (-year-month-day-hour-minute).
 $OutputFolder = $env:COMPUTERNAME + "-" + (Get-Date -Format 'yyyy-MM-dd-hh-mm') 
-if ($VerbosePreference){ Write-Verbose -Message "Creating $(Join-Path -Path $OutputParentFolder -ChildPath $OutputFolder)" } 
+Write-Verbose -Message "Creating $(Join-Path -Path $OutputParentFolder -ChildPath $OutputFolder)" 
 
 
 # Create the $Folder in the present working directory and switch into it:
@@ -149,7 +147,7 @@ $ReadmeText | Out-File -Encoding UTF8 -FilePath .\README.TXT -Force
 if (-not $?)
 { Write-Error -Message "Could not write to README.TXT, exiting." ; Exit } 
 else
-{ if ($VerbosePreference){ Write-Verbose -Message "Created README.TXT" } } 
+{ Write-Verbose -Message "Created README.TXT" } 
 
 
 
@@ -233,13 +231,13 @@ Get-Service | WriteOut -FileName Services
 
 
 # Registry Exports (add more as you wish)
-if ($VerbosePreference){ Write-Verbose -Message "Writing to registry files: *.reg" } 
+Write-Verbose -Message "Writing to registry files: *.reg" 
 reg.exe export hklm\system\CurrentControlSet Registry-CurrentControlSet.reg /y | out-null 
 reg.exe export hklm\software\microsoft\windows\currentversion Registry-WindowsCurrentVersion.reg /y | out-null 
 
 
 # Generate an MSINFO32.EXE report, which includes lots of misc info.
-if ($VerbosePreference){ Write-Verbose -Message "Writing to MSINFO32-Report.txt" } 
+Write-Verbose -Message "Writing to MSINFO32-Report.txt" 
 msinfo32.exe /report MSINFO32-Report.txt
 
 
@@ -330,13 +328,10 @@ if (Get-Command -Name Get-FileHash -ErrorAction SilentlyContinue)
 #
 ###############################################################################
 
-if ($VerbosePreference)
-{ 
-    Write-Verbose -Message "Saved files to $(Join-Path -Path $OutputParentFolder -ChildPath $OutputFolder)" 
-    Write-Verbose -Message ("Finished: " + (Get-Date -Format 'F')) 
-    $seconds = New-TimeSpan -Start $StartTime -End (Get-Date) | Select -ExpandProperty TotalSeconds
-    Write-Verbose -Message "Total run time = $seconds seconds"
-} 
+Write-Verbose -Message "Saved files to $(Join-Path -Path $OutputParentFolder -ChildPath $OutputFolder)" 
+Write-Verbose -Message ("Finished: " + (Get-Date -Format 'F')) 
+$seconds = New-TimeSpan -Start $StartTime -End (Get-Date) | Select -ExpandProperty TotalSeconds
+Write-Verbose -Message "Total run time = $seconds seconds"
 
 
 cd $PresentDirectory
