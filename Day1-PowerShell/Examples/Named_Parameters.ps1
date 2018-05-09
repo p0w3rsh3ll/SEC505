@@ -1,3 +1,25 @@
+
+# PowerShell 5.1 and later includes cmdlets for 
+# managing local users and groups:
+
+function New-LocalAdmin ($UserName, $Password)
+{
+    $Pw = ConvertTo-SecureString $Password -AsPlainText -Force
+
+    $User = New-LocalUser -Name $UserName -Password $Pw
+
+    Add-LocalGroupMember -Group Administrators -Member $User
+}
+
+
+New-LocalAdmin -UserName "Jill" -Password "Sekrit" 
+
+
+
+
+
+
+
 # This creates the function, but does not run it!
 
 function list-parameters ($User, $Password) 
@@ -39,4 +61,10 @@ new-user -username "Jill" -password "Sekrit"
 
 # You can abbreviate the names of parameters.
 new-user -u "Lori" -p "p@55vvord"
+
+
+
+
+
+
 

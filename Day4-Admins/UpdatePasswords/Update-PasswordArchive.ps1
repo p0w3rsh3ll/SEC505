@@ -357,11 +357,16 @@ $SHA256Hasher = $null  #.Dispose() is not supported in PowerShell 2.0
 # the Rijndael key directly, 2) meddling with the output file is also a risk, so the
 # hashing to bond the Computer+User+Ticks+Thumbprint to the password is useful, and 3)
 # the UTF16LE encoding of a typical password is itself an easy-to-recognize pattern
-# which would be nearly as good as literal string crib, so it doesn't matter much -- or
+# which would be nearly as good as a literal string crib, so it doesn't matter much -- or
 # at least that's how I rationalize it while worrying about it...
 
 
-# Encrypt $bytes with 256-bit Rijnael key (can't use AES, it requires .NET 3.5 or later).
+# Encrypt $bytes with 256-bit Rijndael in CBC mode with a 128-bit block size.  We can't
+# use AES here, AES requires .NET 3.5 or later, and we want backwards compatibility.
+# But, if you're worried, 256-bit AES is just 256-bit Rijndael restricted to use only 
+# a 128-bit block size instead of any of the other block sizes Rijndael supports; for
+# more information, see https://en.wikipedia.org/wiki/Advanced_Encryption_Standard. 
+
 $Rijndael = New-Object -TypeName System.Security.Cryptography.RijndaelManaged
 $Rijndael.GenerateKey()
 $Rijndael.GenerateIV()
@@ -384,6 +389,9 @@ $MemoryStream.Dispose()
 if (-not $? -or $cipherbytes.count -lt 40) { write-statuslog -m "ERROR: Encryption of symmetric key failed, password not reset." -exit } 
 $cipherbytes = $cipherbytes + $EncryptedBytes
 if (-not $? -or $cipherbytes.count -lt 280) { write-statuslog -m "ERROR: Encryption of payload failed, password not reset." -exit } 
+#$Rijndael.Dispose() #Compatible with PoSh 2.0?
+#$Rijndael = $null
+#Remove-Variable -Name Rijndael
 
 
 # Hence, the $cipherbytes array at this point now has this format (280 byte min):

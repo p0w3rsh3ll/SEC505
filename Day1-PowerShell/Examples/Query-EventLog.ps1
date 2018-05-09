@@ -1,7 +1,8 @@
 ##############################################################################
 #  Script: Query-EventLog.ps1
-#    Date: 30.May.2007
-# Version: 1.0
+# Updated: 27.Oct.2017
+# Created: 30.May.2007
+# Version: 2.0
 #  Author: Jason Fossen, Enclave Consulting LLC (http://www.sans.org/sec505)
 # Purpose: Demo how to search remote event logs with *server-side* WMI queries.
 #   Legal: Script provided "AS IS" without warranties or guarantees of any
@@ -23,6 +24,6 @@ $query = "SELECT * FROM Win32_NTLogEvent WHERE logfile = 'Security' AND EventCod
 # $query = "SELECT * FROM Win32_NTLogEvent WHERE logfile = 'System' AND Type = 'Error'"            # System log errors.
 # $query = "SELECT * FROM Win32_NTLogEvent WHERE logfile = 'System' AND EventCode = '6008'"        # System log unexpected shutdowns.
 
-get-wmiobject -query $query -computername $computer |
-select-object RecordNumber,TimeGenerated,ComputerName,LogFile,User,SourceName,EventCode,Type,Message
+Get-CimInstance -Query $query -ComputerName $computer |
+Select-Object RecordNumber,TimeGenerated,ComputerName,LogFile,User,SourceName,EventCode,Type,Message
 

@@ -6,6 +6,7 @@
 #          computers can all be appended to one file (each line in the CSV file
 #          will have the name of the computer).  By default, the script creates
 #          a file in the present directory named ApplicationsInventory.csv.
+#          However, beware, there are issues when using the Win32_Product class!
 # Version: 1.0
 #    Date: 10.Oct.2012
 #  Author: Jason Fossen (http://www.sans.org/securing-windows)

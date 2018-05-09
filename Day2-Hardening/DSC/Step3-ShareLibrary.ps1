@@ -1,3 +1,5 @@
+# Purpose: create the DscModuleLibrary shared folder.
+
 # Move to DSC folder if necessary: 
 
 cd C:\SANS\Day2-Hardening\DSC

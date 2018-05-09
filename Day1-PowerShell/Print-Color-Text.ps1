@@ -2,12 +2,20 @@
 #  Script: Print-Color-Text.ps1
 #    Date: 16.May.2007
 # Version: 1.0
-#  Author: Jason Fossen (www.WindowsPowerShellTraining.com)
+#  Author: Enclave Consulting LLC (https://sans.org/sec505) 
 # Purpose: Demo how to change color of text or background in the shell, to
 #          change the titlebar text, or to produce the system beep sound.
 #   Legal: Script provided "AS IS" without warranties or guarantees of any
 #          kind.  USE AT YOUR OWN RISK.  Public domain, no rights reserved.
 ##############################################################################
+
+# Script must be run in PowerShell.exe, not PowerShell_ISE.exe
+if ($Host.Name -ne "ConsoleHost")
+{ 
+    Write-Warning -Message "Script must be run in PowerShell.exe, not ISE."
+    exit 
+} 
+
 
 
 # Here are the available colors for use in the shell:

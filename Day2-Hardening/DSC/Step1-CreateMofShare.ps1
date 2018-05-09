@@ -1,4 +1,6 @@
-﻿# Make sure we're in the right place:
+﻿# Purpose: create MOF shared folder.
+
+# Make sure we're in the right place:
 cd C:\SANS\Day2-Hardening\DSC
 
 

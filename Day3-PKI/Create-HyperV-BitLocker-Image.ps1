@@ -68,7 +68,7 @@ Catch { "`nYou must have BitLocker feature installed!`n" }
 
 
 # Encrypt that new VHDX volume with a BitLocker passphrase:
-Enable-BitLocker -MountPoint $DriveLetter -EncryptionMethod AES256 –UsedSpaceOnly -PasswordProtector -Password $SecureString 
+Enable-BitLocker -MountPoint $DriveLetter -EncryptionMethod AES256 -UsedSpaceOnly -PasswordProtector -Password $SecureString 
 
 
 

@@ -827,7 +827,7 @@ invoke-expression -command ($setup.FullName + " /VERYSILENT")
 
 ###############################################################################
 #
-#" Installing Wireshark..."
+#" Installing Wireshark..."  #Confirm that this is still in .\Tools\WireShark
 #
 ###############################################################################
 # $setup = dir C:\SANS\Tools\WireShark\*wireshark*.exe

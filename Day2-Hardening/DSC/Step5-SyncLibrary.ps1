@@ -1,7 +1,7 @@
-﻿# Create a DSC configuration function to copy all the
-# modules from the DscModuleLibrary shared folder into
-# the local PowerShell modules folder.  The name of
-# this function is DSC-SyncModuleLibrary:
+﻿# Purpose: create a DSC configuration function to copy all 
+# the modules from the DscModuleLibrary shared folder into
+# the local PowerShell modules folder.  
+
 
 Configuration DSC-SyncModuleLibrary
 {

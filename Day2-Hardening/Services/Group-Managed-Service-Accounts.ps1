@@ -11,11 +11,11 @@
 
 
 # Step 1: Create the Key Distribution Service (KDS) root key:
-Add-KdsRootKey –EffectiveTime ((Get-Date).AddHours(-10))
+Add-KdsRootKey -EffectiveTime ((Get-Date).AddHours(-10))
 
 # Note that in real life you would execute the following command
 # to create the KDS root key and then wait 10 hours:
-#    Add-KdsRootKey –EffectiveImmediately
+#    Add-KdsRootKey -EffectiveImmediately
 # This only needs to be done once per domain.
 
 
@@ -49,7 +49,7 @@ Test-AdServiceAccount TestingGMSA
 $Principal = New-ScheduledTaskPrincipal -UserID testing\TestingGMSA$ -LogonType Password
 $Action = New-ScheduledTaskAction  "C:\Folder\Script.ps1" 
 $Trigger = New-ScheduledTaskTrigger -At 2:00 -Daily 
-Register-ScheduledTask GmsaTaskName –Action $Action –Trigger $Trigger –Principal $Principal
+Register-ScheduledTask GmsaTaskName -Action $Action -Trigger $Trigger -Principal $Principal
 
 # Note that '-LogonType Password' should be entered as shown literally, do not replace the
 # 'Password' with another string which might be the password in the first command above.

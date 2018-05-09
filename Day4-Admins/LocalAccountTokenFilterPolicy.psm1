@@ -3,14 +3,15 @@
  Manage the LocalAccountTokenFilterPolicy registry value (KB951016).
 
 .DESCRIPTION
- Manage the LocalAccountTokenFilterPolicy registry value (KB951016). This value
- controls whether network logons to a computer using a local account defined on
- that computer will have a normal, full, unmodified Security Access Token ($Setting = 1)
- or a Security Access Token which has been stripped of it's dangerous privileges
- and administrative group memberships ($Setting = 0, the default).
+ Manage the LocalAccountTokenFilterPolicy registry value (KB951016). 
+ This value controls whether network logons to a computer using a 
+ local account defined on that computer will have a normal, full, 
+ unmodified Security Access Token ($Setting = 1) or a Security Access 
+ Token which has been stripped of it's dangerous privileges and 
+ administrative group memberships ($Setting = 0, the default).
 
 .NOTES
- Legal: Script provided "AS IS" without warranties or guarantees of any kind.
+ Legal: Script provided "AS IS" without warranties of any kind.
  Redistribution: Public domain, no rights reserved.
  Author: Enclave Consulting LLC. 
 #>
@@ -22,20 +23,22 @@ function Get-LocalAccountTokenFilterPolicy
 {
     <#
     .SYNOPSIS
-     Returns the setting of the LocalAccountTokenFilterPolicy registry value (KB951016).
+     Returns the LocalAccountTokenFilterPolicy registry value (KB951016).
 
     .DESCRIPTION
-     The LocalAccountTokenFilterPolicy registry value controls whether network logons to a 
-     computer using a local account defined on that computer will have a normal, full, 
-     unmodified Security Access Token (returns 1) or a Security Access Token which has 
-     been stripped of it's dangerous privileges and administrative group memberships 
-     (returns 0, which is the factory default). This impacts whether a local user may be
-     used for tasks like PowerShell remoting and system administration (0 = No, 1 = Yes). 
-     See KB951016 for more information, the issues are complex and potentially compromising.
-     Use the -Verbose switch to show additional information about consequences. 
+     The LocalAccountTokenFilterPolicy registry value controls whether 
+     network logons to a computer using a local account defined on that 
+     computer will have a normal, full, unmodified Security Access Token 
+     (returns 1) or a Security Access Token which has been stripped of it's 
+     dangerous privileges and administrative group memberships (returns 0, 
+     which is the factory default). This impacts whether a local user may be
+     used for tasks like PowerShell remoting and system administration (0 = No, 
+     1 = Yes). See KB951016 for more information, the issues are complex and 
+     potentially compromising. Use the -Verbose switch to show additional 
+     information about consequences. 
 
     .NOTES
-     Legal: Script provided "AS IS" without warranties or guarantees of any kind.
+     Legal: Script provided "AS IS" without warranties of any kind.
      Redistribution: Public domain, no rights reserved.
      Author: Enclave Consulting LLC. 
     #>
@@ -78,23 +81,26 @@ function Set-LocalAccountTokenFilterPolicy
      Sets the LocalAccountTokenFilterPolicy registry value (KB951016).
 
     .DESCRIPTION
-     The LocalAccountTokenFilterPolicy registry value controls whether network logons to a 
-     computer using a local account defined on that computer will have a normal, full, 
-     unmodified Security Access Token (returns 1) or a Security Access Token which has 
-     been stripped of it's dangerous privileges and administrative group memberships 
-     (returns 0, which is the factory default). This impacts whether a local user may be
-     used for tasks like PowerShell remoting and system administration (0 = No, 1 = Yes). 
-     This does not apply to the built-in local Administrator account, however, for which
-     the effective value is always 1, that is to say, the Administrator's SAT is unmodified.
-     See KB951016 for more information, the issues are complex and potentially compromising.
-     Use the -Verbose switch to show additional information about consequences. Note that
-     changes to this value take effect immediately, no reboot required. Function outputs
-     true or false to indicate successful setting of the registry value. 
+     The LocalAccountTokenFilterPolicy registry value controls whether 
+     network logons to a computer using a local account defined on that 
+     computer will have a normal, full, unmodified Security Access Token 
+     (returns 1) or a Security Access Token which has been stripped of it's 
+     dangerous privileges and administrative group memberships (returns 0, 
+     which is the factory default). This impacts whether a local user may be
+     used for tasks like PowerShell remoting and system administration (0 = No, 
+     1 = Yes). This does not apply to the built-in local Administrator account, 
+     however, for which the effective value is always 1, that is to say, the 
+     Administrator's SAT is unmodified.  See KB951016 for more information, the 
+     issues are complex and potentially compromising. Use the -Verbose switch to 
+     show additional information about consequences. Note that changes to this 
+     value take effect immediately, no reboot required. Function outputs true or 
+     false to indicate successful setting of the registry value. 
 
     .PARAMETER Settings
-     Mandatory, must be 0 or 1. There is no default for the function (Windows defaults to 0 
-     because, by default, the registry value does not exist).  Setting to 0 has the same
-     effect as deleting the value from the registry. Function cannot delete the value. 
+     Mandatory, must be 0 or 1. There is no default for the function (Windows 
+     defaults to 0 because, by default, the registry value does not exist).  
+     Setting to 0 has the same effect as deleting the value from the registry. 
+     Function cannot delete the value. 
 
     .NOTES
      Legal: Script provided "AS IS" without warranties or guarantees of any kind.

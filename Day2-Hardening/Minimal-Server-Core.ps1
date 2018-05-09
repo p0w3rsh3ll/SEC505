@@ -1,18 +1,22 @@
 ##########################################################################
-# Server 2012 and later can run in three modes: Full, Minimal, and Core.
+# Server 2012 and 2012 R2 can run in three modes: Full, Minimal, and Core.
 #        Full = Full graphical interface and graphical management tools.
 #        Minimal = Like Full, but no IE, File Explorer or desktop.
 #        Core = Almost no graphical tools will run.
-# You can switch between the modes from within PowerShell.
+# You can switch between the modes from within PowerShell without 
+# reinstalling the OS from scratch again.  However, this is not supported
+# on Server 2016, where it is not possible to switch between Core, Minimal
+# and Full Desktop Experience without reinstalling.  This is the way it
+# was on Server 2008, now it is that way again on Server 2016 and later.  
 ##########################################################################
 
-# To reduce from Full GUI to Minimal GUI:
+# To reduce from Full GUI to Minimal GUI on Server 2012:
 Remove-WindowsFeature Server-Gui-Shell
 
-# To reduce from Minimal to Core:
+# To reduce from Minimal to Core on Server 2012:
 Remove-WindowsFeature Server-Gui-Mgmt-Infra
 
-# To reduce from Full GUI down to Core with a single command:
+# To reduce from Full GUI down to Core with a single command on Server 2012:
 Remove-WindowsFeature Server-Gui-Shell,Server-Gui-Mgmt-Infra
 
 

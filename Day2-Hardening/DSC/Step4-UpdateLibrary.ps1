@@ -1,4 +1,6 @@
-﻿# Move to DSC folder if necessary: 
+﻿# Purpose: download DSC modules from PSGallery.
+
+# Move to DSC folder if necessary: 
 
 cd C:\SANS\Day2-Hardening\DSC
 
@@ -30,5 +32,10 @@ if (Test-NetConnection -ComputerName 'www.PowerShellGallery.com' -Port 80 -Infor
 # module versions are not deleted.  Note that not all DSCResourceKit 
 # modules were developed by Microsoft.  There is no guarantee that any 
 # PSGallery module is safe or malware-free, even the ones from Microsoft.
+# Also, if any modules require acceptance of a license agreement first, 
+# then you must update the PowerShellGet module to at least version 1.5 
+# and then use the -AcceptLicense switch with the Save-Module cmdlet:
+#     Update-Module -Name PowerShellGet -Force
+#     Save-Module -AcceptLicense -Name PointlessPain -Path .\SomeFolder
 
 

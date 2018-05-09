@@ -1,6 +1,5 @@
-﻿# This script requires PowerShell 5.1 or later and a version
-# of the PSDscResources module later than 2.6.0.0.  Run
-# Get-Module -Name PSDscResources -ListAvailable 
+﻿# This script requires PowerShell 5.1 or later and 
+# the PSDscResources module version 2.7.0.0 or later.
 
 
 Configuration ServerTemplate

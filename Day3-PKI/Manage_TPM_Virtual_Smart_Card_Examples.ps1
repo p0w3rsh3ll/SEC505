@@ -1,8 +1,6 @@
 ﻿# Windows 8 and later can use a TPM chip to implement a virtual smart card.
 # The following are example commands for managing a TPM virtual smart card when
-# an enterprise smart card management system is not used, e.g., MS Identity Manager,
-# which, in real life, you would almost certainly use for virtual cards.
-
+# an enterprise smart card management system is not used, e.g., MS Identity Manager.
 
 # NOTES:
 # The user PIN can be any standard printable ASCII character, not just numbers.

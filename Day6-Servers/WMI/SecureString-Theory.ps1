@@ -13,9 +13,13 @@
 # Dialog box appears to ask for a username and password:
 $cred = get-credential   
 
-# The username can be displayed, but the original password cannot be displayed:
+# The username can be displayed, but the password cannot:
 $cred.username 
 $cred.password 
+
+
+# Unless you have PoSh 3.0+:
+$cred.GetNetworkCredential().Password
 
 
 # But this function will return the plaintext of a "secure" string from either

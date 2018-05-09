@@ -11,7 +11,7 @@
     if the CA allows this dangerous user behavior.  The script returns
     $False if this dangerous behavior is not allowed, which is the
     default.  This dangerous SAN behavior will be allowed if these
-    commands are run (notice the "+"): 
+    commands are run (notice the "+EDITF*"): 
 
        certutil.exe –setreg policy\EditFlags +EDITF_ATTRIBUTESUBJECTALTNAME2 
 

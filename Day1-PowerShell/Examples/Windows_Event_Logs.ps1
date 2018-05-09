@@ -11,15 +11,15 @@ get-winevent -listlog s* -computername "localhost"
 
 
 
-# To see the details of just the Security log:
+# To save the event log data to an array named $logdata:
 
-get-winevent -listlog security | format-list *
+$logdata = get-winevent -logname system
 
 
 
-# To show the last 20 events from the System log:
+# To show only the last 3 events from the security log:
 
-get-winevent -logname system -maxevents 20
+get-winevent -logname security -maxevents 3 | select *
 
 
 
@@ -28,10 +28,37 @@ get-winevent -logname system -maxevents 20
 $events  = get-winevent -logname system      -maxevents 20
 $events += get-winevent -logname application -maxevents 20
 $events += get-winevent -logname security    -maxevents 20
+
 $events | sort-object -property TimeCreated | 
 format-table TimeCreated,ID,LevelDisplayName,Message -auto
 
 
+
+# To use an XML query constructed from Event Viewer to show just Critical, Error and
+# Warning events from the System log in the last 24 hours:
+
+$FromEventViewer = @'
+<QueryList>
+    <Query Id="0" Path="System">
+       <Select Path="System">*[System[(Level=1 or Level=2 or Level=3) and TimeCreated[timediff(@SystemTime) &lt;= 86400000]]]</Select>
+    </Query>
+</QueryList>
+'@
+
+get-winevent -FilterXML $FromEventViewer |
+select-object MachineName,LogName,Id,TimeCreated |
+export-csv -path .\searchresults.csv
+
+
+
+
+
+
+
+
+####################################################################
+# Extra Examples
+####################################################################
 
 # To only show the 10 most recent event ID 4624 from the Security log:
 # (Note: Cannot use wildcards in FilterHashTable values.)
@@ -73,23 +100,9 @@ $events | select-object -last 10
 
 
 
-# To use an XML query constructed from Event Viewer to show just Critical, Error and
-# Warning events from the System log in the last 24 hours:
+# To see the details of just the Security log:
 
-$CopiedFromEventViewer = @'
-<QueryList>
-    <Query Id="0" Path="System">
-       <Select Path="System">*[System[(Level=1 or Level=2 or Level=3) and TimeCreated[timediff(@SystemTime) &lt;= 86400000]]]</Select>
-    </Query>
-</QueryList>
-'@
-
-get-winevent -FilterXML $CopiedFromEventViewer  
-
-
-
-
-
+get-winevent -listlog security | select *
 
 
 

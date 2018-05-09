@@ -47,8 +47,8 @@ Function New-SecureString ($PlainText)
 
 
 
-# Create a credential object for use with Start-Process, Get-WmiObject, Invoke-Command and
-# many other cmdlets (see 'get-command -ParameterName Credential' for the full list):
+# Create a credential object for use with Start-Process, Invoke-Command and
+# other cmdlets (see 'get-command -ParameterName Credential' for the full list):
 Function New-Credential ($UserName, $Password)
 {
     $SecureString = New-Object -TypeName System.Security.SecureString

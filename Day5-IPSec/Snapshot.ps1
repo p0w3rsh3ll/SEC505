@@ -41,8 +41,8 @@
     Show progress information as the script is running.
 
 .NOTES
-    Version: 4.3
-    Updated: 21.Jun.2017
+    Version: 4.5
+    Updated: 26.Oct.2017
      Author: Enclave Consulting LLC (http://www.sans.org/sec505)
       Legal: Public domain, provided "AS IS" without any warranties.
 
@@ -107,7 +107,7 @@ if (-not $?){ Write-Error -Message "Could not switch into $OutputParentFolder, e
 
 
 # Set FOLDER variable to contain output files. The format will look
-# like "COMPUTERNAME-2018-06-05-11-03" (-year-month-day-hour-minute).
+# like "COMPUTERNAME-2018-06-05-11-03" (computername-year-month-day-hour-minute).
 $OutputFolder = $env:COMPUTERNAME + "-" + (Get-Date -Format 'yyyy-MM-dd-hh-mm') 
 Write-Verbose -Message "Creating $(Join-Path -Path $OutputParentFolder -ChildPath $OutputFolder)" 
 
@@ -160,11 +160,11 @@ else
 ###############################################################################
 
 # Computer System 
-Get-WmiObject -Class Win32_ComputerSystem | WriteOut -FileName ComputerSystem
+Get-CimInstance -ClassName Win32_ComputerSystem | WriteOut -FileName ComputerSystem
 
 
 # BIOS
-Get-WmiObject -Class Win32_BIOS | WriteOut -FileName BIOS
+Get-CimInstance -ClassName Win32_BIOS | WriteOut -FileName BIOS
 
 
 # Environment Variables
@@ -172,15 +172,15 @@ dir env:\ | WriteOut -FileName Environment-Variables
 
 
 # Users
-Get-WmiObject -Class Win32_UserAccount | WriteOut -FileName Users
+Get-CimInstance -ClassName Win32_UserAccount | WriteOut -FileName Users
 
 
 # Groups
-Get-WmiObject -Class Win32_Group | WriteOut -FileName Groups
+Get-CimInstance -ClassName Win32_Group | WriteOut -FileName Groups
 
 
 # Group Members
-Get-WmiObject -Class Win32_GroupUser | WriteOut -FileName Group-Members
+Get-CimInstance -ClassName Win32_GroupUser | WriteOut -FileName Group-Members
 
 
 # Password And Lockout Policies
@@ -223,7 +223,7 @@ Get-Process -IncludeUserName | WriteOut -FileName Processes
 
 
 # Drivers
-Get-WmiObject -Class Win32_SystemDriver | WriteOut -FileName Drivers
+Get-CimInstance -ClassName Win32_SystemDriver | WriteOut -FileName Drivers
 
 
 # DirectX Diagnostics

@@ -66,9 +66,24 @@ Find-Script
 Find-DscResource
 
 
+# Install the PowerShellGet module 1.5 or later to support
+# the installation of other modules which require the
+# -AcceptLicense switch for their License.txt files. In
+# general, it's best to always upgrade to the latest version
+# of the PowerShellGet module before managing other modules:
+
+Install-Module -Name PowerShellGet -Force
+
+
 # To download and save a module or script (including DSC modules):
 Save-Module -Name SomeModule -Path C:\SomeLocalFolder
 Save-Script -Name SomeScript -Path C:\SomeLocalFolder 
+
+
+# Some modules require a license agreement to be accepted, but 
+# you cannot include the -AcceptLicense switch without error
+# when the PowerShellGet module itself is earlier than 1.5: 
+Save-Module -AcceptLicense -Name ModuleRequireLicenseAcceptance -Path C:\SomeLocalFolder 
 
 
 # To download and save a module for your own PERSONAL use

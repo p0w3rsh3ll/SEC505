@@ -17,7 +17,8 @@
 #
 #.Parameter PathToReferenceList 
 #    The local or UNC path to the text file containing the list of certificate
-#    hash thumbprints against which to compare as a reference.
+#    SHA-1 hash thumbprints against which to compare as a reference.  Note that
+#    the hashes must be SHA-1, not SHA-256.  
 #
 #.Parameter OutputPath
 #    The local or UNC path to the folder for the output CSV file which will contain 

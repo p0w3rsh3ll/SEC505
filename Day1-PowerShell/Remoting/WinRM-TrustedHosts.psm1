@@ -16,7 +16,7 @@
  authenticate the target computer's identity.  It is possible to simply
  put "*" in the TrustedHosts list in order to trust any target, but
  then care must be taken to avoid remoting into untrustworthy or infected
- targets, perhaps using IPSec authentication and other precautions. When
+ targets, perhaps using IPsec authentication and other precautions. When
  the trusted target name is "<local>", this includes any computer name
  which does NOT include a period, such as a simple hostname or NetBIOS 
  name. It's also permissible to use a wildcard with a domain name, such

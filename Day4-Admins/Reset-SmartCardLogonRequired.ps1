@@ -35,7 +35,7 @@ To convert a ticks number to a DateTime object: "<tick> | Get-Date".
 
 Version: 1.0
 Legal: Public domain, provided "AS IS" without warranties of any kind.
-Author: Enclave Consulting LLC, Jason Fossen, http://sans.org/sec505
+Author: Enclave Consulting LLC, Jason Fossen, https://sans.org/sec505
 #>
 
 Param ( $SearchBase = $null )

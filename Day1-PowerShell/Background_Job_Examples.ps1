@@ -19,8 +19,9 @@ PowerShell session, running or finished, will be lost.  To run a
 command which survives the termination of PowerShell or the logging
 off of all users on a computer, use a scheduled task instead.
 
-The Start-Job cmdlet and the -AsJob switch of Invoke-Command and
-Get-WmiObject are the most common ways of launching background jobs.
+The Start-Job cmdlet and the -AsJob switch of Invoke-Command are
+the most common ways of launching background jobs.
+
 The output produced by a job is obtained with the Receive-Job cmdlet.
 
 Note that the output of background job is captured, converted to XML

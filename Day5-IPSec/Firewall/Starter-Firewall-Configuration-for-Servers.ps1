@@ -1,5 +1,6 @@
 ﻿########################################################################
 #
+#.DESCRIPTION
 # This is a starter firewall configuration script that
 # might be run on servers in a domain.  Feel free to edit.
 #

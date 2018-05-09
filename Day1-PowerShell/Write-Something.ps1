@@ -4,6 +4,11 @@
 ################################################################
 
 
+# For automatic common parameters, your script must begin with:
+[CmdletBinding()] Param() 
+
+
+
 # To list the commands with the Write-* verb:
 Get-Command -Verb Write
 
@@ -14,9 +19,6 @@ Get-Help about_CommonParameters | more
 Get-Help about_Preference_Variables | more
 
 
-
-# For automatic common parameters, your script must begin with:
-[CmdletBinding()] Param() 
 
 
 

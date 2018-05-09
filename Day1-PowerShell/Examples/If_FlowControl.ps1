@@ -1,4 +1,4 @@
-$string = "SANS Institute GIAC"
+$string = "SANS has GIAC training for the GCWN certification."
 
 
 If ($string -like "SANS*") 
@@ -9,9 +9,13 @@ ElseIf ($string -match "[FGH]IAC")
 {
 	"It matches the regular expression pattern."
 } 
+ElseIf ($string -eq "GCWN") 
+{
+	"It matches the string exactly."
+} 
 Else 
 {
-	"We don't know what it is, so we're giving up."
+	"None of the above tests resolved to $true." 
 }
 
 

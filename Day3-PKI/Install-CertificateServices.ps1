@@ -20,5 +20,8 @@ Install-AdcsWebEnrollment -Force
 # Install the OCSP responder app in IIS:
 Install-AdcsOnlineResponder -Force
 
+# Enable the audit policy for Certification Services:
+auditpol.exe /set /subcategory:"Certification Services" /success:enable /failure:enable
+
 
 

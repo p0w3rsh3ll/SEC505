@@ -8,7 +8,7 @@
 #           and you must run the script on the controller as a Domain Admin
 #           for the domain in the forest where you want the accounts created.
 #  Version: 1.0
-#   Author: Jason Fossen (http://www.sans.org/windows-security/)
+#   Author: Jason Fossen (http://www.sans.org/sec505)
 #  Warning: If you target an existing production OU, the script will
 #           create accounts in that OU alongside your real accounts. Also,
 #           the users will be created with long but predictable passphrases in

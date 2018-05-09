@@ -1,9 +1,9 @@
 ﻿# This script can be used to quickly configure a VM
 # as a member server in your lab domain (testing.local), 
-# such as for testing IPSec.
+# such as for testing IPsec.
 
 
-# Rename host to "Member":
+# Rename host to "Member" and reboot:
 if ($env:COMPUTERNAME -ne 'Member')
 { Rename-Computer -NewName Member -Restart } 
 
@@ -19,13 +19,14 @@ Get-NetAdapter | Set-DnsClientServerAddress -ServerAddresses 10.1.1.1
 # Enable various firewall rule groups:
 Enable-NetFirewallRule -DisplayGroup 'Windows Firewall Remote Management'
 Enable-NetFirewallRule -DisplayGroup 'File and Printer Sharing'
+Enable-NetFirewallRule -DisplayGroup 'Windows Management Instrumentation (WMI)'
 #Enable-NetFirewallRule -DisplayGroup 'World Wide Web Services (HTTP)'
 #Enable-NetFirewallRule -DisplayGroup 'Secure World Wide Web Services (HTTPS)'
-Enable-NetFirewallRule -DisplayGroup 'Windows Management Instrumentation (WMI)'
+
 
 
 # Join host to the testing.local domain:
-$box = Get-WmiObject -Class Win32_ComputerSystem
+$box = Get-CimInstance -ClassName Win32_ComputerSystem
 if ($box.PartOfDomain -ne $true)
 { Add-Computer -DomainName testing.local -Credential testing\administrator -Restart } 
 

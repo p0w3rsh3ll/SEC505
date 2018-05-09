@@ -5,7 +5,8 @@
 # Script assumes that C:\Temp exists and is writeable. 
 # It is OK to run the script multiple times, any errors are suppressed.
 # Script requires at least PowerShell 5.0 for the Expand-Archive cmdlet.
-# Last Updated: 29.Dec.2016
+#
+# Last Updated: 2.Aug.2017
 
 
 # Delete temp folders if this script has been run previously:
@@ -32,8 +33,12 @@ Invoke-ApplySecureHostBaseline -Path 'C:\Temp\Secure-Host-Baseline' -PolicyNames
 $ErrorActionPreference = $currentPref
 
 
-
 # Now, look in the GPMC and there will be new GPOs, but they are not
 # linked to anything by default.
+
+
+# Fix GPMC pop-up errors (July 2017):
+del C:\Windows\PolicyDefinitions\en-US\ReaderDC.adml -ErrorAction SilentlyContinue
+del C:\Windows\PolicyDefinitions\ReaderDC.admx -ErrorAction SilentlyContinue
 
 

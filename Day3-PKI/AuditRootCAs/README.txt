@@ -12,7 +12,7 @@ The following URL is where Microsoft periodically publishes the hashes of their 
 
     http://social.technet.microsoft.com/wiki/contents/articles/3281.introduction-to-the-microsoft-root-certificate-program.aspx
 
-Unfortunately, you'll have to extract the hashes from the HTML yourself, e.g., save as a text file, pull out the hashes, and remove the space characters.  This folder contains a text file of these hashes, but please note that the list will eventually be out of date.  Why Microsoft doesn't just post an XLS, XML or CSV file with the complete list is a mystery (if enough of us ask, maybe someone at Microsoft could do a Save As...).
+Run the Get-MicrosoftRootCaList.ps1 script to extract the hashes from Microsoft's list.
 
 Apple describes their root CA certification program and publishes a list of trusted CAs here, but note that not every certificate on the list includes the hash of that cert:
 
@@ -65,5 +65,12 @@ Attackers may try to delete or corrupt the existing CSV files to prevent access.
 The trusted administrator(s) can be granted Full Control to the archive files, certificates, and scripts as needed of course. 
 
 
+
+*******************************************
+Caveats & Legal Disclaimers
+*******************************************
+The script is free and in the public domain, you may use it for any purpose whatsoever without restriction. However, that being said...
+
+THIS SCRIPT IS PROVIDED "AS IS" WITH NO WARRANTIES OR GUARANTEES OF ANY KIND, INCLUDING BUT NOT LIMITED TO MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE. ALL RISKS OF DAMAGE REMAINS WITH THE USER, EVEN IF THE AUTHOR, SUPPLIER OR DISTRIBUTOR HAS BEEN ADVISED OF THE POSSIBILITY OF ANY SUCH DAMAGE. IF YOUR STATE DOES NOT PERMIT THE COMPLETE LIMITATION OF LIABILITY, THEN DO NOT DOWNLOAD OR USE THE SCRIPT. NO TECHNICAL SUPPORT WILL BE PROVIDED.
 
 

@@ -1,10 +1,12 @@
+# Purpose: use DSC to install the IIS web server role.
+
 # This step is not one of the required steps to "bootstrap"
 # a machine into being ready to receive a DSC configuration. 
 # 
 # This script is an example of how real work can be done with 
 # DSC now that all necessary resource modules have (hopefully)
 # been installed in the prior steps.  Hence, we are done 
-# getting ready to use DSC, we can now use DSC.  
+# getting ready to use DSC, we can now actually use DSC.  
 
 
 Configuration DSC-WebServer

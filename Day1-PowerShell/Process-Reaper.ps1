@@ -3,7 +3,7 @@
 # The real script would be written more carefully...
 
 
-$ProcessesToStop = @("mspaint","baddierootkit","hacktool") 
+$ProcessesToStop = @("mspaint","charmap","baddierootkit","hacktool") 
 
 While ($true)
 {

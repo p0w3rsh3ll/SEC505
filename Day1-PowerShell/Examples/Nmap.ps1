@@ -22,12 +22,12 @@ out-file \\localhost\c$\temp\report.html
 
 .\parse-nmap.ps1 -path samplescan.xml |
 where {$_.OS -like "*Windows XP*"} |
-export-csv .\weblisteners.csv
+export-csv .\xpmachines.csv
 
-$data = import-csv .\weblisteners.csv
+$data = import-csv .\xpmachines.csv
 
 $data | where {($_.IPv4 -like "10.57.*") `
-      -and ($_.Ports -match "open:tcp:22:")} 
+  -and ($_.Ports -match "open:tcp:22:")} 
 
 
 

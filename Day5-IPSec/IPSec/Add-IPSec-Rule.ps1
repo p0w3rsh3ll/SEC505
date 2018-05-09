@@ -1,6 +1,7 @@
 ###################################################
 # This script demonstrates how to create an IPsec # 
-# rule on Server 2012, Windows 8 and later.       #
+# rule on Server 2012, Windows 8 and later.  This #
+# will use IKEv1 because of the pre-shared key.   #
 ###################################################
 
 

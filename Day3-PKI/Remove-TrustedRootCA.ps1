@@ -28,7 +28,7 @@
 # pushing out the script, the following hashes are just
 # examples for the sake of demonstrations.
 
-$BadCerts = @("4EF2E6670AC9B5091FE06BE0E5483EAAD6BA32D9","4EF2E6670AC9B5091FE06BE0E5483EAAD6BA32D9")  #Example: An expired Belgacom E-Trust cert repeated twice.
+$BadCerts = @("4EF2E6670AC9B5091FE06BE0E5483EAAD6BA32D9","1AF5EA670AC9B5091FE06BE0E5483EAAD6BE3212")  
 
 
 

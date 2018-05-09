@@ -65,8 +65,8 @@
 #
 #.Notes 
 #  Author: Jason Fossen, Enclave Consulting LLC (http://www.sans.org/sec505)  
-# Version: 3.2
-# Updated: 10.Jul.2015
+# Version: 3.2.1
+# Updated: 6.Oct.2016
 #   LEGAL: PUBLIC DOMAIN.  SCRIPT PROVIDED "AS IS" WITH NO WARRANTIES OR GUARANTEES OF 
 #          ANY KIND, INCLUDING BUT NOT LIMITED TO MERCHANTABILITY AND/OR FITNESS FOR
 #          A PARTICULAR PURPOSE.  ALL RISKS OF DAMAGE REMAINS WITH THE USER, EVEN IF
@@ -149,7 +149,7 @@ foreach ($name in $failurenames)
     $targets = $failurefiles | where { $_.Name -like ($name + "+*") } | sort Name
     if ($targets.count -le $ArchivesToKeep) { continue } 
     0..$($targets.count - $ArchivesToKeep - 1) | 
-        foreach { if (-not $DoNotDelete){remove-item $targets[$_].fullname ; if($?){$FailureFileCounter++}}} 
+        foreach { if (-not $DoNotDelete){remove-item -path $targets[$_].fullname -force ; if($?){$FailureFileCounter++}}} 
 }
 
 foreach ($name in $successnames)
@@ -157,7 +157,7 @@ foreach ($name in $successnames)
     $targets = $successfiles | where { $_.Name -like ($name + "+*") } | sort Name
     if ($targets.count -le $ArchivesToKeep) { continue } 
     0..$($targets.count - $ArchivesToKeep - 1) | 
-        foreach { if (-not $DoNotDelete){remove-item $targets[$_].fullname ; if($?){$SuccessFileCounter++}}}  
+        foreach { if (-not $DoNotDelete){remove-item -path $targets[$_].fullname -force ; if($?){$SuccessFileCounter++}}}  
 }
 
 

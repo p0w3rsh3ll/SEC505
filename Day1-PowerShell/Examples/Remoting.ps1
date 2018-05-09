@@ -41,5 +41,5 @@ $Servers = @("Server7", "Server8", "Server9")
 Invoke-Command -ComputerName $Servers -ScriptBlock { ps } -AsJob
 Get-Job    #Query status, see the ID number, and look for State = Completed.
 $Output = Receive-Job -ID 6
-$Output | Format-Table PSComputerName,ProcessName -AutoSize
+$Output | Select-Object PSComputerName,ProcessName 
 

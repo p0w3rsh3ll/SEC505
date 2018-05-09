@@ -1,18 +1,17 @@
 $services = get-service
 
-ForEach ($x in $services) 
+ForEach ($svc in $services) 
 { 
-    $x.name + " : " + $x.status 
+    $svc.name + ":" + $svc.status 
 }
 
 
 
+get-service | ForEach { $_.name + ":" + $_.status } 
 
 
 
-ForEach ($x In @(dir c:\ | where {-not $_.psiscontainer})) {
-	$x.name + " : " + $x.length / 1024 + "KB"
-} 
+
 
 
  
@@ -22,6 +21,6 @@ ForEach ($x In @(dir c:\ | where {-not $_.psiscontainer})) {
 # Implicit foreach using grouping.
 # Requires PowerShell 3.0 or later.
 
-(ps).path	
+( ps ).path	
 
-			
+

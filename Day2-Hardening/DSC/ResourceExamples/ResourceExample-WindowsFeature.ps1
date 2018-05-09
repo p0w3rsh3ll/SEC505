@@ -11,10 +11,10 @@ Configuration TestConfig
 
     Node $ComputerName
     {
-        WindowsFeature NoTelnet
+        WindowsFeature NoWINS
         {
             Ensure = "Absent"
-            Name = "Telnet-Server" 
+            Name = "WINS" 
         }
 
         WindowsFeature YesDNS

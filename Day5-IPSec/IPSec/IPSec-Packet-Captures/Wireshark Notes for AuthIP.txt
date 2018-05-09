@@ -1,0 +1,31 @@
+IPsec AuthIP Wireshark Notes (from [MS-AIPS]) 
+
+RFC 2408 reserves exchange types 128-255 for private use:
+
+Exchange Type 243 (0xF3) : main mode and the first quick mode exchange
+Exchange Type 244 (0xF4) : quick mode
+Exchange Type 245 (0xF5) : extended mode 
+Exchange Type 246 (0xF6) : notify
+
+RFC 2408 section 3.1 reserves private payload types:
+
+Type Payload 129 (0x81) : GSS-API token (Token)
+Type Payload 133 (0x85) : GSS-API crypto payload (CRYPTO)
+Type Payload 134 (0x86) : GSS-API endpoint name (GSS_ID)
+Type Payload 135 (0x87) : GSS-API authentication (Auth)
+Type Payload 136 (0x88) : QM key dictation
+Type Payload 137 (0x89) : QM key dictation weight
+Type Payload  11 (0x0B) : encapsulation mode
+
+For Type Payload 129 (GSS-API Token):
+
+For Kerberos, the GSS-API_Token is as specified in [RFC1964] section 1. For NTLM, the GSS-API_Token is in the format specified in [MS-NLMP], section 3.1.5.2.1 for initiator tokens, and section 3.2.5.2.1 and section 3.2.5.2.2 for responder tokens. There is no additional GSS encapsulation over what is specified in [MS-NLMP] for the tokens. For TLS, the GSS-API_Token is as specified in [RFC5246] section 7.3. The initiator tokens are the client messages, and the responder tokens are the server messages as defined in [RFC5246] section 7.3. As with NTLM, there is no additional GSS encapsulation. For anonymous, the GSS-API_Token must be 0 bytes. No additional GSS methods are supported.  SPNEGO is not supported in AuthIP.
+
+For Type Payload 134 (GSS_ID):
+The GSS-API representation of a security principal name, as specified in [MS-KILE] section 3.1.5.11, as a Unicode string. 
+
+For Type Payload 135 (Auth):
+The authenticated payload is used to convey a list of authentication methods to the responder.  First two bytes will be 0x0002 (Kerberos), 0x0003 (Anonymous), 0x0004 (TLS), or 0x0005 (NTLM).
+
+
+

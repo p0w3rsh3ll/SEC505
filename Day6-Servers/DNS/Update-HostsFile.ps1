@@ -25,6 +25,9 @@
 #    default to "http://www.malwaredomainlist.com/hostslist/hosts.txt" if
 #    left unspecified. 
 #
+#.Parameter SinkholeIP
+#    The IP address to which sinkholed names will resolve. Default is 0.0.0.0.
+#
 #.Parameter BlockWPAD
 #    Web Proxy Automatic Discovery (WPAD) protocol resolves the "wpad" name
 #    to an HTTP server with a browser configuration file.  WPAD is vulnerable
@@ -82,8 +85,8 @@
 #
 #.Notes 
 #  Author: Jason Fossen, Enclave Consulting LLC (http://www.sans.org/sec505)  
-# Version: 1.5.1
-# Updated: 24.Jul.2013
+# Version: 1.5.2
+# Updated: 17.Jul.2017
 #   LEGAL: PUBLIC DOMAIN.  SCRIPT PROVIDED "AS IS" WITH NO WARRANTIES OR 
 #          GUARANTEES OF ANY KIND, INCLUDING BUT NOT LIMITED TO 
 #          MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.  ALL 
@@ -247,14 +250,28 @@ function update-hostsfile
     "::1 localhost"  | add-content $HostsFilePath -force
     "0.0.0.0 zero.zero.zero.zero" | add-content $HostsFilePath -force
     if (-not $?) { "Error writing to hosts file!`n" ; return } 
-    if ($env:userdnsdomain -eq $null) { $wpadline = "0.0.0.0 wpad" } else { $wpadline = "0.0.0.0 wpad wpad." + ($env:userdnsdomain).tolower() }
+
+    #WPAD
+    $wpadline = "0.0.0.0 wpad"  #Should this be $SinkholeIP instead?  
+    
+    if (Get-Command -Name Get-DnsClientGlobalSetting -ErrorAction SilentlyContinue)
+    {
+        Get-DnsClientGlobalSetting | Select -ExpandProperty SuffixSearchList | ForEach { $wpadline = $wpadline + (' wpad.' + $_) } 
+    } 
+    elseif ($env:userdnsdomain -ne $null) #Will be null when run as System
+    { 
+        $wpadline = $wpadline + (' wpad.' + ($env:userdnsdomain).tolower() )
+    }
+    
     if ($blockwpad) { $wpadline | add-content $HostsFilePath -force }  
+
+    #Write the rest:
     $output | add-content $HostsFilePath -force
 }
 
 
        
-# Main       
+# Main (need to splat all this...)
 if ($ResetToDefaultHostsFile) { update-hostsfile -ResetToDefaultHostsFile } 
 elseif ($EditHostsFile) { update-hostsfile -EditHostsFile } 
 elseif ($ShowHostNameCount) { update-hostsfile -ShowHostnameCount }

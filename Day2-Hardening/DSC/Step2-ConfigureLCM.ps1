@@ -1,7 +1,9 @@
-﻿# Create a DSC configuration function to change the
-# settings of the LCM itself.  We'll talk about how
-# this function works in just a moment.  The name of
-# the function is LocalConfigManager:
+﻿# Purpose: create a DSC configuration function to change 
+# the settings of the LCM itself, then run that function
+# to change the LCM.  We will talk about how this script
+# works right after the lab.
+
+
 
 [DSCLocalConfigurationManager()]
 Configuration LocalConfigManager
@@ -30,8 +32,11 @@ LocalConfigManager -ComputerName $env:COMPUTERNAME -OutputPath "\\$env:COMPUTERN
 
 # Use a special built-in cmdlet to apply the MOF file
 # from the shared folder to the local computer's LCM,
-# which reconfigures the LCM in the way we want it: 
+# which reconfigures the LCM the way we want it: 
 
 Set-DscLocalConfigurationManager -ComputerName $env:COMPUTERNAME -Path "\\$env:COMPUTERNAME\MOF\LocalConfigManager" 
+
+
+
 
 
