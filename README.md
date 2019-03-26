@@ -10,7 +10,7 @@ I'm supposed to merge my changes into the development branch.
 Please note that [@JasonFossen](https://twitter.com/jasonfossen) reported the following info:
 > And you can get the latest versions of the scripts (and more) from 
 >
-> http://sec505.info (that redirects to) https://github.com/EnclaveConsulting
+> http://sec505.com(that redirects to) https://github.com/EnclaveConsulting
 >
 > they're all in the public domain
  
