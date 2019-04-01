@@ -1,5 +1,5 @@
 # Some sample commands for working with the AD Recycle Bin.
-# Replace the domain name (DC=sans,DC=org) with your own.
+# Replace the domain name (DC=testing,DC=local) with your own.
 
 
 Import-Module ActiveDirectory
@@ -8,21 +8,21 @@ Import-Module ActiveDirectory
 
 Get-ADObject -IncludeDeletedObjects `
 -Filter {ObjectClass -ne "container"} `
--SearchBase "CN=Deleted Objects,DC=sans,DC=org"
+-SearchBase "CN=Deleted Objects,DC=testing,DC=local"
 
 
 # To view deleted objects which begin with the letter "J":
 
 Get-ADObject -IncludeDeletedObjects `
 -Filter {ObjectClass -ne "container" -and Name -like "J*"} `
--SearchBase "CN=Deleted Objects,DC=sans,DC=org"
+-SearchBase "CN=Deleted Objects,DC=testing,DC=local"
 
 
 # To only view deleted user class objects:
 
 Get-ADObject -IncludeDeletedObjects `
 -Filter {ObjectClass -ne "container" -and ObjectClass -eq "user"} `
--SearchBase "CN=Deleted Objects,DC=sans,DC=org"
+-SearchBase "CN=Deleted Objects,DC=testing,DC=local"
 
 
 # Note Above: The "container" class is always excluded to make sure we don't 
@@ -35,7 +35,7 @@ Get-ADObject -IncludeDeletedObjects `
 
 Get-ADObject -IncludeDeletedObjects `
 -Filter {ObjectClass -ne "container" -and Name -like "Jon Vermeer*"} `
--SearchBase "CN=Deleted Objects,DC=sans,DC=org" | Restore-ADObject
+-SearchBase "CN=Deleted Objects,DC=testing,DC=local" | Restore-ADObject
 
 # Don't forget the asterisk (*) at the end of the name in the example
 # above, the real name has a unique string appended to the end of it.
