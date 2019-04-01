@@ -18,7 +18,7 @@ The data to be encrypted must be smaller than 2GB.
 
 
 Errors:
-Tryin to encrypt a file larger than 2GB:
+Trying to encrypt a file larger than 2GB:
     Protect-CmsMessage : The file is too long. This operation is currently limited to supporting files less than 2 gigabytes in size.
 
 When trying to encrypt a 1GB file (with 32GB of RAM and a fresh relaunch of PowerShell_ISE.exe):

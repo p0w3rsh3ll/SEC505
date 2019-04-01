@@ -9,11 +9,11 @@
 #          kind.  USE AT YOUR OWN RISK.  Public domain, no rights reserved.
 ##############################################################################
 
-Param ($Computer = ".", $CommandLine = "notepad.exe")
+Param ($ComputerName = ".", $CommandLine = "notepad.exe")
 
 
 
-function Create-ProcessWithWMI ($Computer = ".", $CommandLine = $null ) 
+function Create-ProcessWithWMI ($ComputerName = ".", $CommandLine = $null ) 
 {
     $Arguments = @{
         CommandLine = $CommandLine ;
@@ -21,14 +21,14 @@ function Create-ProcessWithWMI ($Computer = ".", $CommandLine = $null )
         ProcessStartupInformation = $null
     }
 
-    $Results = Invoke-CimMethod -ClassName Win32_Process -MethodName Create -Arguments $Arguments
+    $Results = Invoke-CimMethod -ClassName Win32_Process -MethodName Create -Arguments $Arguments -ComputerName $ComputerName
 
     if ($Results.ReturnValue -eq 0) { $Results.ProcessID }  # Or just return $true if you don't want the PID.
     else { $false ; throw "Failed to create process!" }
 }
 
 
-Create-ProcessWithWMI -Computer $Computer -CommandLine $CommandLine
+Create-ProcessWithWMI -ComputerName $ComputerName -CommandLine $CommandLine
 
 
 

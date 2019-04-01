@@ -46,16 +46,17 @@ set-content -value $x -encoding byte -path .\outfile.exe
 add-content -value $x -encoding byte -path .\outfile.exe
 
 
-function Read-FileByte 
-{
 ################################################################
 #.Synopsis
 #   Returns an array of System.Byte[] of the file contents.
+#
 #.Parameter Path
 #   Path to the file as a string or as System.IO.FileInfo object.
 #   FileInfo object can be piped into the function. Path as a
 #   string can be relative or absolute, but cannot be piped.
 ################################################################
+function Read-FileByte 
+{
     [CmdletBinding()] Param (
      [Parameter(Mandatory = $True, ValueFromPipelineByPropertyName = $True)]
      [Alias("FullName","FilePath")]
@@ -65,23 +66,29 @@ function Read-FileByte
 }
 
 
-function Write-FileByte 
-{
+
+
 ################################################################
 #.Synopsis
 #   Overwrites or creates a file with an array of raw bytes.
+#
 #.Parameter ByteArray
 #   System.Byte[] array of bytes to put into the file. If you
 #   pipe this array in, you must pipe the [Ref] to the array.
+#
 #.Parameter Path
 #   Path to the file as a string or as System.IO.FileInfo object.
 #   Path as a string can be relative, absolute, or a simple file
 #   name if the file is in the present working directory.
+#
 #.Example
 #   write-filebyte -bytearray $bytes -path outfile.bin
+#
 #.Example
 #   [Ref] $bytes | write-filebyte -path c:\temp\outfile.bin
 ################################################################
+function Write-FileByte 
+{
     [CmdletBinding()] Param (
      [Parameter(Mandatory = $True, ValueFromPipeline = $True)] [System.Byte[]] $ByteArray,
      [Parameter(Mandatory = $True)] $Path )
@@ -100,21 +107,27 @@ function Write-FileByte
 }
 
 
-function Convert-ByteArrayToString 
-{
+
 ################################################################
 #.Synopsis
+#   Converts a byte array to a string
+#
+#.Description
 #   Returns the string representation of a System.Byte[] array.
 #   ASCII string is the default, but Unicode, UTF7, UTF8 and
 #   UTF32 are available too.
+#
 #.Parameter ByteArray
 #   System.Byte[] array of bytes to put into the file. If you
 #   pipe this array in, you must pipe the [Ref] to the array.
 #   Also accepts a single Byte object instead of Byte[].
+#
 #.Parameter Encoding
 #   Encoding of the string: ASCII, Unicode, UTF7, UTF8 or UTF32.
 #   ASCII is the default.  "Unicode" is actually UTF16-LE.
 ################################################################
+function Convert-ByteArrayToString 
+{
     [CmdletBinding()] Param (
      [Parameter(Mandatory = $True, ValueFromPipeline = $True)] [System.Byte[]] $ByteArray,
      [Parameter()] [String] $Encoding = "ASCII" )
@@ -133,12 +146,14 @@ function Convert-ByteArrayToString
 }
 
 
-function Convert-HexStringToByteArray 
-{
 ################################################################
 #.Synopsis
+#   Convert a hex string to a byte array.
+#
+#.Description
 #   Convert a string of hex data into a System.Byte[] array. An
 #   array is always returned, even if it contains only one byte.
+#
 #.Parameter String
 #   A string containing hex data in any of a variety of formats,
 #   including strings like the following, with or without extra
@@ -149,6 +164,8 @@ function Convert-HexStringToByteArray
 #   41424344
 #   The string can be piped into the function too.
 ################################################################
+function Convert-HexStringToByteArray 
+{
     [CmdletBinding()]
     Param ( [Parameter(Mandatory = $True, ValueFromPipeline = $True)] [String] $String )
 
@@ -179,18 +196,23 @@ function Convert-HexStringToByteArray
  
 
 
-function Convert-ByteArrayToHexString 
-{
+
 ################################################################
 #.Synopsis
+#   Converts a byte array to a hex string.
+#
+#.Description
 #   Returns a hex representation of a System.Byte[] array as
 #   one or more strings. Hex format can be changed.
+#
 #.Parameter ByteArray
 #   System.Byte[] array of bytes to put into the file. If you
 #   pipe this array in, you must pipe the [Ref] to the array.
 #   Also accepts a single Byte object instead of Byte[].
+#
 #.Parameter Width
 #   Number of hex characters per line of output.
+#
 #.Parameter Delimiter
 #   How each pair of hex characters (each byte of input) will be
 #   delimited from the next pair in the output. The default
@@ -199,19 +221,24 @@ function Convert-ByteArrayToHexString
 #   not have to worry about an extra comma, semicolon, colon
 #   or tab appearing before each line of output. The default
 #   value is ",0x".
+#
 #.Parameter Prepend
 #   An optional string you can prepend to each line of hex
 #   output, perhaps like '$x += ' to paste into another
 #   script, hence the single quotes.
+#
 #.Parameter AppendComma
 #   Appends a comma to each line of output, except the last.
+#
 #.Parameter AddQuotes
 #   A switch which will enclose each line in double-quotes.
+#
 #.Example
 #   [Byte[]] $x = 0x41,0x42,0x43,0x44
 #   Convert-ByteArrayToHexString $x
 #
 #   0x41,0x42,0x43,0x44
+#
 #.Example
 #   [Byte[]] $x = 0x41,0x42,0x43,0x44
 #   Convert-ByteArrayToHexString $x -width 2 -delimiter "\x" -addquotes
@@ -219,6 +246,8 @@ function Convert-ByteArrayToHexString
 #   "\x41\x42"
 #   "\x43\x44"
 ################################################################
+function Convert-ByteArrayToHexString 
+{
     [CmdletBinding()] 
     Param 
     (
@@ -251,29 +280,36 @@ function Convert-ByteArrayToHexString
 
 
 
-function Toggle-Endian 
-{
 ################################################################
 #.Synopsis
+#   Switch the bytes in an array between little/big-endian.
+#
+.Description
 #   Swaps the ordering of bytes in an array where each swappable
 #   unit can be one or more bytes, and, if more than one, the
 #   ordering of the bytes within that unit is NOT swapped. Can
 #   be used to toggle between little- and big-endian formats.
 #   Cannot be used to swap nibbles or bits within a single byte.
+#
 #.Parameter ByteArray
 #   System.Byte[] array of bytes to be rearranged. If you
 #   pipe this array in, you must pipe the [Ref] to the array, but
 #   a new array will be returned (originally array untouched).
+#
 #.Parameter SubWidthInBytes
 #   Defaults to 1 byte. Defines the number of bytes in each unit
 #   (or atomic element) which is swapped, but no swapping occurs
 #   within that unit. The number of bytes in the ByteArray must
 #   be evenly divisible by SubWidthInBytes.
+#
 #.Example
 #   $bytearray = toggle-endian $bytearray
+#
 #.Example
 #   [Ref] $bytearray | toggle-endian -SubWidthInBytes 2
 ################################################################
+function Toggle-Endian 
+{
     [CmdletBinding()] Param (
      [Parameter(Mandatory = $True, ValueFromPipeline = $True)] [System.Byte[]] $ByteArray,
      [Parameter()] [Int] $SubWidthInBytes = 1 )
@@ -302,14 +338,25 @@ function Toggle-Endian
 
 
 ##########################################################################
-##
-## Save or read large arrays of doubles to binary files very quickly.
-## Uses System.Runtime.Serialization.Formatters.Binary.BinaryFormatter,
-## which means any other .NET application can easily read it too, but
-## the file contents are not text, i.e., not good for non-.NET apps.
-## 
+#.Synopsis
+#   Save array of doubles to a file.
+#
+#.Description
+#   Save a large arrays of doubles to binary files quickly.  Use the
+#   System.Runtime.Serialization.Formatters.Binary.BinaryFormatter class,
+#   which means any other .NET application can easily read it too, but
+#   the file contents are not text, i.e., not good for non-.NET apps.
+#
+#.Parameter FilePath
+#   File to which to save the numerical array.
+#
+#.Parameter Array
+#   Array of doubles.
+#
+#.Example
+#   [Double[]] $m1 = 1..1000000
+#   Save-NumericalArrayToFile -FilePath 'f:\temp\serial.bin' -Array $m1
 ##########################################################################
-
 function Save-NumericalArrayToFile ([String] $FilePath, $Array)
 {
     if (($FilePath.IndexOf(':') -eq -1) -and (-not $FilePath.StartsWith('\\'))) 
@@ -325,11 +372,23 @@ function Save-NumericalArrayToFile ([String] $FilePath, $Array)
     Finally { if ($FileStream){ $FileStream.Close() } }
 }
 
-[Double[]] $m1 = 1..1000000
-Save-NumericalArrayToFile -FilePath 'f:\temp\serial.bin' -Array $m1
 
 
 
+##########################################################################
+#.Synopsis
+#   Read an array of doubles from a file.
+#
+#.Description
+#   Read a large arrays of doubles from a binary file quickly.  Use the
+#   System.Runtime.Serialization.Formatters.Binary.BinaryFormatter class.
+#
+#.Parameter FilePath
+#   File to which to save the numerical array.
+#
+#.Example
+#   $data = Read-NumericalArrayFromFile -FilePath "f:\temp\serial.bin" 
+##########################################################################
 function Read-NumericalArrayFromFile ([String] $FilePath)
 {
     Try { $FilePath = (dir $FilePath -ErrorAction Stop | Resolve-Path -ErrorAction Stop).ProviderPath } Catch { return $_ } 
@@ -345,7 +404,7 @@ function Read-NumericalArrayFromFile ([String] $FilePath)
 }
 
 
-$data = Read-NumericalArrayFromFile -FilePath "f:\temp\serial.bin" 
+
 
 
 

@@ -129,8 +129,9 @@
 #
 #.Notes 
 #  Author: Jason Fossen, Enclave Consulting LLC (http://www.sans.org/sec505)  
-# Version: 1.0 
-# Updated: 30.Aug.2010
+# Version: 1.1
+# Updated: 24.Sep.2017
+# Created: 30.Aug.2010
 #   LEGAL: PUBLIC DOMAIN.  SCRIPT PROVIDED "AS IS" WITH NO WARRANTIES OR 
 #          GUARANTEES OF ANY KIND, INCLUDING BUT NOT LIMITED TO 
 #          MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.  ALL 
@@ -247,14 +248,14 @@ Else
 $Created = $NotCreated = 0
 $CurrentErrorActionPreference = $ErrorActionPreference
 $ErrorActionPreference = "SilentlyContinue"
-$Domains | ForEach `
+ForEach ($dom in $Domains)
 { 
-    $ZoneClass.CreateZone($_,0,$false,"000-sinkholed-domain.local.dns",$null,"only-edit.000-sinkholed-domain.local.") | Out-Null 
+    $ZoneClass.CreateZone($dom,0,$false,"000-sinkholed-domain.local.dns",$null,"only-edit.000-sinkholed-domain.local.") | Out-Null 
     If ($?) { $Created++ } Else { $NotCreated++ }
 } 
 $ErrorActionPreference = $CurrentErrorActionPreference
 "`nSinkhole domains created at the DNS server: $Created"
-"`nDomains NOT created (maybe already existed): $NotCreated`n"
+"`nDomains NOT created (maybe already existed): $NotCreated `n"
 
 } #End of Main
 
@@ -317,7 +318,8 @@ $BHDomains = @(GetWMI -Query "SELECT * FROM MicrosoftDNS_Zone WHERE DataFile = '
 If (-not $?) { Throw("Failed to connect to WMI service!") ; exit  }
 "`nSinkhole domains to be deleted: " + [String] $BHDomains.Count + " (includes 000-sinkholed-domain.local)"
 $i = 0
-If ($BHDomains.Count -gt 0) { $BHDomains | ForEach { $_.Delete() ; If ($?){$i++} } }
+If ($BHDomains.Count -gt 0) 
+{ ForEach ($dom in $BHDomains) { $dom.Delete() ; If ($?){$i++} } }
 "Sinkhole domains deleted count: $i (includes 000-sinkholed-domain.local) `n"
 } #End
 

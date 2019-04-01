@@ -92,7 +92,7 @@ switch ($ts.SecurityLayer)
     1 { $SecurityLayer = "NativeRDP" }
     2 { $SecurityLayer = "Negotiate" } #TLS preferred, NativeRDP acceptable
     3 { $SecurityLayer = "TLS" }       #SSL (TLS 1.0)
-    4 { $SecurityLayer = "NEWTBD" }    #Research this Jason
+    4 { $SecurityLayer = "NEWTBD" }    #Research this Jason...
 
 }
 

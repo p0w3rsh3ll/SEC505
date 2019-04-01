@@ -12,8 +12,8 @@ fleshed out to include logging, alerting, reversing out changes, etc.
 $MonitoredGroup = "Domain Admins"  
 
 
-# For the group being monitored, create an array of the desired members
-# using either the full paths (safer) or just the common names (easier):
+# For the group being monitored, create an array of the desired 
+# members using their full distinguished name paths in AD:
 
 $AuthorizedMembers = 
 @(
@@ -35,7 +35,9 @@ $Members = Get-ADGroupMember -Identity $MonitoredGroup |
 $Differences = Compare-Object -ReferenceObject $AuthorizedMembers -DifferenceObject $Members 
 
 
-# If the lists do not match, the $Differences variable will not be empty:
+# If the lists match, the $Differences array will be empty, i.e., no differences.
+# If the lists do not match, the $Differences array not be empty, and any
+# non-empty variable can be treated as $True for a conditional test:
 
 if ($Differences)
 {
@@ -55,7 +57,9 @@ if ($Differences)
 }
 
 
-# In real life, write to a log and issue alerts for each run of the script,
-# especially when changes are made.  This is just a starter script.  Also, 
-# a script like this should be digitally signed and protected from modification. 
+
+
+# In real life, we would record all script actions to a log and issue 
+# an alert whenever the script made a change to a group.  Also, a script
+# like this would be digitally signed and protected from modification. 
 

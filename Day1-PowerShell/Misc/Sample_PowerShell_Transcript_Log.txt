@@ -1,8 +1,8 @@
 ﻿**********************
 Windows PowerShell transcript start
 Start time: 20160129070736
-Username: TESTING\TestUser47
-RunAs User: WinRM Virtual Users\WinRM VA_1454072846_TESTING_TestUser47
+Username: SANS\AdminUser
+RunAs User: WinRM Virtual Users\WinRM VA_1454072846_SANS_AdminUser
 Machine: MACHINE (Microsoft Windows NT 10.0.10586.0)
 Host Application: C:\WINDOWS\system32\wsmprovhost.exe -Embedding
 Process ID: 7516
@@ -123,11 +123,11 @@ PS>CommandInvocation(ipconfig.exe): "ipconfig.exe"
 >> ParameterBinding(Out-Default): name="InputObject"; value=""
 >> ParameterBinding(Out-Default): name="InputObject"; value="Ethernet adapter vEthernet (External):"
 >> ParameterBinding(Out-Default): name="InputObject"; value=""
->> ParameterBinding(Out-Default): name="InputObject"; value="   Connection-specific DNS Suffix  . : testing.local"
+>> ParameterBinding(Out-Default): name="InputObject"; value="   Connection-specific DNS Suffix  . : sans.org"
 >> ParameterBinding(Out-Default): name="InputObject"; value="   IPv4 Address. . . . . . . . . . . : 192.168.1.204"
 >> ParameterBinding(Out-Default): name="InputObject"; value="   Subnet Mask . . . . . . . . . . . : 255.255.255.0"
->> ParameterBinding(Out-Default): name="InputObject"; value="   Default Gateway . . . . . . . . . : 192.168.1.11"
-   Default Gateway . . . . . . . . . : 192.168.1.11get-smbshare
+>> ParameterBinding(Out-Default): name="InputObject"; value="   Default Gateway . . . . . . . . . : 192.168.1.1"
+   Default Gateway . . . . . . . . . : 192.168.1.1get-smbshare
 >> CommandInvocation(Out-Default): "Out-Default"
 >> ParameterBinding(Out-Default): name="InputObject"; value=""
 >> ParameterBinding(Out-Default): name="InputObject"; value="The term 'get-smbshare' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again."
@@ -136,7 +136,8 @@ is correct and try again.
     + CategoryInfo          : ObjectNotFound: (get-smbshare:String) [], CommandNotFoundException
     + FullyQualifiedErrorId : CommandNotFoundException
 
-   Default Gateway . . . . . . . . . : 192.168.1.11CommandInvocation(Get-PSSenderInfo): "Get-PSSenderInfo"
+   Default Gateway . . . . . . . . . : 192.168.1.1
+   CommandInvocation(Get-PSSenderInfo): "Get-PSSenderInfo"
 >> CommandInvocation(Out-Default): "Out-Default"
 >> ParameterBinding(Out-Default): name="InputObject"; value=""
 >> ParameterBinding(Out-Default): name="InputObject"; value="System.Management.Automation.Remoting.PSSenderInfo"

@@ -26,3 +26,16 @@ On Windows 10 and later, use PowerShell, don't mess with this registry value.
 REG.EXE ADD HKLM\SYSTEM\CurrentControlSet\Services\RasMan\Parameters /v NegotiateDH2048_AES256 /t REG_DWORD /d 0x2 /f
 
 
+
+
+
+##Use PowerShell to create and configure the VPN connectoid, it gives more control: 
+
+# Add-VpnConnection -TunnelType Ikev2 -AuthenticationMethod MachineCertificate -EncryptionLevel Maximum 
+
+# Set-VpnConnectionIPsecConfiguration -ConnectionName "IKE-SMJ" -AuthenticationTransformConstants None -CipherTransformConstants AES256 -EncryptionMethod AES256 -IntegrityCheckMethod SHA256 -DHGroup ECP384 -PfsGroup ECP384 -PassThru -AllUserConnection
+
+
+
+
+

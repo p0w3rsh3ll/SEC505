@@ -27,7 +27,7 @@ Import-Module -Name ActiveDirectory
 
 
 # Search entire local domain by default.
-if ($SearchBase.Length -eq 0) { $SearchBase = (Get-ADDomain -Current LocalComputer).DistinguishedName } 
+if ($SearchBase.Length -eq 0) { $SearchBase = (Get-AdDomain -Current LocalComputer).DistinguishedName } 
 
 
 

@@ -47,8 +47,16 @@ Add-DnsClientNrptRule -DnsSecEnable -DnsSecValidationRequired -Namespace "www.sa
 # Require DNSSEC validation for the ".sandia.gov" domain suffix in the local GPO:
 # Notice the beginning period (".") in the command for the ".sandia.gov" domain.  
 # Without this beginning period, the namespace given will be interpreted as a FQDN.
+# This rule also requires IPsec with high (128-bit or better) encryption and forwards
+# matching DNS queries to an alternative set of DNS servers instead of the system's default..
 
-Add-DnsClientNrptRule -DnsSecEnable -DnsSecValidationRequired -Namespace ".sandia.gov"
+Add-DnsClientNrptRule -Namespace ".sandia.gov" -DnsSecEnable -DnsSecValidationRequired -DnsSecIPsecRequired -DnsSecIPsecEncryptionType "High" -NameServers @("1.1.1.1","9.9.9.9") 
+
+
+
+# Send all the requests for a domain to an alternative DNS server:
+
+Add-DnsClientNrptRule -NameServers "192.168.1.199" -Namespace ".testing.local"
 
 
 

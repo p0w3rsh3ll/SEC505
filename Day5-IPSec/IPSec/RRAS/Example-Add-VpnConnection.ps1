@@ -28,3 +28,12 @@ Get-VpnConnection -AllUserConnection -Name 'Home VPN IKEv2' | Select *
 # Remove-VpnConnection -AllUserConnection -Force -Name 'Home VPN IKEv2'
 
 
+
+
+
+
+## When using PowerShell to create and configure the VPN connectoid, it gives more control: 
+# Add-VpnConnection -TunnelType Ikev2 -AuthenticationMethod MachineCertificate -EncryptionLevel Maximum 
+# Set-VpnConnectionIPsecConfiguration -ConnectionName "IKE-SMJ" -AuthenticationTransformConstants None -CipherTransformConstants AES256 -EncryptionMethod AES256 -IntegrityCheckMethod SHA256 -DHGroup ECP384 -PfsGroup ECP384 -PassThru -AllUserConnection
+
+

@@ -1,8 +1,8 @@
-﻿#####################################################################################################
+﻿##############################################################################
 #  A couple of functions for coverting to/from Base64 and US-ASCII, as defined in RFC4648.
 #  Both functions can accept piped input.
 #  Legal: Public Domain, No Warranties or Guarantees of Any Kind, USE AT YOUR OWN RISK.
-#####################################################################################################
+##############################################################################
 
 function Convert-FromBase64ToAscii 
 { 
@@ -26,9 +26,9 @@ function Convert-FromAsciiToBase64
 
 
 
-#####################################################################################################
+##############################################################################
 #  The same functions as above, but for Unicode (UTF16-LE) instead of US-ASCII.
-#####################################################################################################
+##############################################################################
 
 function Convert-FromBase64ToUnicode 
 { 
@@ -50,11 +50,11 @@ function Convert-FromUnicodeToBase64
 
 
 
-#####################################################################################################
+##############################################################################
 #  Convert an array of bytes to/from Base64 when read from a binary file.
 #  File does not have to be binary, but it will be read/written as raw bytes.
 #  Example: dir file.exe | Convert-FromFileBytesToBase64 | Convert-FromBase64ToFile -Path file2.exe
-#####################################################################################################
+##############################################################################
 
 function Convert-FromBinaryFileToBase64 
 { 
@@ -87,10 +87,9 @@ function Convert-FromBase64ToBinaryFile
 
 
 
-#####################################################################################################
+##############################################################################
 #  Execute a command encoded in Base64
-#####################################################################################################
-
+##############################################################################
 $encodedcmd = Convert-FromUnicodeToBase64 -String "ps"   # Which is "cABzAA==" by the way.
 
 invoke-expression -Command $(Convert-FromBase64ToUnicode -String $encodedcmd)

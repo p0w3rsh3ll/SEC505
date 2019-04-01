@@ -44,7 +44,7 @@ Param ([Switch] $SkipNetworkInterfaceCheck, [Switch] $SkipActiveDirectoryCheck)
 #    Use -SkipNetworkInterfaceCheck if there are problems setting an IP.
 #    Use -SkipActiveDirectoryCheck if there are problems installing AD.
 #
-#    Last Updated: 31.Oct.2016
+#    Last Updated: 22.May.2018
 #
 ###############################################################################
 
@@ -274,7 +274,7 @@ if (-not $IsDomainController)
     $CurrentWindowsID = [System.Security.Principal.WindowsIdentity]::GetCurrent()
     $CurrentPrincipal = new-object System.Security.Principal.WindowsPrincipal($CurrentWindowsID)
     
-    if (-not $CurrentPrincipal.IsInRole(([System.Security.Principal.SecurityIdentifier](“S-1-5-32-544”)).Translate([System.Security.Principal.NTAccount]).Value))
+    if (-not $CurrentPrincipal.IsInRole(([System.Security.Principal.SecurityIdentifier]("S-1-5-32-544")).Translate([System.Security.Principal.NTAccount]).Value))
     {
         "`nYou must be a member of the local Administrators group.`n"
         "Add your user account to the Administrators group, log off,"
@@ -484,6 +484,30 @@ $ErrorActionPreference = $curpref
 
 
 
+
+###############################################################################
+#
+" Installing Admin Center..." #Must be done before installing AD!
+#
+###############################################################################
+$OS = Get-CimInstance -ClassName Win32_OperatingSystem -Property Caption -ErrorAction SilentlyContinue
+
+if ($OS.Caption -like "*Server 2016*") #Server 2019 might have it built in.
+{
+    $WAC = Get-Service -Name ServerManagementGateway -ErrorAction SilentlyContinue
+
+    if ($WAC -eq $null) 
+    {
+        $msi = dir C:\SANS\Tools\AdminCenter\*Admin*.msi | Select -First 1
+        msiexec.exe /i $msi.FullName /qn SME_PORT=47 SSL_CERTIFICATE_OPTION=generate 
+        reg.exe add HKLM\SOFTWARE\Microsoft\ServerManagementGateway /v DevMode /t REG_SZ /d 1 /f | Out-Null 
+        Restart-Service -Name ServerManagementGateway -ErrorAction SilentlyContinue
+    }
+}
+
+
+
+
 ###############################################################################
 #
 " Installing AD if necessary..."
@@ -618,8 +642,13 @@ New-ADUser -SamAccountName "Amy" -Name "Amy Elise" -Description "CEO" -Departmen
 New-ADUser -SamAccountName "Justin" -Name "Justin McCarthy" -Description "Geneticist" -Department "IT" -Country "US" -Path "OU=Boston,OU=East_Coast,$($thisdomain.DistinguishedName)" -Enabled $True -AccountPassword $pw 
 New-ADUser -SamAccountName "Jennifer" -Name "Jennifer Kolde" -Description "Attorney" -Department "IT" -Country "US" -Path "OU=Boston,OU=East_Coast,$($thisdomain.DistinguishedName)" -Enabled $True -AccountPassword $pw 
 New-ADUser -SamAccountName "Hal" -Name "Hal Pomeranz" -Description "Quantum Mechanicist" -Department "IT" -Country "US" -Path "OU=Boston,OU=East_Coast,$($thisdomain.DistinguishedName)" -Enabled $True -AccountPassword $pw 
-New-ADUser -SamAccountName "Rosie" -Name "Rosie Perez" -Description "CTO" -Department "IT" -Country "US" -Path "OU=HVT,$($thisdomain.DistinguishedName)" -Enabled $True -AccountPassword $pw 
-New-ADUser -SamAccountName "Denzel" -Name "Denzel Washington" -Description "CIO" -Department "IT" -Country "US" -Path "OU=HVT,$($thisdomain.DistinguishedName)" -Enabled $True -AccountPassword $pw 
+New-ADUser -SamAccountName "Alice" -Name "Alice Rivest" -Description "Cryptographer" -Department "IT" -Country "US" -Path "OU=Boston,OU=East_Coast,$($thisdomain.DistinguishedName)" -Enabled $True -AccountPassword $pw 
+New-ADUser -SamAccountName "Bob" -Name "Bob Shamir" -Description "Psychologist" -Department "IT" -Country "US" -Path "OU=Boston,OU=East_Coast,$($thisdomain.DistinguishedName)" -Enabled $True -AccountPassword $pw 
+New-ADUser -SamAccountName "Eve" -Name "Eve Adleman" -Description "Eavesdropper" -Department "IT" -Country "US" -Path "OU=Boston,OU=East_Coast,$($thisdomain.DistinguishedName)" -Enabled $True -AccountPassword $pw 
+New-ADUser -SamAccountName "Mallory" -Name "Mallory Keaton" -Description "MITM Specialist" -Department "IT" -Country "US" -Path "OU=Boston,OU=East_Coast,$($thisdomain.DistinguishedName)" -Enabled $True -AccountPassword $pw 
+New-ADUser -SamAccountName "Trent" -Name "Trent Schneier" -Description "Arbitrator" -Department "IT" -Country "US" -Path "OU=Boston,OU=East_Coast,$($thisdomain.DistinguishedName)" -Enabled $True -AccountPassword $pw 
+New-ADUser -SamAccountName "Ramona" -Name "Ramona Flowers" -Description "CIO" -Department "IT" -Country "US" -Path "OU=HVT,$($thisdomain.DistinguishedName)" -Enabled $True -AccountPassword $pw 
+New-ADUser -SamAccountName "Scott" -Name "Scott Pilgrim" -Description "CTO" -Department "IT" -Country "US" -Path "OU=HVT,$($thisdomain.DistinguishedName)" -Enabled $True -AccountPassword $pw 
 New-ADUser -SamAccountName "Billy" -Name "Billy Corgan" -Description "CISO" -Department "IT" -Country "US" -Path "OU=HVT,$($thisdomain.DistinguishedName)" -Enabled $True -AccountPassword $pw 
 
 # GROUPS 
@@ -821,6 +850,27 @@ invoke-expression -command ($setup.FullName + " /VERYSILENT")
 
 $setup = dir C:\SANS\Tools\KeePass\*setup*.exe
 invoke-expression -command ($setup.FullName + " /VERYSILENT")
+
+
+
+
+###############################################################################
+#
+" Installing Firefox..."  #On Server 2016, needed for Admin Center.
+#
+###############################################################################
+$OS = Get-CimInstance -ClassName Win32_OperatingSystem -Property Caption -ErrorAction SilentlyContinue
+
+if ($OS.Caption -like "*Server 2016*")
+{
+    if (-Not (Test-Path -PathType Container -Path "$env:ProgramFiles\Mozilla Firefox")) 
+    {
+        $exe = dir C:\SANS\Tools\Firefox\Firefox*.exe | Select -First 1
+        attrib.exe -r $exe.FullName
+        Rename-Item -Path $exe.FullName -NewName "FirefoxSetup.exe"
+        C:\SANS\Tools\Firefox\FirefoxSetup.exe -ms 
+    }
+}
 
 
 

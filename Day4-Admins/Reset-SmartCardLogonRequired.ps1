@@ -29,7 +29,7 @@ to checked, a random 120-character password is assigned to the account.
 The hash of this password can still be used for pass-the-hash attacks,
 hence, this checkbox should be toggled off/on at least every 24 hours
 and more frequently during an ongoing incident.  This can cause problems
-for the existing authenticated connections of these admins, so it's best
+for the existing authenticated sessions of these admins, so it's best
 to do the toggling with a scheduled script during their non-work hours.
 To convert a ticks number to a DateTime object: "<tick> | Get-Date".
 
@@ -42,6 +42,9 @@ Param ( $SearchBase = $null )
 
 
 # Get the AD domain or OU to search:
+# (Note that the built-in "$?" variable will be $True when the prior
+# command succeeds or $False when the prior command raises an error.)
+
 if ( $SearchBase -eq $null ) 
 { 
     $SearchBase = Get-ADDomain -Current LoggedOnUser -ErrorAction Stop
@@ -55,6 +58,7 @@ else
 
 
 # Find target users and toggle their smart card required property:
+
 Get-ADUser -Filter { SmartCardLogonRequired -eq $True } -SearchBase $SearchBase |
 ForEach {
     #Toggle the smart card checkbox off and on again:

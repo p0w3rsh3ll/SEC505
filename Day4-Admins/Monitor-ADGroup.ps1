@@ -56,6 +56,6 @@ if ($Differences)
 
 
 # In real life, write to a log and issue alerts for each run of the script,
-# especially when changes are made.  This is just a starter script. Also, 
-# a script like this would be digitally signed and protected from modification. 
+# especially when changes are made.  This is just a starter script.  Also, 
+# a script like this should be digitally signed and protected from modification. 
 

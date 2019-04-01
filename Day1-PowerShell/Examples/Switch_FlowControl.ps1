@@ -3,8 +3,11 @@ $x = 58
 switch ( $x ) 
 {
 	{$_ -lt 20} {"Really Small"}
+    
 	{$_ -gt 50} {"Pretty Big"}
+
 	58 {"It's 58"}
+
 	default {"What was that?"}
 }
 
@@ -13,8 +16,11 @@ switch ( $x )
 
 switch -wildcard ("c:\data5\archive.zip") 
 {
-	'?:\data?\*' {"In some data folder."}
-	'*.zip'      {"File is a ZIP."}
+	'?:\data?\*' 
+    {"In some data folder."}
+    
+	'*.zip'      
+    {"File is a ZIP."}
 }
 
 
@@ -24,7 +30,8 @@ switch -wildcard ("c:\data5\archive.zip")
 
 switch -regex ("c:\data5\archive.zip") 
 {
-	'\\data[0-9]+\\'       {"In some data folder."}
+	'\\data[0-9]+\\' {"In some data folder."}
+    
 	'\.ZIP$|\.BKF$|\.TAR$' {"File is a ZIP or BKF or TAR."}
 }
  
@@ -36,7 +43,6 @@ switch -regex ("c:\data5\archive.zip")
 
 
 $HashTable = @{}  #Empty hashtable
-
 
 Switch -RegEx -File .\pfirewall.log 
 {	

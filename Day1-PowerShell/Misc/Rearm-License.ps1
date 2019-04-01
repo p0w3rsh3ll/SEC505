@@ -5,8 +5,14 @@
 # also stops the hourly spontaneous reboots.
 
 
+# Display current time remaining and rearm count:
+cscript.exe C:\windows\system32\slmgr.vbs /dlv | select-string -Pattern 'rearm|remaining' 
+
+# Extend eval license by 10 days:
 cscript.exe c:\windows\system32\slmgr.vbs /rearm
 
 
-# You will need to reboot after running this script.
+"`n`n You will need to reboot after running this script.`n`n" 
+
+
 

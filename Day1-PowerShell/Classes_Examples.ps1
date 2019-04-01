@@ -23,7 +23,7 @@ $bob.EmailAddress = "bob@sans.org"
 
 
 
-# Another way to create an instance:
+# Another way to create an instance (faster):
 
 $mary = [User1]::New()
 $mary.FirstName = "Mary"

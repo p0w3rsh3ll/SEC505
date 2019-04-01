@@ -2,6 +2,9 @@
 #
 # The following are examples for scripting KeePass with PowerShell.
 #
+# This is much better than what's below:
+#        https://github.com/PSKeePass/PoShKeePass
+#
 # For KeePass object classes, see:
 #        http://keepassps.codeplex.com/SourceControl/latest#keepass.ps1
 #
@@ -181,7 +184,7 @@ $Group.GetEntries($True) | ForEach `
 # XML file where the passwords are encrypted using the Data Protection
 # API (DPAPI) such that only the current user on the local computer can
 # recreate PSCredential objects from the data.  Very useful when piped into
-# other cmdlets that accept a -Credential parameter, like Get-WmiObject.
+# other cmdlets that accept a -Credential parameter, like Invoke-Command.
 # Computer names (the "Titles") and usernames will be in plaintext in the
 # XML file, but the passwords will be encrypted using the DPAPI.
 #
