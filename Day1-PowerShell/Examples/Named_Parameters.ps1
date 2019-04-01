@@ -1,6 +1,6 @@
-
 # PowerShell 5.1 and later includes cmdlets for 
 # managing local users and groups:
+
 
 function New-LocalAdmin ($UserName, $Password)
 {
@@ -13,6 +13,9 @@ function New-LocalAdmin ($UserName, $Password)
 
 
 New-LocalAdmin -UserName "Jill" -Password "Sekrit" 
+
+New-LocalAdmin -UserName "Lori" -Password "p@55vvord"
+
 
 
 
@@ -59,7 +62,10 @@ function New-User ($UserName, $Password)
 new-user -username "Jill" -password "Sekrit"
 
 
+
+
 # You can abbreviate the names of parameters.
+
 new-user -u "Lori" -p "p@55vvord"
 
 

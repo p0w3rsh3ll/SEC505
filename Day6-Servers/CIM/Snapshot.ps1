@@ -285,6 +285,9 @@ icacls.exe c:\windows\system32 /t /c /q 2>$null | Out-File -FilePath FileSystem-
 #########   sha256deep.exe -s -r ($env:SYSTEMROOT + "\*") | Out-File -FilePath Hashes-SystemRoot.txt
 
 
+# Save dangerous information too?  How aggressive to you want to get?
+# For example, https://github.com/GhostPack/Seatbelt
+
 
 ###############################################################################
 #

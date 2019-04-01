@@ -1,26 +1,24 @@
-$services = get-service
 
-ForEach ($svc in $services) 
+$Services = Get-Service
+
+ForEach ($Svc in $Services) 
 { 
-    $svc.name + ":" + $svc.status 
+    $Svc.Name + ":" + $Svc.Status 
 }
 
 
 
-get-service | ForEach { $_.name + ":" + $_.status } 
+Get-Service | ForEach { $_.Name + ":" + $_.Status } 
 
 
 
 
-
-
- 
 
 
 
 # Implicit foreach using grouping.
 # Requires PowerShell 3.0 or later.
 
-( ps ).path	
+(Get-Process).path	
 
 

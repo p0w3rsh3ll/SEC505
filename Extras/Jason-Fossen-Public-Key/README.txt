@@ -1,5 +1,4 @@
 
-
 This folder contains a copy of the OpenPGP public
 key of Jason Fossen, the SEC505 course author.
 

@@ -2,15 +2,22 @@
 
 Because of Tim Medin's Kerberoasting attacks, no user account should 
 have unnecessary Service Principal Names (SPNs) in Active Directory, 
-especially administrative user accounts.
+especially administrative user accounts.  SPNs can also be abused with
+other obscure uses of Kerberos, namely, SFU2Self and SFU2Proxy.
 
-See Sean Metcalf's excellent article: https://adsecurity.org/?p=3466 
+For references, see: 
+    https://adsecurity.org/?p=3466 
+    https://shenaniganslabs.io/2019/01/28/Wagging-the-Dog.html
 
 The query below will list all users who do not have an empty SPN
-property.  It's OK for a user account to have an SPN, and some
+property.  It's OK for a user account to have an SPN, and some accounts
 require them, but it's not OK for there to be unnecessary SPNs.
 If the list of users with non-blank SPNs changes, this should cause 
-an alert to be raised and that account examined.  
+an alert to be raised and that account examined.  Any user account
+with an SPN should have a long, random passphrase.  Whenever feasible,
+user accounts should be marked as "sensitive" on the Account tab of
+their property sheet in the Active Directory Users and Computers snap-in,
+whether or not the account has any SPNs.  
 
 #############################################################################>
 
@@ -38,7 +45,7 @@ Set-ADUser -Identity Administrator -ServicePrincipalNames @{ 'REPLACE' = $null }
 
 # If you have a list of admins who should never have any SPNs:
 
-$UsersWhoShouldNotHaveSPNs = @('Administrator','Amy') #Or do a query, don't hard-code it.
+$UsersWhoShouldNotHaveSPNs = @('Administrator','Amy') #Do a query, don't hard-code it.
 
 ForEach ($user in $UsersWhoShouldNotHaveSPNs) 
 { 

@@ -18,7 +18,7 @@
    Note: Get-FileHash cmdlet requires PowerShell version 4.0 or later.
 
    The MD5DEEP tools (https://github.com/jessek/hashdeep/releases) can 
-   produce hashes on any platform, including Windows, Linux and Mac OS X. 
+   produce hashes on any platform, including Windows, Linux and macOS. 
 
    Note: If you use Get-FileHash | Export-Csv, make sure to save the
    output file using a ".csv" file name extension.  Without this, you
@@ -77,8 +77,8 @@
 
         Output is a single object with a summary of the findings (also try -Verbose).
 
-        StartTime        : 6/6/2017 3:20:34 PM
-        FinishTime       : 6/6/2017 3:20:37 PM
+        StartTime        : 6/6/2019 3:20:34 PM
+        FinishTime       : 6/6/2019 3:20:37 PM
         RunTimeInSeconds : 2.584
         TotalDifferences : 12
         New              : 3

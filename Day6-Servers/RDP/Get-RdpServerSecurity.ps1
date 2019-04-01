@@ -1,41 +1,38 @@
-﻿<# ###################################################
-.SYNOPSIS
- Get the security-related RDP server settings.
+﻿##############################################################################
+#.SYNOPSIS
+# Get the security-related RDP server settings.
+#
+#.DESCRIPTION
+# Get the security-related Remote Desktop Protocol server settings, such as 
+# minimum encryption level, encryption type, and whether NLA is required. 
+# Requires access to WMI service and membership in the local Administrators 
+# group at the target. 
+#
+#.PARAMETER ComputerName
+# One or more hostnames, FQDNs, or IP addresses.  Defaults to localhost.
+#
+#.NOTES
+# To interpret the output properties, search the Internet for the term 
+# "Win32_TSGeneralSetting" and the terms "rdp security layer tls" and also
+# for "rdp network level authentication nla".
+#
+# Some of the possible property values are:
+#
+#    EncryptionLevel: Low, Medium, High, FIPS
+#
+#    SecurityLayer: NativeRDP, Negotiate, TLS, NEWTBD
+#
+#    RequireNLA: True, False
+#
+# Legal: Public domain, no rights reserved, script provided "AS IS" without 
+#        warranties or guarantees of any kind.  
+#
+# Author: Enclave Consulting LLC (https://www.sans.org/sec505)
+#
+# Version: 1.0
+#
+##############################################################################
 
-.DESCRIPTION
- Get the security-related Remote Desktop Protocol
- server settings, such as minimum encryption level, 
- encryption type, and whether NLA is required. 
- Requires access to WMI service and membership in
- the local Administrators group at the target. 
-
-.PARAMETER ComputerName
- One or more hostnames, FQDNs, or IP addresses.
- Defaults to localhost.
-
-.NOTES
- To interpret the output properties, search the 
- Internet for the term "Win32_TSGeneralSetting" and 
- the terms "rdp security layer tls" and also
- for "rdp network level authentication nla."
-
- Some of the possible property values are:
-
-    EncryptionLevel: Low, Medium, High, FIPS
-
-    SecurityLayer: NativeRDP, Negotiate, TLS, NEWTBD
-
-    RequireNLA: True, False
-
- Legal: Public domain, no rights reserved, script
-        provided "AS IS" without warranties or
-        guarantees of any kind.
-
- Author: Enclave Consulting LLC (www.sans.org/sec505)
-
- Version: 1.0
-
-#################################################### #> 
 
 [CmdletBinding()]
 Param ( [String[]] $ComputerName = @("localhost") ) 
@@ -80,9 +77,9 @@ if (-not $ts)
 
 switch ($ts.MinEncryptionLevel)
 {
-    1 { $EncryptionLevel = "Low" }     #56-bit for client to server, plaintext for server to client
+    1 { $EncryptionLevel = "Low" }     #56-bit for client-to-server, plaintext for server-to-client
     2 { $EncryptionLevel = "Medium" }  #Largest key supported by client
-    3 { $EncryptionLevel = "High" }    #At least 128-bit key
+    3 { $EncryptionLevel = "High" }    #At least a 128-bit key
     4 { $EncryptionLevel = "FIPS" }    #Federal Information Processing Standard
 }
 

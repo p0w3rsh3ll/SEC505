@@ -53,7 +53,7 @@
 
 param ($Computer = ".", $Action)
 
-function RebootShutdownLogoff-Computer ( $Computer = ".", $Action ) 
+function RebootShutdownLogoff-Computer ( $Computer, $Action ) 
 {
     Switch -Regex ($Action) {
         "^logoff$"            { $Action = 0 }

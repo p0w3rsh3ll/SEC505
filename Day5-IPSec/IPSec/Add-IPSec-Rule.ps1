@@ -1,23 +1,24 @@
-###################################################
-# This script demonstrates how to create an IPsec # 
-# rule on Server 2012, Windows 8 and later.  This #
-# will use IKEv1 because of the pre-shared key.   #
-###################################################
+###########################################################################
+#.DESCRIPTION
+# This script demonstrates how to create an IPsec rule using a pre-shared 
+# key.  Script requires Windows Server 2012, Windows 8 or later OS.  
+# This script is run as part of a lab on the IPsec day of SEC505. 
+###########################################################################
 
 
-#Create an authentication proposal using a pre-shared key:
+# Create an authentication proposal using a pre-shared key:
 
 $AuthProposal = New-NetIPsecAuthProposal -Machine -PreSharedKey "ThePreSharedKey" 
 
 
 
-#Add the above authentication proposal to a named set:
+# Add the above authentication proposal to a set of proposals:
 
 $AuthProposalSet = New-NetIPsecPhase1AuthSet -DisplayName "Auth-Proposal-Set" -Proposal $AuthProposal 
 
 
 
-#Create the IPsec rule using the above proposal set:
+# Create a hashtable of parameters and arguments to use in the next command:
 
 $ArgSet = @{
     DisplayName = 'Testing-IPSec-PowerShell'
@@ -34,20 +35,21 @@ $ArgSet = @{
     Enabled = 'True'
 }
 
+
+
+# Create an IPsec rule using the above hashtable of arguments:
+
 New-NetIPsecRule @ArgSet
 
 
-# Prevent the script from running any further:
-return
 
 
 
-# To display information about the IPsec rule:
-Get-NetIPsecRule -DisplayName "Testing-IPSec-PowerShell"
+## To display information about the above IPsec rule:
+#Get-NetIPsecRule -DisplayName "Testing-IPSec-PowerShell"
 
 
-
-# To delete the IPsec rule:
-Remove-NetIPsecRule -DisplayName "Testing-IPSec-PowerShell"
+## To delete the above IPsec rule:
+#Remove-NetIPsecRule -DisplayName "Testing-IPSec-PowerShell"
 
 

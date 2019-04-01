@@ -27,7 +27,7 @@ Get-SmbShare | Set-SmbShare -EncryptData $True -Force
 
 
 # To list which shared folders do or do not require SMB encryption:
-Get-SmbShare | Select EncryptData,Name,Path -AutoSize
+Get-SmbShare | Select EncryptData,Name,Path 
 
 
 # To see what version of SMB is being used (run on server, not client):

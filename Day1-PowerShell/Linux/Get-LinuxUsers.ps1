@@ -1,8 +1,9 @@
+#####################################################################
 #.SYNOPSIS
 #  Parse the Linux passwd file into user objects.
 #.DESCRIPTION
-#  Just a demo script for PSCore on Linux, needs work...
- 
+#  Just a demo script for PSCore on Linux, needs work to be useful...
+#####################################################################
 
 $user = [PSCustomObject] @{ username = $null; uid = $null; gid = $null; info = $null; home = $null; shell = $null }
 

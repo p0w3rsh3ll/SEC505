@@ -8,11 +8,11 @@
 #          kind.  USE AT YOUR OWN RISK.  Public domain, no rights reserved.
 ##############################################################################
 
-param ($Computer = ".")
+param ($Computer)
 
-function Get-DriverWithWMI ($Computer = ".") 
+function Get-DriverWithWMI ($Computer) 
 {
-    Get-CimInstance -Query "SELECT * FROM Win32_SystemDriver" -ComputerName $computer |
+    Get-CimInstance -Query "SELECT * FROM Win32_SystemDriver" -ComputerName $Computer |
     Select-Object Name,DisplayName,PathName,ServiceType,State,StartMode
 }
 

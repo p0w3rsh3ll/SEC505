@@ -1,6 +1,8 @@
 
 get-service | where-object {$_.status -ne "running"}
+
 get-service | where {$_.status -ne "running"}
+
 get-service | ? {$_.status -ne "running"}
 
 # To show the full paths to every file under C:\Windows\System32 over 10MB in size:
@@ -13,6 +15,9 @@ format-table fullname,length
 # To get a listing of all commands for manipulating items of any type:
 
 get-command | where-object {$_.name -like "*item*"}
+
+# To show only enabled user accounts (the Enabled property is either $True or $False):
+get-localuser | where { $_.Enabled } 
 
 # To list the keys under HKEY_CURRENT_USER which have more than two subkeys:
 

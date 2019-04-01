@@ -4,7 +4,7 @@
     *    Page: WhoAmI.aspx
     * Version: 1.2
     * Updated: 27.Nov.2007
-    *  Author: Jason Fossen (www.EnclaveConsulting.com)
+    *  Author: Enclave Consulting LLC, Jason Fossen (www.SEC505.com)
     *   Notes: Do NOT put this anywhere on your public IIS server!  
     *   Legal: Public domain. No rights reserved. Provided "AS IS" without 
     *          warranties or guarantees of any kind. Use at your own risk.

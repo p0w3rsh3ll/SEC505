@@ -5,7 +5,7 @@
 -----------------------------------------------------
 
 Please start your Windows Server virtual machine now. 
-It will be used immediately after the course begins.  
+It will be used immediately once the course begins.  
 
 If you don't have a Windows Server VM, please tell the 
 instructor as soon as possible!

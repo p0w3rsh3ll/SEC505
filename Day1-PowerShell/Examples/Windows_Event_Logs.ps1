@@ -29,8 +29,17 @@ $events  = get-winevent -logname system      -maxevents 20
 $events += get-winevent -logname application -maxevents 20
 $events += get-winevent -logname security    -maxevents 20
 
-$events | sort-object -property TimeCreated | 
-format-table TimeCreated,ID,LevelDisplayName,Message -auto
+$events | sort-object -property TimeCreated | format-table TimeCreated,ID,LevelDisplayName,Message -auto
+
+
+
+# Export to CSV the last 2000 events from each of the classic logs:
+
+$Events  = Get-WinEvent -LogName System -MaxEvents 2000
+$Events += Get-WinEvent -LogName Application -MaxEvents 2000
+$Events += Get-WinEvent -LogName Security -MaxEvents 2000
+
+$Events | Sort-Object -Property TimeCreated | Select-Object MachineName,TimeCreated,LogName,ID | Export-Csv -Path EventData.csv
 
 
 

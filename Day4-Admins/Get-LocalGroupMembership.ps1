@@ -18,8 +18,8 @@
 #
 #.Notes 
 #  Author: Jason Fossen, Enclave Consulting LLC (https://www.sans.org/sec505) 
-# Version: 3.0
-# Updated: 24.Oct.2017
+# Version: 3.1
+# Updated: 4.Oct.2018
 #   LEGAL: PUBLIC DOMAIN.  SCRIPT PROVIDED "AS IS" WITH NO WARRANTIES OR GUARANTEES OF 
 #          ANY KIND, INCLUDING BUT NOT LIMITED TO MERCHANTABILITY AND/OR FITNESS FOR
 #          A PARTICULAR PURPOSE.  ALL RISKS OF DAMAGE REMAINS WITH THE USER, EVEN IF
@@ -47,7 +47,7 @@ function Get-LocalGroupMembership ($ComputerName = "$env:ComputerName", $LocalGr
 
     # Try to connect to the target computer; function should return nothing if there is an error while connecting.
     Try   { $Members = Get-CimInstance -ComputerName $ComputerName -Query $Query -ErrorAction Stop } 
-    Catch { Write-Error -Message "Could not connect to $ComputerName" ; Return } 
+    Catch { Return }  #Write-Error -Message "Could not connect to $ComputerName" ; Return } 
 
 
     # Extract the names and put each into "domain\user" format.

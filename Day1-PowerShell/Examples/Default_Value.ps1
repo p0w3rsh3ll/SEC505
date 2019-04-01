@@ -1,5 +1,5 @@
-# PowerShell 5.1 and later includes cmdlets for managing
-# local users and groups.  
+# Windows PowerShell 5.1 and later includes cmdlets for 
+# managing local users and groups.  
 
 function Disable-LocalAdmin 
 {
@@ -7,18 +7,20 @@ function Disable-LocalAdmin
 
     Disable-LocalUser -Name $UserName
 
-    Remove-LocalGroupMember -Group Administrators -Member $UserName -ErrorAction SilentlyContinue
+    Remove-LocalGroupMember -Group Administrators -Member $UserName 
 }
 
 
 Disable-LocalAdmin
 
-Disable-LocalAdmin -UserName "Jill"
+Disable-LocalAdmin -UserName "Bob"
 
 
 
 
-# Older systems can still use net.exe:
+
+
+# Older systems (pre-WinPosh5.1) can still use net.exe:
 function disable-admin
 {
     Param ($Password = "SEC505Gr8#4TV!") 

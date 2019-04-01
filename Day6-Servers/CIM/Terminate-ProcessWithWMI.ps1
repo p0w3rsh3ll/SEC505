@@ -1,6 +1,14 @@
 ##############################################################################
-#  Script: Terminate-ProcessWithWMI.ps1
-# Updated: 24.Oct.2017
+#.SYNOPSIS
+#   Terminate process by PID number.
+#.DESCRIPTION
+#   Terminate process by PID number on local or remote systems using WMI.
+#.PARAMETER ComputerName
+#   Name of remote computer.  Defaults to localhost.
+#.PARAMETER ProcessID
+#   Process ID number of process to terminate.
+#.NOTES
+# Updated: 20.Oct.2018
 # Created: 21.May.2007
 # Version: 2.0
 #  Author: Jason Fossen, Enclave Consulting LLC (http://www.sans.org/sec505)
@@ -9,13 +17,15 @@
 #          kind.  USE AT YOUR OWN RISK.  Public domain, no rights reserved.
 ##############################################################################
 
-Param ($Computer = ".", $ProcessID)
+Param ($ComputerName, $ProcessID)
 
 
 
-function Terminate-ProcessWithWMI ($Computer = ".", $ProcessID = $(throw "Enter the PID of the process to terminate.") ) 
+function Terminate-ProcessWithWMI ($ComputerName, $ProcessID) 
 {
-    $Process = Get-CimInstance -Query "SELECT * FROM Win32_Process WHERE ProcessID = '$ProcessID'" -ComputerName $Computer
+    $Query = "SELECT * FROM Win32_Process WHERE ProcessID = '" + $ProcessID + "'"
+
+    $Process = Get-CimInstance -Query $Query -ComputerName $ComputerName 
 
     $Results = Invoke-CimMethod -InputObject $Process -MethodName Terminate 
 
@@ -24,7 +34,7 @@ function Terminate-ProcessWithWMI ($Computer = ".", $ProcessID = $(throw "Enter 
 
 
 
-Terminate-ProcessWithWMI -Computer $Computer -ProcessID $ProcessID
+Terminate-ProcessWithWMI -ComputerName $ComputerName -ProcessID $ProcessID
 
 
 

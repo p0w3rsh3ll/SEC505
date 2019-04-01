@@ -6,19 +6,19 @@
 
 # Create a session to a remote host with PoSh 5.0+:
 
-$session = New-PSSession -ComputerName dc.testing.local
+$Session = New-PSSession -ComputerName "dc.testing.local"
 
  
 
 # Upload a file to the remote host (-ToSession):
 
-copy -Path C:\LocalFolder\file.txt -Destination C:\RemoteFolder\file.txt -ToSession $session
+Copy-Item -Path C:\LocalFolder\file.txt -Destination C:\RemoteFolder\file.txt -ToSession $Session
 
 
 
 # Download a file from the remote host (-FromSession):
 
-copy -Path C:\RemoteFolder\file.txt -Destination C:\LocalFolder\file.txt -FromSession $session
+Copy-Item -Path C:\RemoteFolder\file.txt -Destination C:\LocalFolder\file.txt -FromSession $Session
 
 
 

@@ -1,3 +1,4 @@
+
 $string = "SANS has GIAC training for the GCWN certification."
 
 

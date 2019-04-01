@@ -1,4 +1,23 @@
 
+function Test-CShare ($Computer, [Switch] $List) {
+    $SharePath = "\\" + $Computer + "\C$"
+
+    if ($List){ dir -Path $SharePath } 
+    else { Test-Path -Path $SharePath } 
+}
+
+
+Test-CShare -Computer Box47
+
+Test-CShare -Computer Box47 -List 
+
+
+
+
+
+
+
+
 function show-folder ([Switch] $list) {
 	if ($list) {dir | format-list *}
 	else {dir | format-table fullname,length -autosize}

@@ -1,5 +1,5 @@
 
-function Get-LogonFailures ($Computer = ".")  # A period indicates the local machine.
+function Get-LogonFailures ($Computer)  
 { 
     $Query = "SELECT * FROM Win32_NTLogEvent WHERE logfile = 'Security' AND ( EventCode = '529' OR EventCode = '4625' )"
  
@@ -46,3 +46,6 @@ auditpol.exe /get /subcategory:'Logon'
 
 # Enable success and failure logging for Logon events: 
 auditpol.exe /set /subcategory:'Logon' /success:enable /failure:enable
+
+
+

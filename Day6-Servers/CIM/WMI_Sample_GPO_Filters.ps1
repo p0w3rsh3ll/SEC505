@@ -1,8 +1,8 @@
 #*******************************************************************************
 # Script Name: WMI_Sample_GPO_Filters.ps1
-#     Version: 1.3
-#      Author: Jason Fossen (www.sans.org/sec505)
-#Last Updated: 25.Jan.2015
+#     Version: 1.4
+#      Author: Enclave Consulting LLC, Jason Fossen (www.sans.org/sec505)
+#Last Updated: 9.Oct.2018
 #     Purpose: The following are examples of WMI Filters for Group Policy Objects.
 #       Legal: Public Domain.  Modify and redistribute freely.  No rights reserved.
 #              Script is provided "AS IS" without warranties or guarantees of any kind.
@@ -10,8 +10,8 @@ return  #This is not an executable script, it just has sample queries.
 #*******************************************************************************
 
  
-#Applies if Windows Server 2012 Standard Edition is the operating system.
-SELECT * FROM Win32_OperatingSystem WHERE Caption = 'Microsoft Windows Server 2012 Standard'
+#Applies if Windows Server 2019 Datacenter Edition is the operating system.
+SELECT * FROM Win32_OperatingSystem WHERE Caption = 'Microsoft Windows Server 2019 Datacenter%'
 
 
 #Applies if the OS is for a workstation or client (not a server OS or any other type of OS)
@@ -50,7 +50,7 @@ SELECT * FROM Win32_TimeZone WHERE bias =-300
 SELECT * FROM Win32_QuickFixEngineering WHERE HotFixID = 'KB819696' OR HotFixID = 'KB828026'
 
 
-#Applies if it is a Monday (0=Sun, 1=Mon, 2=Tue, and so on)
-SELECT * FROM Win32_LocalTime WHERE DayOfWeek = 1
+#Applies if it is a Sunday (0=Sun, 1=Mon, 2=Tue, and so on)
+SELECT * FROM Win32_LocalTime WHERE DayOfWeek = 0
 
 

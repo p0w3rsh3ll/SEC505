@@ -176,7 +176,7 @@ function Convert-FromBase64ToBinaryFile
     Param( [Parameter(Mandatory = $True, Position = 0, ValueFromPipeline = $True)]  $String , 
            [Parameter(Mandatory = $True, Position = 1, ValueFromPipeline = $False)] $OutputFilePath )
 
-    [System.Convert]::FromBase64String( $String ) | Set-Content -OutputFilePath $Path -Encoding Byte 
+    [System.Convert]::FromBase64String( $String ) | Set-Content -Path $OutputFilePath -Encoding Byte 
 
 } 
 

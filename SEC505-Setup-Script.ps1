@@ -44,7 +44,7 @@ Param ([Switch] $SkipNetworkInterfaceCheck, [Switch] $SkipActiveDirectoryCheck)
 #    Use -SkipNetworkInterfaceCheck if there are problems setting an IP.
 #    Use -SkipActiveDirectoryCheck if there are problems installing AD.
 #
-#    Last Updated: 22.May.2018
+#    Last Updated: 5.Dec.2018
 #
 ###############################################################################
 
@@ -163,6 +163,19 @@ if ($wd)
     Set-MpPreference -RemediationScheduleDay Never -Force
 } 
 
+
+
+
+###############################################################################
+#
+" Setting Power Scheme to High Performance..."
+#
+# This must come before the first reboot/logoff.
+###############################################################################
+
+powercfg.exe /SETACTIVE 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
+# Set display timeout to zero:
+powercfg.exe /SETACVALUEINDEX 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c 7516b95f-f776-4464-8c53-06167f40cc99 3c0bc021-c8a8-4e07-a973-6b14cbcb2b7e 0 
 
 
 
@@ -340,6 +353,7 @@ function sans { cd c:\sans }
 function tt { cd c:\temp }
 function hh ( $term ) { get-help $term -full | more }
 function nn ( $path ) { notepad.exe $path } 
+function ip { Get-NetIPAddress | Select-Object IPAddress } 
 
 
 # Switch to the C:\SANS folder:
@@ -431,7 +445,7 @@ elseif ($ipinterface.Count -ge 2)
     "If you have multiple interfaces, each will require a different IP address."
     "The primary DNS server should be 127.0.0.1 (no secondary needed)."
     "See Appendix A in the first manual (SEC505.1) for step-by-step instructions"
-    "or ask the instructor for assistance.`n"
+    "or ask the instructor for assistance.`n" 
     exit
 }
 elseif ($ipinterface.Count -eq 1)
@@ -446,7 +460,7 @@ elseif ($ipinterface.Count -eq 1)
     " Assigning an IP address of 10.1.1.1 ..."
     $nic | New-NetIPAddress -AddressFamily IPv4 -IPAddress "10.1.1.1" -PrefixLength 8 -Type Unicast | out-null
     " Setting primary DNS server to 127.0.0.1 ..."
-    $nic | Set-DnsClientServerAddress -ServerAddresses "127.0.0.1"
+    $nic | Set-DnsClientServerAddress -ServerAddresses "127.0.0.1" 
 
     #Test to confirm.
     Start-Sleep -Seconds 5
@@ -461,6 +475,66 @@ elseif ($ipinterface.Count -eq 1)
 }
 
 Get-NetIPAddress | Format-Table IpAddress,InterfaceAlias -AutoSize | Write-Verbose
+
+
+
+###############################################################################
+#
+" Setting TrustedHosts to *..."
+#
+#  Get any IPv4 interfaces which are using DHCP, try to set a static IP instead.
+#  Use -SkipNetworkInterfaceCheck to bypass this section.
+#
+###############################################################################
+
+function Add-TrustedHosts ([String[]] $TrustedHost = '<local>', [Switch] $Overwrite)
+{
+    #.SYNOPSIS
+    # Appends or overwrites the TrustedHosts list.
+    #
+    #.DESCRIPTION
+    # Appends or overwrites the TrustedHosts list with one or more
+    # of the following acceptable strings: *, IP, hostname, NetBIOS name,
+    # or fully-qualified domain name (FQDN). By default, the strings are
+    # appended to the existing list, unless the -Overwrite switch is used.
+    #
+    #.PARAMETER TrustedHost
+    # A string or an array of strings containing: *, IP, hostname, NetBIOS
+    # name, or FQDN. If a single comma-delimited string is provided, it will
+    # be split into an array of strings automatically. The default is "<local>",
+    # which results in all target hosts being trusted which do NOT have a 
+    # period in their names, i.e., simple hostnames or NetBIOS names. A value 
+    # of "*" will result in all possible hosts being trusted without exception. 
+    # If "*" is the value, WinRM requires that it be the only string in the
+    # TrustedHosts list, hence, this value will require the -Overwrite switch
+    # to be used as a reminder (an error will be thrown without it). It's also 
+    # permissible to use a wildcard with a domain name, such as "*.sans.org".  
+    # When entering IPv6 addresses, enclose the IPv6 address in square brackets, 
+    # such as "[2607:f8b0:4000:800::2004]". 
+    #
+    #.PARAMETER Overwrite
+    # Overwrite the existing TrustedHosts list, do not append to it.
+
+    #If a comma-delimited string is given, split it into an array:
+    $TrustedHost = @( $TrustedHost -split ',' ) 
+    
+    #Require -Overwrite whenever "*" is included in -TrustedHost as a precaution:
+    if ( $TrustedHost -contains '*' -and -not $Overwrite)
+    { throw "When specifying '*' as the TrustedHost, the -Overwrite switch must be used." ; return } 
+
+    #When "*" is the -TrustedHost, no others may be in the list, as per WinRM requirements:
+    if ( $TrustedHost -contains '*'){ $TrustedHost = @('*') } 
+
+    #Reconstruct the comma-delimited string again:
+    [String] $TrustedHost = $TrustedHost -join ','
+
+    if ($Overwrite)
+    { Set-Item -Path WSMan:\localhost\Client\TrustedHosts -Value $TrustedHost -Force }
+    else
+    { Set-Item -Path WSMan:\localhost\Client\TrustedHosts -Value $TrustedHost -Force -Concatenate } 
+}
+
+Add-TrustedHosts -Overwrite -TrustedHost "*"
 
 
 
@@ -487,12 +561,33 @@ $ErrorActionPreference = $curpref
 
 ###############################################################################
 #
-" Installing Admin Center..." #Must be done before installing AD!
+" Turning off Internet Explorer Enhanced Security..."
+#
+# Do this before the first reboot or else the change doesn't "stick."
+# 
+###############################################################################
+
+$curpref = $ErrorActionPreference
+if (-not $Verbose) { $ErrorActionPreference = "SilentlyContinue" } 
+$iekey = get-item 'HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components' 
+$subkey = $iekey.opensubkey("{A509B1A7-37EF-4b3f-8CFC-4F3A74704073}",$true)  #For Admins
+$subkey.SetValue("IsInstalled",0)
+$subkey = $iekey.opensubkey("{A509B1A8-37EF-4b3f-8CFC-4F3A74704073}",$true)  #For Non-Admins
+$subkey.SetValue("IsInstalled",0)
+$ErrorActionPreference = $curpref
+
+
+
+
+
+###############################################################################
+#
+" Installing Windows Admin Center..." #Must be done before installing AD!
 #
 ###############################################################################
 $OS = Get-CimInstance -ClassName Win32_OperatingSystem -Property Caption -ErrorAction SilentlyContinue
 
-if ($OS.Caption -like "*Server 2016*") #Server 2019 might have it built in.
+if ($OS.Caption -match "Server 201[69]") 
 {
     $WAC = Get-Service -Name ServerManagementGateway -ErrorAction SilentlyContinue
 
@@ -573,7 +668,20 @@ elseif ( $(Get-WindowsFeature -Name AD-Domain-Services).Installed -and $(get-ser
     "`n Configuring the AD forest now...`n"
     if (-not $Verbose) { $WarningPreference = "SilentlyContinue" } #This is not $VerbosePreference dude. 
 	Install-ADDSForest -DomainName "testing.local" -SafeModeAdministratorPassword $(convertto-securestring -string "P@ssword" -asplaintext -force) -DomainNetbiosName "TESTING" -NoDnsOnNetwork -InstallDns -Force | Out-Null 
-    if ($?){ "`n`n Rebooting...`n`n" } #Likely problem is having a live external network adapter.
+
+    if ($?)
+    { 
+        # The enabled/disabled state of NICs survives reboots, but disabling NICs here does
+        # not decrease the reboot time while waiting for "Applying computer settings"...
+        #   Get-NetAdapter | Disable-NetAdapter -Confirm:$False  
+
+        "`n`n Rebooting...`n`n"
+    }
+    else 
+    {
+        #Likely problem is having a live external network adapter.  What else to do here?
+    } 
+
     $WarningPreference = "Continue"
     exit
 }
@@ -631,7 +739,7 @@ New-ADOrganizationalUnit -ProtectedFromAccidentalDeletion $false -Path "OU=Europ
 New-ADOrganizationalUnit -ProtectedFromAccidentalDeletion $false -Path "OU=Europe,$($thisdomain.DistinguishedName)" -name "Heidelberg"
 
 # Set properties of the attendee's user account and VM.
-# Sorry if you don't live in the US, had to choose something for DAC!
+# Sorry if you don't live in the US!  Used in DAC labs.
 Get-ADUser -Identity $env:UserName | Set-ADObject -Replace @{department="Engineering";c="US"} 
 Get-ADComputer -Identity $env:ComputerName | Set-ADObject -Replace @{department="IT";c="US"}
 Set-ADUser -Identity $env:UserName -emailaddress ($env:username + "@" + $env:userdnsdomain)  #Needed for PKI autoenrollment.
@@ -655,6 +763,7 @@ New-ADUser -SamAccountName "Billy" -Name "Billy Corgan" -Description "CISO" -Dep
 New-ADGroup -Name "Admin_Workstations" -GroupScope Global -Path "OU=HVT,$($thisdomain.DistinguishedName)"
 New-ADGroup -Name "Human_Resources" -GroupScope Global -Path "OU=Boston,OU=East_Coast,$($thisdomain.DistinguishedName)"
 New-ADGroup -Name "Boston_Help_Desk" -GroupScope Global -Path "OU=Boston,OU=East_Coast,$($thisdomain.DistinguishedName)"
+New-ADGroup -Name "Boston_Jump_Servers" -GroupScope Global -Path "OU=Boston,OU=East_Coast,$($thisdomain.DistinguishedName)"
 New-ADGroup -Name "Boston_Wireless_Users" -GroupScope Global -Path "OU=Boston,OU=East_Coast,$($thisdomain.DistinguishedName)"
 New-ADGroup -Name "Receptionists" -GroupScope Global -Path "OU=Boston,OU=East_Coast,$($thisdomain.DistinguishedName)"
 New-ADGroup -Name "Sales" -GroupScope Global -Path "OU=Boston,OU=East_Coast,$($thisdomain.DistinguishedName)"
@@ -707,6 +816,7 @@ dir C:\SANS -Recurse -File | foreach { $_.IsReadOnly = $false }
 " Updating help files for PowerShell..."
 #
 # Note that en-US is the hard-coded culture.
+# What about help files for PoSh Core?  They have a different path.
 #
 ###############################################################################
 
@@ -721,7 +831,7 @@ if (-not $(Test-Path -Path "C:\SANS\Day1-PowerShell\UpdateHelp\XDROP.txt") )
     }
     elseif ($PSVersionTable.PSVersion.Major -eq 5)
     {
-        #This is for the default unpatched Server 2016, but PSVersion.Minor is not checked:
+        #This is for the default unpatched Server 2016/2019, but PSVersion.Minor is not checked:
         Update-Help -SourcePath C:\SANS\Day1-PowerShell\UpdateHelp\5.1 -ErrorAction SilentlyContinue | Out-Null
         "Why are you looking at this 5.1 file?" | Out-File -FilePath "C:\SANS\Day1-PowerShell\UpdateHelp\XDROP.txt"
     }
@@ -736,6 +846,7 @@ if (-not $(Test-Path -Path "C:\SANS\Day1-PowerShell\UpdateHelp\XDROP.txt") )
 " Fixing about_* files for PowerShell..."
 #
 # Note that en-US is the hard-coded culture.
+# Is this needed for PoSh Core about* files?
 #
 ###############################################################################
 
@@ -812,20 +923,7 @@ copy-item C:\SANS\Day1-PowerShell\Compare-FileHashesList.ps1 C:\Temp -Force
 # Not currently required for any labs?
 copy-item C:\SANS\Tools\MD5deep\md5deep.exe C:\Temp -Force 
 copy-item C:\SANS\Tools\netcat\nc.exe C:\Temp -Force 
-copy-item C:\SANS\Tools\chml\chml.exe C:\Temp -Force
-
-
-
-
-###############################################################################
-#
-" Setting Power Scheme to High Performance..."
-#
-###############################################################################
-
-powercfg.exe /SETACTIVE 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
-# Set display timeout to zero:
-powercfg.exe /SETACVALUEINDEX 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c 7516b95f-f776-4464-8c53-06167f40cc99 3c0bc021-c8a8-4e07-a973-6b14cbcb2b7e 0 
+copy-item C:\SANS\Tools\chml\chml.exe C:\Temp -Force  #Often shown
 
 
 
@@ -856,12 +954,12 @@ invoke-expression -command ($setup.FullName + " /VERYSILENT")
 
 ###############################################################################
 #
-" Installing Firefox..."  #On Server 2016, needed for Admin Center.
+" Installing Firefox..."  #Needed for Windows Admin Center (WAC).
 #
 ###############################################################################
 $OS = Get-CimInstance -ClassName Win32_OperatingSystem -Property Caption -ErrorAction SilentlyContinue
 
-if ($OS.Caption -like "*Server 2016*")
+if ($OS.Caption -match "Server 201[69]")
 {
     if (-Not (Test-Path -PathType Container -Path "$env:ProgramFiles\Mozilla Firefox")) 
     {
@@ -895,24 +993,6 @@ if ($OS.Caption -like "*Server 2016*")
 ###############################################################################
 
 auditpol.exe /set /category:"Logon/Logoff" /success:enable /failure:enable | out-null
-
-
-
-
-###############################################################################
-#
-" Turning off Internet Explorer Enhanced Security..."
-#
-###############################################################################
-
-$curpref = $ErrorActionPreference
-if (-not $Verbose) { $ErrorActionPreference = "SilentlyContinue" } 
-$iekey = get-item 'HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components' 
-$subkey = $iekey.opensubkey("{A509B1A7-37EF-4b3f-8CFC-4F3A74704073}",$true)  #For Admins
-$subkey.SetValue("IsInstalled",0)
-$subkey = $iekey.opensubkey("{A509B1A8-37EF-4b3f-8CFC-4F3A74704073}",$true)  #For Non-Admins
-$subkey.SetValue("IsInstalled",0)
-$ErrorActionPreference = $curpref
 
 
 

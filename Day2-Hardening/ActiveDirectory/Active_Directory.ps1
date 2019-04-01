@@ -4,7 +4,6 @@ Import-Module -Name ActiveDirectory
 
 Get-Command -Module ActiveDirectory 
 
-Get-Help -Full Add-ADGroupMember
 
 
 # Browse the AD:\ drive 
@@ -34,7 +33,6 @@ Remove-ADUser -Identity "cn=Justin McCarthy,ou=boston,ou=east_coast,dc=testing,d
 function Reset-Password ($UserName)
 {
    $pw = Read-Host -Prompt "Enter New Password" -AsSecureString
- 
    Set-ADAccountPassword -Identity $UserName -Reset -NewPassword $pw 
 }
 
@@ -110,8 +108,8 @@ Get-ADUser -Filter { logonCount -lt 3 }
 
 
 #Filter By Multiple Properties
-$begin = Get-Date "June 1, 2018"
-$end   = Get-Date "August 30, 2018"
+$begin = Get-Date "June 1, 2019"
+$end   = Get-Date "August 30, 2019"
 
 Get-ADUser -Filter { (lastlogontimestamp -gt $begin) -and (lastlogontimestamp -lt $end) }  
 
@@ -206,5 +204,60 @@ Remove-ADGroup -Identity "cn=Sales,ou=boston,ou=east_coast,dc=testing,dc=local"
 
 
 
+
+# FROM THE LAB
+# User Accounts Inventory
+# Switch into the C:\SANS\Day2-Hardening\ActiveDirectory folder:
+
+cd C:\SANS\Day2-Hardening\ActiveDirectory
+
+# Create an array of user account objects from the AD domain:
+$Users = Get-ADUser -Filter * -Properties *
+
+$Users.Count 
+
+$Users | Select-Object -First 1 
+
+
+# Export all user data to an XML file for safekeeping:
+
+$Users | Export-Clixml -Path Users.xml
+
+
+# Export just two user properties to a CSV file:
+
+Import-Clixml -Path Users.xml | Select-Object SamAccountName,Department | Export-Csv -Path Departments.csv
+
+
+# Peek at the Departments.csv file in Out-Gridview and also inside the command shell:
+
+Import-Csv -Path Departments.csv | Out-GridView
+
+Get-Content -Path Departments.csv 
+
+
+# Update the department property of IT people:
+
+Import-Clixml -Path Users.xml | Where { $_.Department -eq "IT" } | ForEach { Set-ADUser -Identity "$_" -Department "The IT Crowd" } 
+
+
+# See the changes in AD: 
+
+Get-ADUser -Filter * -Properties Department | Select-Object SamAccountName,Department 
+
+
+# Get the users in the HVT organizational unit who have no email address:
+
+$People = Get-ADUser -SearchBase "ou=hvt,dc=testing,dc=local" -Filter { mail -notlike "*" } 
+
+
+# Assign each of these people a new e-mail address of the form "username@testing.local":
+
+$People | ForEach { Set-ADUser -Identity $_ -EmailAddress ($_.SamAccountName + "@testing.local") } 
+
+
+# Add those users to the Contractors global group in the Boston OU: 
+
+Add-ADGroupMember -Identity "Contractors" -Members $People
 
 

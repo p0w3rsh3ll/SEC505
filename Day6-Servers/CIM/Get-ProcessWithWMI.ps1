@@ -10,13 +10,15 @@
 ##############################################################################
 
 
-Param ($Computer = ".")
+Param ($Computer)
 
-function Get-ProcessWithWMI ($Computer = ".") 
+
+function Get-ProcessWithWMI ($Computer) 
 {
     Get-CimInstance -Query "SELECT * FROM Win32_Process" -ComputerName $Computer |
     Select-Object Name,ProcessID,CreationDate,CommandLine
 }
+
 
 Get-ProcessWithWMI -Computer $Computer
 
