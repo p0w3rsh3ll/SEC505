@@ -1,0 +1,10 @@
+#.SYNOPSIS
+#   Set the AppIDSvc service to start automatically for AppLocker.
+#
+#.NOTES
+#   This must be done through GPO, INF or SC.EXE.  It cannot be done
+#   using Set-Service or Services.msc.  See
+#   https://github.com/MicrosoftDocs/windows-itpro-docs/issues/381
+
+
+sc.exe config appidsvc start= auto | Out-Null

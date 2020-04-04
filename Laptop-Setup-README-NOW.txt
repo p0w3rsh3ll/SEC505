@@ -19,8 +19,8 @@ instructor as soon as possible!
 -----------------------------------------------------
 
 Please open the first manual (505.1), turn to the first 
-lab entitled "On Your Computer" on page 12 or thereabouts, 
-then follow the instructions in the lab to get your VM 
+lab entitled "On Your Computer" on page 11 or thereabouts, 
+then follow the instructions in the lab to get your VMs 
 set up for the course.
 
 If there are any VM problems, it's best to find them now.

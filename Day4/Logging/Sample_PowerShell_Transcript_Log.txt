@@ -1,0 +1,99 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20201109105002
+Username: TESTING\Administrator
+RunAs User: TESTING\Administrator
+Configuration Name: 
+Machine: MEMBER (Microsoft Windows NT 10.0.17763.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell_ise.exe
+Process ID: 5080
+PSVersion: 5.1.17763.592
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.17763.592
+BuildVersion: 10.0.17763.592
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+
+**********************
+Command start time: 20201109105039
+**********************
+PS> Get-Process -Name lsass | Select-Object -Property * 
+
+Name                       : lsass
+Id                         : 620
+PriorityClass              : Normal
+FileVersion                : 10.0.17763.1 (WinBuild.160101.0800)
+HandleCount                : 2061
+WorkingSet                 : 92315648
+PagedMemorySize            : 76484608
+PrivateMemorySize          : 76484608
+VirtualMemorySize          : 306380800
+TotalProcessorTime         : 00:03:59.6093750
+SI                         : 0
+Handles                    : 2061
+VM                         : 2203624603648
+WS                         : 92315648
+PM                         : 76484608
+NPM                        : 292584
+Path                       : C:\Windows\system32\lsass.exe
+Company                    : Microsoft Corporation
+CPU                        : 239.609375
+ProductVersion             : 10.0.17763.1
+Description                : Local Security Authority Process
+Product                    : Microsoft® Windows® Operating System
+__NounName                 : Process
+BasePriority               : 9
+ExitCode                   :
+HasExited                  : False
+ExitTime                   :
+Handle                     : 3712
+SafeHandle                 : Microsoft.Win32.SafeHandles.SafeProcessHandle
+MainModule                 : System.Diagnostics.ProcessModule (lsass.exe)
+MaxWorkingSet              : 1413120
+MinWorkingSet              : 204800
+NonpagedSystemMemorySize   : 292584
+NonpagedSystemMemorySize64 : 292584
+PagedMemorySize64          : 76484608
+PagedSystemMemorySize      : 351248
+PagedSystemMemorySize64    : 351248
+PeakPagedMemorySize        : 81027072
+PeakPagedMemorySize64      : 81027072
+PeakWorkingSet             : 92405760
+PeakWorkingSet64           : 92405760
+PeakVirtualMemorySize      : 315772928
+PeakVirtualMemorySize64    : 2203633995776
+PriorityBoostEnabled       : True
+PrivateMemorySize64        : 76484608
+PrivilegedProcessorTime    : 00:02:10.6875000
+ProcessName                : lsass
+ProcessorAffinity          : 15
+Responding                 : True
+SessionId                  : 0
+StartInfo                  : System.Diagnostics.ProcessStartInfo
+StartTime                  : 11/09/2020 2:02:15 PM
+Threads                    : {648, 664, 668, 740...}
+UserProcessorTime          : 00:01:48.9218750
+VirtualMemorySize64        : 2203624603648
+EnableRaisingEvents        : False
+StandardInput              :
+StandardOutput             :
+StandardError              :
+WorkingSet64               : 92315648
+Site                       :
+Container                  :
+
+
+**********************
+Command start time: 20201109105437
+**********************
+PS> $Creds = "P@ssword" | ConvertTo-SecureString -AsPlainText 
+
+
+**********************
+Command start time: 20201109105453
+**********************
+PS> Invoke-Command -ComputerName Controller -FilePath 
+      .\Payload.ps1 -Credential $Creds
+

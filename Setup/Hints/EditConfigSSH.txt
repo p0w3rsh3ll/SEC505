@@ -1,0 +1,3 @@
+PubkeyAuthentication yes
+PasswordAuthentication no
+GSSAPIAuthentication yes

@@ -1,0 +1,87 @@
+####################################################
+#
+# How To Install PowerShell Core On Ubuntu
+#
+# There are three options:
+#    1) Snap package  
+#    2) Direct .deb package install
+#    3) Install from repository using apt
+#
+####################################################
+
+
+
+################################
+#  Snap Package Install
+################################
+
+# See https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-core-on-linux
+
+# Install PowerShell snap
+sudo snap install powershell --classic
+
+# Start PowerShell Core
+pwsh
+update-help 
+
+
+
+
+################################
+#  Direct DEB Package Install
+################################
+
+# Download latest DEB package:
+https://github.com/PowerShell/PowerShell/releases
+
+# Install with dpkg:
+sudo dpkg -i powershell_X.X.X.X.ubuntu.XX.XX_amd64.deb
+sudo apt-get install -f
+
+# Start PowerShell and Update Help
+pwsh
+update-help
+
+
+
+
+
+################################
+#  Install from Repository
+################################
+
+# Import the public repository GPG keys
+curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+
+# Register the Microsoft Ubuntu repository
+curl https://packages.microsoft.com/config/ubuntu/17.04/prod.list | sudo tee /etc/apt/sources.list.d/microsoft.list
+
+# Update the list of products
+sudo apt-get update
+
+# Install PowerShell
+sudo apt-get install -y powershell
+
+# Start PowerShell and Update Help
+pwsh
+update-help
+
+# Later, when there are updates to PSCore:
+apt-get upgrade powershell
+
+
+
+
+
+
+# Misc Notes:
+# /usr/bin/pwsh is a link to /opt/microsoft/powershell/X.X.X/pwsh
+# $PSHOME is /opt/microsoft/powershell/X.X.X/
+# User profiles will be read from ~/.config/powershell/profile.ps1
+# Default profiles will be read from $PSHOME/profile.ps1
+# User modules will be read from ~/.local/share/powershell/Modules
+# Shared modules will be read from /usr/local/share/powershell/Modules
+# Default modules will be read from $PSHOME/Modules
+# PSReadline history will be recorded to ~/.local/share/powershell/PSReadLine/ConsoleHost_history.txt
+
+

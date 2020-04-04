@@ -1,0 +1,53 @@
+####################################################
+#
+# How To Install PowerShell Core On Kali Linux
+#
+# See https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-core-on-linux
+#
+####################################################
+
+
+# Install system components
+apt-get update
+apt-get install curl gnupg apt-transport-https
+
+
+# Import the public repository GPG keys
+curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+
+
+# Register the Microsoft Product feed
+sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-debian-stretch-prod stretch main" > /etc/apt/sources.list.d/microsoft.list'
+
+
+# Update the list of products
+apt-get update
+
+
+# Install PowerShell
+apt-get install -y powershell
+
+
+# Start PowerShell
+pwsh
+
+
+# Update Help
+update-help
+
+
+# Later, when there are updates to PSCore:
+apt-get upgrade powershell
+
+
+# Misc Notes:
+# /usr/bin/pwsh is a link to /opt/microsoft/powershell/X.X.X/pwsh
+# $PSHOME is /opt/microsoft/powershell/X.X.X/
+# User profiles will be read from ~/.config/powershell/profile.ps1
+# Default profiles will be read from $PSHOME/profile.ps1
+# User modules will be read from ~/.local/share/powershell/Modules
+# Shared modules will be read from /usr/local/share/powershell/Modules
+# Default modules will be read from $PSHOME/Modules
+# PSReadline history will be recorded to ~/.local/share/powershell/PSReadLine/ConsoleHost_history.txt
+
+
